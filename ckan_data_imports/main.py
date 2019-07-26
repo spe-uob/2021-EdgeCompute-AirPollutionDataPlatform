@@ -29,16 +29,6 @@ URL_LUFTDATEN = "http://api.luftdaten.info/v1/filter/area="+ BRISTOL_CENTER_POIN
 
 URL_SMART_CITIZEN = "https://api.smartcitizen.me/v0/devices"
 
-# ACTION
-if ARG_COMMAND == "hour":
-    do_hour()
-
-elif ARG_COMMAND == "day":
-    do_day()
-
-elif ARG_COMMAND == "year":
-    do_year()
-
 def do_hour():
     """
     Act if the parameter given is hour
@@ -523,3 +513,13 @@ def do_year():
                                           id_yearlypointdataset)
     except Exception as exception_returned:
         print(exception_returned)
+
+# ACTION
+if ARG_COMMAND == "hour":
+    do_hour()
+
+elif ARG_COMMAND == "day":
+    do_day()
+
+elif ARG_COMMAND == "year":
+    do_year()
