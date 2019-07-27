@@ -7,7 +7,10 @@ and create the structure of the dataset again
 (which is necessary due to a bug from CKAN)
 """
 
+import logging
 import utils
+
+LOGGER = logging.getLogger('ckan_import_default_log')
 
 def rmv_and_create_dataset_back(id_dataset, fields_data, primary_keys):
     """

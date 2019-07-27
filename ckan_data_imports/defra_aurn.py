@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 
 # from datetime import datetime
+
+# import logging
+
 # import utils
+
+
+# LOGGER = logging.getLogger('ckan_import_default_log')
 
 # ID_AURN = ""
 # AURN_files = ["brs8.csv", "br11.csv"]
@@ -25,10 +31,12 @@
 #     #     if (len(records) != 0):
 #     #         toPush = transform_AURN(records)
 #     #         return toPush
-#     #     else:
-#     #         return None
-#     # else:
-#     #     return None
+    #     else:
+    #         LOGGER.warning("Records imported from Defra are empty")
+    #         return None
+    # else:
+    #     LOGGER.error("Records imported from Defra are NONE")
+    #     return None
 
 # def transform_AURN(records):
 #     toReturn = []

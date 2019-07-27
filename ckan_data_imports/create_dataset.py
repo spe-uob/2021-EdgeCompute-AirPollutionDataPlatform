@@ -441,9 +441,8 @@ yearly_point_aggregation_fields_data = [
     readings_count, location, siteid]
 
 try:
-    #utils.ckan_create_from_scratch("", "", [])
-    #utils.ckan_create_after_delete("", "", [])
-    #utils.ckan_delete("", {})
+    # utils.ckan_create_from_scratch("", "", [])
     print("done")
+    
 except Exception as exception_returned:
     print(exception_returned)

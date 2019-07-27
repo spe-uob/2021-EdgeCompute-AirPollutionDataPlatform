@@ -7,8 +7,11 @@ and pushes it in the open bristol data datasets
 and the aggregated air pollution datasets.
 """
 
+import logging
 from datetime import datetime
 import utils
+
+LOGGER = logging.getLogger('ckan_import_default_log')
 
 ID_AIRQUALITYDATACONTINUOUS = "9bdded4d-17a7-4cf2-95ab-621ca856e4e4"
 ID_WARDS = "2be61e5f-d0e8-4328-b467-fa6c923dacb8"
@@ -82,8 +85,10 @@ def get_airqualitydatacontinous(url, last_date_to_retrieve):
             to_push = transform_aqdcontinuous(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Open Bristol Data API for Air Quality Continuous Data are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Open Bristol Data API for Air Quality Continuous Data are NONE")
         return None
 
 def transform_aqdcontinuous(records):
@@ -176,8 +181,10 @@ def get_wards(url):
             to_push = transform_wards(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Open Bristol Data API for Wards are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Open Bristol Data API for Wards are NONE")
         return None
 
 def transform_wards(records):
@@ -245,8 +252,10 @@ def get_caravailability(url):
             to_push = transform_caravailability(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Open Bristol Data API for Car Availability are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Open Bristol Data API for Car Availability are NONE")
         return None
 
 def transform_caravailability(records):
@@ -368,8 +377,10 @@ def get_no2(url, last_year_to_retrieve):
             to_push = transform_no2(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Open Bristol Data API for the NO2 dataset are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Open Bristol Data API for the NO2 dataset are NONE")
         return None
 
 def transform_no2(records):
@@ -453,8 +464,10 @@ def get_populationestimates(url, last_year_to_retrieve):
             to_push = transform_populationestimates(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Open Bristol Data API for Population Estimates are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Open Bristol Data API for Population Estimates are NONE")
         return None
 
 def transform_populationestimates(records):

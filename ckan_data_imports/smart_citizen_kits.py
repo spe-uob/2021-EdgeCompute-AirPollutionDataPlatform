@@ -7,7 +7,10 @@ and pushes it in the smart citizen dataset
 and the aggregated air pollution datasets.
 """
 
+import logging
 import utils
+
+LOGGER = logging.getLogger('ckan_import_default_log')
 
 ID_SMARTCITIZENKITS = "2398321b-cb1b-43da-8d33-c33f4c37b1dd"
 # List of geohashes covering Bristol in order to know from which kits to take the data
@@ -108,8 +111,10 @@ def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_ret
                                                  last_date_to_retrieve_sck)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Smart Citizen API are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Smart Citizen API are NONE")
         return None
 
 def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to_retrieve_sck):
@@ -172,7 +177,6 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
                         finished = True
             if record_with_data:
                 new_record["date_time"] = last_date_to_retrieve_sck
-                print(new_record["geojson"])
                 new_records.append(new_record)
     to_return = {
         "finish": finished,

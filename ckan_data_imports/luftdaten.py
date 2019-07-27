@@ -7,8 +7,11 @@ and pushes it in the luftdaten dataset
 and the aggregated air pollution datasets.
 """
 
+import logging
 from datetime import datetime
 import utils
+
+LOGGER = logging.getLogger('ckan_import_default_log')
 
 ID_LUFTDATEN = "8c8389f9-3dac-4fa4-9170-69ef72af0cbb"
 
@@ -51,8 +54,10 @@ def get_luftdaten(url):
             to_push = keep_last_records(records)
             return to_push
         else:
+            LOGGER.warning("Records imported from the Luftdaten API are empty")
             return None
     else:
+        LOGGER.error("Records imported from the Luftdaten API are NONE")
         return None
 
 def keep_last_records(records):

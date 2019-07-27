@@ -11,11 +11,17 @@ import sys
 import datetime
 from dateutil.relativedelta import relativedelta
 
+import log_config
+
 import open_bristol_data
 import luftdaten
 #import defra_aurn
 import smart_citizen_kits
 import rmv_and_create_reccurent_datasets
+import utils
+
+# LOGGER
+LOGGER = log_config.setup_logger('ckan_import_default_log')
 
 # GLOBAL VARIABLES
 ARG_COMMAND = sys.argv[1]
@@ -227,7 +233,7 @@ def do_hour():
                                            last_date_to_retrieve_sck,
                                            id_hourlypointdataset)
     except Exception as exception_returned:
-        print(exception_returned)
+        LOGGER.error(exception_returned)
 
 def do_day():
     """
@@ -512,7 +518,7 @@ def do_year():
                                           id_yearlypolygondataset,
                                           id_yearlypointdataset)
     except Exception as exception_returned:
-        print(exception_returned)
+        LOGGER.error(exception_returned)
 
 # ACTION
 if ARG_COMMAND == "hour":
