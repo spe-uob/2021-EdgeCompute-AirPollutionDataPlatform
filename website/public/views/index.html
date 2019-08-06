@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>AQP - Home</title>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<!-- Special tag for Microsoft -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Description -->
+	<meta name="description" content="Home page of the air pollution data website">
+	<!-- How the layout and content adapts to the mobile viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet' />
+	<link rel='stylesheet'
+		href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
+		type='text/css' />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- Javascript -->
+	<script type="text/javascript" src="frameworks/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
+	<script
+		src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+
+	<script type="text/javascript" src="js/send.js"></script>
+	<script type="text/javascript" src="js/map.js" defer></script>
+	<script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+				aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand site-name" href="/">Air Quality Platform</a>
+
+			<div class="collapse navbar-collapse" id="navbarContent">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Get pollution data
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="/fromlocation">
+								<i class="material-icons md-18 align-middle">my_location</i>
+								<span class="align-middle">From location</span>
+							</a>
+							<a class="dropdown-item" href="/airdata/anydevice">
+								<i class="material-icons md-18 align-middle">location_on</i>
+								<span class="align-middle">Any device</span>
+							</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aqi">AQI</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/api">API</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<div class="position-fixed w-100 d-flex flex-column p-4 toast-show">
+		<div class="toast" id="toastInfo" role="alert" data-delay="10000" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong id="toastTitle" class="mr-auto"></strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div id="toastBody" class="toast-body"></div>
+		</div>
+	</div>
+
+	<main>
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Hello, citizen!</h1>
+				<p class="lead">
+					Here, you can get air pollution data from any location where devices have been registered on the
+					data platform. We currently have data from the Bristol city area.
+					Data comes from sources like the Smart Citizen project, Luftdaten or Open Bristol Data. More
+					information can be found in the about section.</p>
+				<hr class="my-4">
+				<p>You can get data from any location. The platform checks for data from devices around that location.
+					You can also
+					check the data from any device available.</p>
+				<div class="text-center">
+					<a class="btn btn-info btn-lg" href="/fromlocation" role="button">
+						<i class="material-icons md-18 align-middle">my_location</i>
+						<span class="align-middle">From location</span></a>
+					<a class="btn btn-info btn-lg" href="/airdata/anydevice" role="button">
+						<i class="material-icons md-18 align-middle">location_on</i>
+						<span class="align-middle">Any device</span></a>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<button type="button" class="feedback-button btn btn-info" data-toggle="modal" data-target="#modalFeedback">
+		<i class="material-icons md-18 align-middle">email</i>
+		<span class="align-middle">Feedback</span></a>
+	</button>
+
+	<div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-labelledby="modalFeedbackLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalFeedbackLabel">Feedback</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="feedbackText" class="col-form-label">Message:</label>
+							<textarea class="form-control" id="feedbackText"
+								placeholder="Enter your comment"></textarea>
+							<div id="invalidFeedbackText" class="invalid-message">Enter a message.</div>
+						</div>
+						<div class="form-group">
+							<label for="senderEmail" class="col-form-label">You can put your email address if you want
+								us to reach you back. Email address:</label>
+							<input type="email" class="form-control" id="senderEmail" aria-describedby="emailHelp"
+								placeholder="Enter email">
+							<div id="invalidSenderEmail" class="invalid-message">Enter a valid email or no email.</div>
+							<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+								else.</small>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="sendFeedback">Send feedback</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Cookie alert with bootstrap from https://github.com/Wruczek/Bootstrap-Cookie-Alert MIT license can be commercialy used without credits -->
+	<div class="alert text-center cookiealert" role="alert">
+		<b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website by
+		complying to the European cookie law.
+		<a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
+		<button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+			I agree
+		</button>
+	</div>
+
+	<footer class="footer mt-auto py-3 text-white">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Quick
+							links</span></h5>
+					<ul class="quick-links">
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="https://github.com/Kevjolly/AirPollutionDataPlatform">Github repository</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-8">
+					<h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Data
+							sources</span></h5>
+					<div class="row">
+						<div class="col-md-6">
+							<ul class="quick-links">
+								<li><a href="https://smartcitizen.me/kits/">Smart Citizen</a></li>
+								<li><a href="https://luftdaten.info/">Luftdaten</a></li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<ul class="quick-links">
+								<li><a href="https://opendata.bristol.gov.uk/pages/homepage/">Open Bristol Data</a></li>
+								<li><a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn">DEFRA AURN</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr class="footer-divider">
+			<div class="text-center">
+				<span class="text-white">This website was made as part of a master thesis at the
+					<u><a href="http://www.bristol.ac.uk/" class="text-white">University of Bristol</a></u>.</span>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>

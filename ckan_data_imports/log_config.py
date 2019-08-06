@@ -16,7 +16,8 @@ def setup_logger(name):
     """
     logging.basicConfig(filename="/home/kevin/import_scripts/logs/ckan.import.default.log",
                         filemode='a',
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        datefmt='%Y-%m-%dT%H:%M:%S')
+                        format='%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s',
+                        datefmt='%Y-%m-%dT%H:%M:%S',
+                        level=logging.INFO)
     logger = logging.getLogger(name)
     return logger

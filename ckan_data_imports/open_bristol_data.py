@@ -75,7 +75,8 @@ def get_airqualitydatacontinous(url, last_date_to_retrieve):
         "dataset":"air-quality-data-continuous",
         "rows":100,
         "sort":"date_time",
-        "refine.date_time":last_date_to_retrieve,
+        "q": "date_time="+last_date_to_retrieve, #replacement of line under this
+        # "refine.date_time":last_date_to_retrieve, #Doesn't work anymore no idea why
         "timezone":"UTC"
     }
     res = utils.get_data(url, params)

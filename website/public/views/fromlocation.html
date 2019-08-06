@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>AQP - Get pollution data from location</title>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<!-- Special tag for Microsoft -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Description -->
+	<meta name="description" content="From location page of the air pollution data website">
+	<!-- How the layout and content adapts to the mobile viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
+
+	<!-- Stylesheets -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+	<link href='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet' />
+	<link rel='stylesheet'
+		href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
+		type='text/css' />
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+	<link href="css/style.css" rel="stylesheet">
+
+	<!-- Javascript -->
+	<script type="text/javascript" src="frameworks/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
+	<script
+		src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+
+	<script type="text/javascript" src="js/send.js" defer></script>
+	<script type="text/javascript" src="js/map.js" defer></script>
+	<script type="text/javascript" src="js/main.js" defer></script>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+				aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<a class="navbar-brand site-name" href="/">Air Quality Platform</a>
+
+			<div class="collapse navbar-collapse" id="navbarContent">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item dropdown active">
+						<a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Get pollution data
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item active" href="/fromlocation">
+								<i class="material-icons md-18 align-middle">my_location</i>
+								<span class="align-middle">From location</span>
+							</a>
+							<a class="dropdown-item" href="/airdata/anydevice">
+								<i class="material-icons md-18 align-middle">location_on</i>
+								<span class="align-middle">Any device</span>
+							</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/aqi">AQI</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/api">API</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<div class="position-fixed w-100 d-flex flex-column p-4 toast-show">
+		<div class="toast" id="toastInfo" role="alert" data-delay="10000" aria-live="assertive" aria-atomic="true">
+			<div class="toast-header">
+				<strong id="toastTitle" class="mr-auto"></strong>
+				<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div id="toastBody" class="toast-body"></div>
+		</div>
+	</div>
+
+	<main>
+		<div class="row">
+			<div id="location" class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-map bg-grey-light-col">
+				<div id="location-subdiv" class="map-col">
+					<div class="bg-grey-col location-choice-title">
+						<p class="h4 text-center">Get air quality data from a position of your choice.</p>
+					</div>
+					<div class="location-choice-coordinates container">
+						<form>
+							<div class="row">
+								<div class="col">
+									<label for="longitudeInput">Longitude</label>
+									<input type="text" id="longitudeInput" class="form-control" placeholder="Longitude">
+								</div>
+								<div class="col">
+									<label for="longitudeInput">Latitude</label>
+									<input type="text" id="latitudeInput" class="form-control" placeholder="Latitude">
+								</div>
+							</div>
+							<div id="invalidCoordinatesInputs" class="invalid-message">Enter valid coordinates.</div>
+						</form>
+						<div id="submitCoordinatesDiv" class="text-center">
+							<button type="button" class="btn btn-success right" id="submitCoordinates">
+								<i class="material-icons md-18 align-middle">send</i>
+								<span class="align-middle">Submit coordinates</span>
+							</button>
+						</div>
+					</div>
+					<div class="location-choice-content">
+						<div class="accordion" id="accordionLocationChoices">
+							<div class="card">
+								<div class="card-header" id="headingOne">
+									<h2 class="mb-0">
+										<button class="btn btn-link btn-collapse" type="button" data-toggle="collapse"
+											data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+											<i
+												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
+											<span class="align-middle">Use your location</span>
+										</button>
+									</h2>
+								</div>
+
+								<div id="collapseOne" class="collapse collapse-cards" aria-labelledby="headingOne"
+									data-parent="#accordionLocationChoices">
+									<div class="card-body">
+										<p class="text-justify">Click on the button below to get your location or
+											simply click on the geolocate
+											button on the map.</p>
+										<div class="text-center">
+											<button type="button" class="btn btn-info" id="getLocationBtn">
+												<i class="material-icons md-18 align-middle">gps_fixed</i>
+												<span class="align-middle">Get location</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingTwo">
+									<h2 class="mb-0">
+										<button class="btn btn-link btn-collapse" type="button" data-toggle="collapse"
+											data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+											<i
+												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
+											<span class="align-middle">Type an address</span>
+										</button>
+									</h2>
+								</div>
+								<div id="collapseTwo" class="collapse collapse-cards" aria-labelledby="headingTwo"
+									data-parent="#accordionLocationChoices">
+									<div class="card-body">
+										<p class="text-justify">You can enter an address in the search bar at the top
+											left of the map which will put coordinates from that location in the inputs
+											above.</p>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingThree">
+									<h2 class="mb-0">
+										<button class="btn btn-link btn-collapse" type="button" data-toggle="collapse"
+											data-target="#collapseThree" aria-expanded="true"
+											aria-controls="collapseThree">
+											<i
+												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
+											<span class="align-middle">Add a marker</span>
+										</button>
+									</h2>
+								</div>
+
+								<div id="collapseThree" class="collapse collapse-cards" aria-labelledby="headingThree"
+									data-parent="#accordionLocationChoices">
+									<div class="card-body">
+										<p class="text-justify">Click on the button below to be able to add a marker by
+											clicking on the map. Coordinates will be added automatically in the inputs
+											above.</p>
+										<div class="text-center">
+											<button type="button" class="btn btn-info" id="addMarkerBtn">
+												<i class="material-icons md-18 align-middle">gps_fixed</i>
+												<span class="align-middle">Add a marker</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header" id="headingFour">
+									<h2 class="mb-0">
+										<button class="btn btn-link btn-collapse" type="button" data-toggle="collapse"
+											data-target="#collapseFour" aria-expanded="true"
+											aria-controls="collapseFour">
+											<i
+												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
+											<span class="align-middle">Give coordinates</span>
+										</button>
+									</h2>
+								</div>
+								<div id="collapseFour" class="collapse collapse-cards" aria-labelledby="headingFour"
+									data-parent="#accordionLocationChoices">
+									<div class="card-body">
+										<p class="text-justify">You can enter coordinates directly in the inputs above.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 col-map">
+				<div id='map' class="map-col"></div>
+			</div>
+		</div>
+	</main>
+
+	<button type="button" class="feedback-button btn btn-info" data-toggle="modal" data-target="#modalFeedback">
+		<i class="material-icons md-18 align-middle">email</i>
+		<span class="align-middle">Feedback</span></a>
+	</button>
+
+	<div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-labelledby="modalFeedbackLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalFeedbackLabel">Feedback</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="feedbackText" class="col-form-label">Message:</label>
+							<textarea class="form-control" id="feedbackText"
+								placeholder="Enter your comment"></textarea>
+							<div id="invalidFeedbackText" class="invalid-message">Enter a message.</div>
+						</div>
+						<div class="form-group">
+							<label for="senderEmail" class="col-form-label">You can put your email address if you want
+								us to reach you back. Email address:</label>
+							<input type="email" class="form-control" id="senderEmail" aria-describedby="emailHelp"
+								placeholder="Enter email">
+							<div id="invalidSenderEmail" class="invalid-message">Enter a valid email or no email.</div>
+							<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+								else.</small>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="sendFeedback">Send feedback</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Cookie alert with bootstrap from https://github.com/Wruczek/Bootstrap-Cookie-Alert MIT license can be commercialy used without credits -->
+	<div class="alert text-center cookiealert" role="alert">
+		<b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website by
+		complying to the European cookie law.
+		<a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
+		<button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+			I agree
+		</button>
+	</div>
+
+	<footer class="footer mt-auto py-3 text-white">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Quick
+							links</span></h5>
+					<ul class="quick-links">
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="https://github.com/Kevjolly/AirPollutionDataPlatform">Github repository</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-8">
+					<h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Data
+							sources</span></h5>
+					<div class="row">
+						<div class="col-md-6">
+							<ul class="quick-links">
+								<li><a href="https://smartcitizen.me/kits/">Smart Citizen</a></li>
+								<li><a href="https://luftdaten.info/">Luftdaten</a></li>
+							</ul>
+						</div>
+						<div class="col-md-6">
+							<ul class="quick-links">
+								<li><a href="https://opendata.bristol.gov.uk/pages/homepage/">Open Bristol Data</a></li>
+								<li><a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn">DEFRA AURN</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr class="footer-divider">
+			<div class="text-center">
+				<span class="text-white">This website was made as part of a master thesis at the
+					<u><a href="http://www.bristol.ac.uk/" class="text-white">University of Bristol</a></u>.</span>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>

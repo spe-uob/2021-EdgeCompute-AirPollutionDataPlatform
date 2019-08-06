@@ -71,30 +71,17 @@ def ckan_insert(resource_id, records_data):
     records_data -- data to insert
     """
     try:
-        pkg = REMOTE_CONTROL.action.datastore_upsert(resource_id=resource_id,
+        _ = REMOTE_CONTROL.action.datastore_upsert(resource_id=resource_id,
                                                      method="insert",
                                                      records=records_data,
                                                      calculate_record_count=True)
-        pkg_json = pkg.json()
-        if "success" in pkg_json:
-            if pkg_json["success"]:
-                LOGGER.info("%s records were inserted into the dataset of id %s",
-                            len(records_data),
-                            resource_id)
-            else:
-                if "error" in pkg_json:
-                    result_error = pkg_json["error"]
-                    if ("__type" in result_error) and ("message" in result_error):
-                        LOGGER.error("%s records were not inserted into the dataset of id %s : error type %s , error message %s",
-                                     len(records_data),
-                                     resource_id,
-                                     result_error["__type"],
-                                     result_error["message"])
-                else:
-                    LOGGER.error("%s records were not inserted into the dataset of id %s",
-                                 len(records_data),
-                                 resource_id)
+        LOGGER.info("%s records were inserted into the dataset of id %s",
+                    len(records_data),
+                    resource_id)
     except Exception as exception_returned:
+        LOGGER.error("%s records were not inserted into the dataset of id %s",
+                     len(records_data),
+                     resource_id)
         LOGGER.error(exception_returned)
 
 def ckan_upsert(resource_id, records_data):
@@ -106,30 +93,17 @@ def ckan_upsert(resource_id, records_data):
     records_data -- data to upsert
     """
     try:
-        pkg = REMOTE_CONTROL.action.datastore_upsert(resource_id=resource_id,
+        _ = REMOTE_CONTROL.action.datastore_upsert(resource_id=resource_id,
                                                      method="upsert",
                                                      records=records_data,
                                                      calculate_record_count=True)
-        pkg_json = pkg.json()
-        if "success" in pkg_json:
-            if pkg_json["success"]:
-                LOGGER.info("%s records were upserted into the dataset of id %s",
-                            len(records_data),
-                            resource_id)
-            else:
-                if "error" in pkg_json:
-                    result_error = pkg_json["error"]
-                    if ("__type" in result_error) and ("message" in result_error):
-                        LOGGER.error("%s records were not upserted into the dataset of id %s : error type %s , error message %s",
-                                     len(records_data),
-                                     resource_id,
-                                     result_error["__type"],
-                                     result_error["message"])
-                else:
-                    LOGGER.error("%s records were not upserted into the dataset of id %s",
-                                 len(records_data),
-                                 resource_id)
+        LOGGER.info("%s records were upserted into the dataset of id %s",
+                    len(records_data),
+                    resource_id)
     except Exception as exception_returned:
+        LOGGER.error("%s records were not upserted into the dataset of id %s",
+                     len(records_data),
+                     resource_id)
         LOGGER.error(exception_returned)
 
 def ckan_delete(resource_id, filters):
@@ -142,25 +116,13 @@ def ckan_delete(resource_id, filters):
     filters -- filters to know what data to remove
     """
     try:
-        pkg = REMOTE_CONTROL.action.datastore_delete(resource_id=resource_id,
+        _ = REMOTE_CONTROL.action.datastore_delete(resource_id=resource_id,
                                                      filters=filters)
-        pkg_json = pkg.json()
-        if "success" in pkg_json:
-            if pkg_json["success"]:
-                LOGGER.info("Data was deleted from dataset of id %s",
-                            resource_id)
-            else:
-                if "error" in pkg_json:
-                    result_error = pkg_json["error"]
-                    if ("__type" in result_error) and ("message" in result_error):
-                        LOGGER.error("Data was not deleted from dataset of id %s : error type %s , error message %s",
-                                     resource_id,
-                                     result_error["__type"],
-                                     result_error["message"])
-                else:
-                    LOGGER.error("Data was not deleted from the dataset of id %s",
-                                 resource_id)
+        LOGGER.info("Data was deleted from dataset of id %s",
+                    resource_id)                   
     except Exception as exception_returned:
+        LOGGER.error("Data was not deleted from the dataset of id %s",
+                     resource_id)
         LOGGER.error(exception_returned)
 
 def ckan_create_from_scratch(package_id, fields_data, primary_keys):
@@ -173,27 +135,15 @@ def ckan_create_from_scratch(package_id, fields_data, primary_keys):
     primary_keys -- list of fields name which are primary keys
     """
     try:
-        pkg = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id},
+        _ = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id},
                                                      fields=fields_data,
                                                      primary_key=primary_keys,
                                                      calculate_record_count=True)
-        pkg_json = pkg.json()
-        if "success" in pkg_json:
-            if pkg_json["success"]:
-                LOGGER.info("Dataset was created in package of id %s",
-                            package_id)
-            else:
-                if "error" in pkg_json:
-                    result_error = pkg_json["error"]
-                    if ("__type" in result_error) and ("message" in result_error):
-                        LOGGER.error("Dataset was not created in package of id %s : error type %s , error message %s",
-                                     package_id,
-                                     result_error["__type"],
-                                     result_error["message"])
-                else:
-                    LOGGER.error("Dataset was not created in package of id %s",
-                                 package_id)
+        LOGGER.info("Dataset was created in package of id %s",
+                    package_id)
     except Exception as exception_returned:
+        LOGGER.error("Dataset was not created in package of id %s",
+                     package_id)
         LOGGER.error(exception_returned)
 
 def ckan_create_after_delete(resource_id, fields_data, primary_keys):
@@ -207,25 +157,13 @@ def ckan_create_after_delete(resource_id, fields_data, primary_keys):
     primary_keys -- list of fields name which are primary keys
     """
     try:
-        pkg = REMOTE_CONTROL.action.datastore_create(resource_id=resource_id,
+        _ = REMOTE_CONTROL.action.datastore_create(resource_id=resource_id,
                                                      fields=fields_data,
                                                      primary_key=primary_keys,
                                                      calculate_record_count=True)
-        pkg_json = pkg.json()
-        if "success" in pkg_json:
-            if pkg_json["success"]:
-                LOGGER.info("Structure of dataset of id %s was (re)created",
-                            resource_id)
-            else:
-                if "error" in pkg_json:
-                    result_error = pkg_json["error"]
-                    if ("__type" in result_error) and ("message" in result_error):
-                        LOGGER.error("Structure of dataset of id %s was not (re)created : error type %s , error message %s",
-                                     resource_id,
-                                     result_error["__type"],
-                                     result_error["message"])
-                else:
-                    LOGGER.error("Structure of dataset of id %s was not (re)created",
-                                 resource_id)
+        LOGGER.info("Structure of dataset of id %s was (re)created",
+                    resource_id)
     except Exception as exception_returned:
+        LOGGER.error("Structure of dataset of id %s was not (re)created",
+                     resource_id)
         LOGGER.error(exception_returned)

@@ -7,7 +7,10 @@ to be able to create a dataset
 in a package
 """
 
+import log_config
 import utils
+
+LOGGER = log_config.setup_logger('ckan_import_default_log')
 
 # AIR QUALITY CONTINUOUS DATA
 
@@ -441,7 +444,7 @@ yearly_point_aggregation_fields_data = [
     readings_count, location, siteid]
 
 try:
-    # utils.ckan_create_from_scratch("", "", [])
+    #utils.ckan_upsert("adadv", [])
     print("done")
     
 except Exception as exception_returned:

@@ -1,0 +1,237 @@
+html{
+    font-family: 'Roboto', 'Sofia', 'Arial', sans-serif;
+}
+
+body { 
+    padding-top: 56px;
+}
+
+.jumbotron {
+    /* IMAGE TAKEN FROM https://unsplash.com/photos/TrhLCn1abMU FREE OF USE WITHOUT ANY CREDITS REQUIRED https://unsplash.com/license */
+    background-image: url("../img/blurred-map.jpg");
+    background-size: cover;
+    text-align: justify;
+    margin-bottom: unset !important;
+}
+
+.material-icons{
+    padding-right: 4px;
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+    font-size: 18px;
+}
+.material-icons.md-28 {
+    font-size: 28px;
+}
+
+.jumbotron .text-center .btn {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.navbar, footer{
+    background: #3d4477 !important;
+}
+
+.footer-divider{
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer .row a {
+    color: rgba(255,255,255,.5);
+    text-decoration: none;
+}
+
+.footer .row a:hover {
+    color: rgba(255,255,255,.75);
+}
+
+footer ul.quick-links li{
+	padding: 3px 0;
+	-webkit-transition: .3s all ease;
+	-moz-transition: .3s all ease;
+	transition: .3s all ease;
+}
+
+footer ul.quick-links li:hover{
+	padding: 3px 0;
+	margin-left: 5px;
+	font-weight: 700;
+}
+
+.feedback-button{
+    border: 0;
+	position: fixed;
+	height: 45px;
+	bottom: 0;
+	right: 10px;
+	color: #FFF;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    text-align:center;
+    z-index: 998;
+}
+
+/* Style of the input boxes after verification*/
+.valid {
+    border-color: #28a745;
+}
+  
+.invalid {
+    border-color: #dc3545;
+}
+
+.invalid-message{
+    display: none;
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+#map {
+    height: 450px;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.col-map {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Medium Devices, Desktops */
+@media (min-width: 576px) {
+    #location{
+        border-right: 4px solid #6c757d;
+    }
+}
+
+@media (max-width: 576px) {
+    #location{
+        border-bottom: 4px solid #6c757d;
+    }
+}
+
+.mapboxgl-marker {
+    cursor: pointer;
+}
+
+.location-choice-title {
+    padding-top: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #6c757d;
+    background-color: #6c757d30;
+}
+
+.location-choice-coordinates {
+    border-bottom: 2px solid #6c757d;
+    padding-top: 8px;
+    padding-bottom: 6px;
+    background-color: #f7f7f7;
+}
+
+#submitCoordinatesDiv {
+    padding-top: 10px;
+}
+
+.location-choice-content .card-header {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.location-choice-content .card-header button{
+    text-decoration: none;
+}
+
+.location-choice-content .card-header button:hover{
+    text-decoration: none;
+}
+
+.location-choice-content .card {
+    border-radius: 0 !important;
+}
+
+.site-name {
+    font-family: 'Brush Script MT', 'Copperplate', 'Roboto', 'Arial', sans-serif
+}
+
+#data_res, #area_center{
+    display: none;
+}
+
+.mapboxgl-popup-content{
+    width: 330px;
+}
+
+.link-popup-tab {
+    color: #3d4476
+}
+
+.popups .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.popups .list-group {
+    margin-top: -1px;
+}
+
+.popups .list-group-item {
+    padding: .40rem 1.25rem;
+}
+
+.legend {
+    background-color: #fff;
+    border-radius: 3px;
+    top: 210px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    font: 12px/20px 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: fixed;
+    right: 10px;
+    z-index: 100;
+}
+     
+.legend h4, .choice-legend h4{
+    margin: 0 0 10px;
+}
+
+.legend h4 a, .choice-legend h4 a{
+    text-decoration: none;
+}
+    
+.legend div span {
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    margin-right: 5px;
+    width: 10px;
+}
+
+#map-legend-reduced, #choice-legend-reduced{
+    display: none;
+}
+
+.choice-legend {
+    background-color: #fff;
+    border-radius: 3px;
+    top: 140px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+    font: 12px/20px 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    padding: 10px;
+    position: fixed;
+    left: 10px;
+    z-index: 100;
+}
+
+.legend-closed{
+    width: 50px;
+}
