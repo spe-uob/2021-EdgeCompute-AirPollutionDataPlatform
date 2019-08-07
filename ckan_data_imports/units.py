@@ -21,7 +21,7 @@ RECORDS_HOUR_POINT = [
         "unit": "μg/m3"
     }, {
         "reading": "pm10",
-        "unit": "μg/m33"
+        "unit": "μg/m3"
     }, {
         "reading": "no",
         "unit": "μg/m3"

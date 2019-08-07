@@ -57,4 +57,20 @@ router.get('/anydevice', async function (req, res, next) {
     }
 });
 
+router.get('/dataovertime', async function (req, res, next) {
+    try {
+        if (!('device' in req.query)) {
+            throw {name: "InputMissingError", message: "Parameter is missing in the query url."};
+        }
+        
+        const response = await airdataService.getDataOverTime(req.query.device);
+        res.render('dataovertime.html',{
+            code: 0,
+            data: response
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 module.exports = router;

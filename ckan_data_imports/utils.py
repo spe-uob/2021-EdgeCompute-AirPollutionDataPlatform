@@ -7,6 +7,7 @@ from an API url and also push data into CKAN,
 create CKAN datasets and delete them
 """
 
+import math
 import csv
 import logging
 import requests
@@ -167,3 +168,20 @@ def ckan_create_after_delete(resource_id, fields_data, primary_keys):
         LOGGER.error("Structure of dataset of id %s was not (re)created",
                      resource_id)
         LOGGER.error(exception_returned)
+
+def fix_geojson(data):
+    """
+    Fix geojson values.
+
+    Keyword arguments:
+    data - geojson
+    """
+    coordinates = data["coordinates"]
+    tmp = 0
+    for k in range(len(coordinates)):
+        tmp = coordinates[k]
+        if (str(tmp)[::-1].find('.')>5):
+            coordinates[k] = math.floor(tmp*10**5)/10**5
+    data["coordinates"] = coordinates
+    return data
+    

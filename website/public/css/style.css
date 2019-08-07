@@ -8,7 +8,7 @@ body {
 
 .jumbotron {
     /* IMAGE TAKEN FROM https://unsplash.com/photos/TrhLCn1abMU FREE OF USE WITHOUT ANY CREDITS REQUIRED https://unsplash.com/license */
-    background-image: url("../img/blurred-map.jpg");
+    background-image: url("/static/img/blurred-map.jpg");
     background-size: cover;
     text-align: justify;
     margin-bottom: unset !important;
@@ -163,7 +163,7 @@ footer ul.quick-links li:hover{
     font-family: 'Brush Script MT', 'Copperplate', 'Roboto', 'Arial', sans-serif
 }
 
-#data_res, #area_center{
+#data_res, #area_center, #last_record, #eu_aqi{
     display: none;
 }
 
@@ -172,7 +172,7 @@ footer ul.quick-links li:hover{
 }
 
 .link-popup-tab {
-    color: #3d4476
+    color: #3d4476;
 }
 
 .popups .list-group-item:first-child {
@@ -234,4 +234,17 @@ footer ul.quick-links li:hover{
 
 .legend-closed{
     width: 50px;
+}
+
+.main{
+    background-color: #80808029;
+}
+
+.col-details{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.map-for-details{
+    height: 300px !important;
 }

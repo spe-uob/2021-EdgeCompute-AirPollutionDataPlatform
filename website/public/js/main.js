@@ -247,5 +247,9 @@ $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
             }, delayInMilliseconds);
         });
+    } else if (window.location.href.indexOf("dataovertime") > -1){
+        $('#select-parameters').on('change',  function (e) {
+            recreateGraph($(this).val());
+        });
     }
 });

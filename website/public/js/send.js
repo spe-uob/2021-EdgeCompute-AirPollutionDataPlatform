@@ -48,7 +48,11 @@ function submitCoordinates(longitude, latitude){
     });
 }
 
-function getDataOverTime(recordid, datasetid){
+function getDataOverTime(recordid, datasetid, position){
+    console.log(recordid);
     console.log(typeof(recordid));
+    console.log(datasetid);
     console.log(typeof(datasetid));
+    console.log(position);
+    console.log(typeof(position));
 }

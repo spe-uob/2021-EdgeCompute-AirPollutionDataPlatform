@@ -109,7 +109,7 @@ def transform_aqdcontinuous(records):
             if "date_time" in fields:
                 new_record["date_time"] = fields["date_time"]
             if "geometry" in record:
-                new_record["geojson"] = record["geometry"]
+                new_record["geojson"] = utils.fix_geojson(record["geometry"])
             if "pm25" in fields:
                 new_record["pm25"] = fields["pm25"]
             if "pm10" in fields:
@@ -203,7 +203,7 @@ def transform_wards(records):
         if "ward_id" in fields:
             new_record["wardid"] = fields["ward_id"]
             if "geo_shape" in fields:
-                new_record["geojson"] = fields["geo_shape"]
+                new_record["geojson"] = utils.fix_geojson(fields["geo_shape"])
             if "geometry" in record:
                 new_record["ward_center"] = record["geometry"]
             if "name" in fields:
@@ -401,7 +401,7 @@ def transform_no2(records):
             if "year" in fields:
                 new_record["year"] = fields["year"]
             if "geometry" in record:
-                new_record["geojson"] = record["geometry"]
+                new_record["geojson"] = utils.fix_geojson(record["geometry"])
             if "conc_ugm3" in fields:
                 new_record["no2"] = fields["conc_ugm3"]
             if "count" in fields:
@@ -493,7 +493,7 @@ def transform_populationestimates(records):
             if "mid_year" in fields:
                 new_record["year"] = fields["mid_year"]
             if "geo_shape" in fields:
-                new_record["geojson"] = fields["geo_shape"]
+                new_record["geojson"] = utils.fix_geojson(fields["geo_shape"])
             if "population_estimate" in fields:
                 new_record["population_estimate"] = fields["population_estimate"]
             to_return.append(new_record)

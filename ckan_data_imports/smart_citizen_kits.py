@@ -151,7 +151,7 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
                                     float(location["latitude"])
                                 ]
                             }
-                            new_record["geojson"] = geo_json
+                            new_record["geojson"] = utils.fix_geojson(geo_json)
                             for sensor in sensors:
                                 if ("id" in sensor) and ("name" in sensor):
                                     sensor_id = sensor["id"]

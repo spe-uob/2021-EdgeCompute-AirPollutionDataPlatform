@@ -1,5 +1,12 @@
 var enableAddMarkerByClick = false;
 
+function addZeroForDate(t) {
+    if (t < 10) {
+      t = "0" + t;
+    }
+    return t;
+}
+
 function formatDate(date) {
     var monthNames = [
         "January", "February", "March",
@@ -7,7 +14,7 @@ function formatDate(date) {
         "August", "September", "October",
         "November", "December"
     ];
-    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() + ' at ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() + ' at ' + addZeroForDate(date.getHours()) + ':' + addZeroForDate(date.getMinutes()) + ':' + addZeroForDate(date.getSeconds());
 }
 
 function choiceProcess(choice, firstTime) {
@@ -96,16 +103,14 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors) {
                       <li class="nav-item">\
                       <a class="nav-link active link-popup-tab" id="infoTab'+ index + '" data-toggle="tab" href="#info' + index + '" role="tab" aria-controls="info' + index + '" aria-selected="true">Info</a>\
                       </li><li class="nav-item">\
-                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Last data</a>\
+                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Last record</a>\
                       </li><li class="nav-item">\
                       <a class="nav-link link-popup-tab" id="moreTab'+ index + '" data-toggle="tab" href="#more' + index + '" role="tab" aria-controls="more' + index + '" aria-selected="false">More data</a>\
                       </li></ul>';
     var info = "";
     var last_data = "";
     var position;
-    var linkRecordID = "";
-    var linkDatasetID = "";
-    var linkPosition =  "";
+    var linkToMore = {};
     var infoField = [];
     var color;
     for (var property in record) {
@@ -137,10 +142,11 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors) {
                         }
                     }
                 } else if (property === "geojson") {
+                    linkToMore["geojson"] = JSON.stringify(record[property]);
                     position = record[property].coordinates.slice(0, 2);
                     info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>: ' + record[property].coordinates.toString() + '</li>';
                 } else if (property === "recordid") {
-                    linkRecordID = record[property];
+                    linkToMore["recordid"] = record[property];
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-container="body" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
@@ -148,19 +154,19 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors) {
                         info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
                     }
                 } else if (property === "dataset_id") {
-                    linkDatasetID = record[property];
+                    linkToMore["dataset_id"] = record[property];
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
                     } else {
-                        info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        info += '<li class="list-group-item">Dataset id: ' + record[property] + '</li>';
                     }
                 } else if (property === "dataset_name") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
                     } else {
-                        info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        info += '<li class="list-group-item">Dataset name: ' + record[property] + '</li>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
                         color = colors[assoColors.indexOf(record[property])];
@@ -201,7 +207,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors) {
                    <div class="tab-pane fade show" id="lastdata' + index + '" role="tabpanel" aria-labelledby="lastdata' + index + '-tab"><ul class="list-group">' + last_data + '</ul></div>\
                    <div class="text-center tab-pane fade show" id="more' + index + '" role="tabpanel" aria-labelledby="more' + index + '-tab">\
                    <p class="text-justify">If you want to see parameters over time for this device, click on the link below.</p>\
-                   <a onclick=\"getDataOverTime('+ linkRecordID + ',' + linkDatasetID + ')\" href="#">\
+                   <a href="/airdata/dataovertime?device=' + encodeURIComponent(JSON.stringify(linkToMore)) + '" target="_blank">\
                    <span class="align-middle">More data</span>\
                    <i class="material-icons md-28 align-middle">launch</i></a></div></div>';
     new mapboxgl.Marker({
@@ -210,11 +216,122 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors) {
         .setLngLat(position)
         .setPopup(new mapboxgl.Popup({ className: 'popups' }) // add popups
             .setHTML(returnElem))
-            .addTo(map);
+        .addTo(map);
     return assoColors;
 }
 
-if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1)) {
+function fillDeviceDetails() {
+    const record = JSON.parse($("#last_record").text()).record;
+    const fields = JSON.parse($("#last_record").text()).fields;
+    var info = "";
+    var last_data = "";
+    var select_options = "";
+    var position;
+    var infoField = [];
+    for (var property in record) {
+        if (record.hasOwnProperty(property)) {
+            if (record[property] != null) {
+                if (property === "date_time") {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        if (record[property].includes("Z")) {
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + '</li>';
+                        } else if (record[property].includes("+")) {
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + frecord[property] + '</li>';
+                        } else {
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + "Z" + '</li>';
+                        }
+                    } else {
+                        if (record[property].includes("Z")) {
+                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): ' + record[property] + '</li>';
+                        } else if (record[property].includes("+")) {
+                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): ' + frecord[property] + '</li>';
+                        } else {
+                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): ' + record[property] + "Z" + '</li>';
+                        }
+                    }
+                } else if (property === "geojson") {
+                    position = record[property].coordinates.slice(0, 2);
+                    last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>: ' + record[property].coordinates.toString() + '</li>';
+                } else if (property === "recordid") {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-container="body" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                    } else {
+                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                    }
+                } else if (property === "dataset_id") {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                    } else {
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="ID of the dataaset">Dataset id</a>: ' + record[property] + '</li>';
+                    }
+                } else if (property === "dataset_name") {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                    } else {
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Name of the dataaset">Dataset name</a>: ' + record[property] + '</li>';
+                    }
+                } else if (property === "organization") {
+                    info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Source of the dataset">Source</a>: ' + record[property] + '</li>';
+                } else if ((property === "siteid") || (property === "location")) {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                    } else {
+                        info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                    }
+                } else if ((property === "year") || (property === "readings_count")) {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                    } else {
+                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                    }                    
+                } else if ((property === "_id") || (property === "rank geojson")) {
+                    // Dismiss
+                } else {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        if (infoField[2] != null) {
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + ' ' + infoField[2] + '</li>';
+                            if(!isNaN(record[property])){
+                                select_options += '<option value="'+property+'">'+infoField[0]+' ('+infoField[2]+')'+'</option>';
+                            }
+                        } else {
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                            if(!isNaN(record[property])){
+                                select_options += '<option value="'+property+'">'+infoField[0]+'</option>';
+                            }
+                        }
+                    } else {
+                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                    }
+                }
+            }
+        }
+    }
+    $("#device_info").html(info);
+    $("#select-parameters").html(select_options);
+    $("#last_data").html(last_data);
+    new mapboxgl.Marker({
+        color: "#3f5ece"
+    })
+        .setLngLat(position)
+        .addTo(map);
+    map.setCenter(position);
+    map.setZoom(13);
+}
+
+if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1)) {
 
     // Map
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
@@ -310,6 +427,12 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
 
     if (window.location.href.indexOf("anydevice") > -1) {
         choiceProcess("All", true);
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle-second="tooltip"]').tooltip();
+        });
+    } else if (window.location.href.indexOf("dataovertime") > -1) {
+        fillDeviceDetails();
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle-second="tooltip"]').tooltip();

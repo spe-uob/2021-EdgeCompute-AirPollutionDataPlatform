@@ -125,6 +125,7 @@ def transform_luftdaten(records):
                         float(location["altitude"])
                     ]
                 }
+                geo_json = utils.fix_geojson(geo_json)
                 new_record["geojson"] = geo_json
             for data_value in sensordatavalues:
                 if data_value["value_type"] == "humidity":
