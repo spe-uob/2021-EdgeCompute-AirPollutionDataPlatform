@@ -2,14 +2,14 @@
 <html lang="en" class="h-100">
 
 <head>
-	<title>AQP - Get pollution data from any device</title>
+	<title>AQP - Air quality map</title>
 
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<!-- Special tag for Microsoft -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!-- Description -->
-	<meta name="description" content="Any device page of the air pollution data website">
+	<meta name="description" content="Air quality map page of the air pollution data website">
 	<!-- How the layout and content adapts to the mobile viewport -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,8 +21,7 @@
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
 	<link href='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet' />
-	<link rel='stylesheet'
-		href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
+	<link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
 		type='text/css' />
 	<link href="https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -39,9 +38,9 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
 	<script src='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
-	<script
-		src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
 
 	<script type="text/javascript" src="/static/js/send.js" defer></script>
 	<script type="text/javascript" src="/static/js/map.js" defer></script>
@@ -65,7 +64,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/">Home</a>
 					</li>
-					<li class="nav-item dropdown active">
+					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
 							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Get pollution data
@@ -75,13 +74,13 @@
 								<i class="material-icons md-18 align-middle">my_location</i>
 								<span class="align-middle">From location</span>
 							</a>
-							<a class="dropdown-item active" href="/airdata/anydevice">
+							<a class="dropdown-item" href="/airdata/anydevice">
 								<i class="material-icons md-18 align-middle">location_on</i>
 								<span class="align-middle">Any device</span>
 							</a>
 						</div>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item active">
 						<a class="nav-link" href="/airdata/aqi">Air quality map</a>
 					</li>
 					<li class="nav-item">
@@ -109,13 +108,27 @@
 
 	<main>
 		<div id='map' class="map-large"></div>
-		<div id='map-legend' class='legend'></div>
+		<div id='map-legend' class='legend'>
+			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalMoreInfo">More
+				info</button>
+		</div>
 		<div id='map-legend-reduced' class="legend legend-closed"><a href="#" id="map-legend-open" class="text-info"><i
 					class="material-icons md-28 align-middle">keyboard_arrow_left</i></a></div>
 		<div id='choice-legend' class='choice-legend'>
 			<h4><a href="#" id="choice-legend-close" class="text-info"><i
 						class="material-icons md-28 align-middle">keyboard_arrow_left</i><span
 						class="align-middle">Parameters</span></a></h4>
+			<div class="input-group mb-3 diameterWidth">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="inputGroup-sizing-default">Cell size (km)</span>
+					</div>
+					<input id="diameter_value" type="text" class="form-control" aria-label=""
+						aria-describedby="inputGroup-sizing-default" disabled>
+				</div>
+				<input type="range" class="custom-range" min="{{{diameterParams.min}}}" max="{{{diameterParams.max}}}" step="{{{diameterParams.step}}}" value="{{{diameter}}}"
+					id="choiceDiameter">
+			</div>
 			<div class="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="choiceArea" data-toggle="dropdown"
 					aria-haspopup="true" aria-expanded="false" data-toggle-second="tooltip" data-container="body"
@@ -123,22 +136,12 @@
 					Choose an area
 				</button>
 				<div class="dropdown-menu" aria-labelledby="choiceArea">
-					<a class="dropdown-item active"
-						href="/airdata/anydevice?area={{{data.currentarea.area}}}">{{data.currentarea.area}}</a>
-					{{#data.listcover}}
-					<a class="dropdown-item" href="/airdata/anydevice?area={{{.}}}">{{.}}</a>
-					{{/data.listcover}}
+					<a class="dropdown-item active link-area"
+						href="/airdata/aqi?area={{{listareas.currentarea.area}}}">{{listareas.currentarea.area}}</a>
+					{{#listareas.listcover}}
+					<a class="dropdown-item link-area" href="/airdata/aqi?area={{{.}}}">{{.}}</a>
+					{{/listareas.listcover}}
 				</div>
-			</div>
-			<br />
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<label class="input-group-text" for="choiceInterval" data-toggle="tooltip" data-container="body"
-						data-placement="top"
-						title="All datasets don't have the same intervals of readings. Here you can choose which datasets you want.">Option</label>
-				</div>
-				<select class="custom-select" id="choiceInterval">
-				</select>
 			</div>
 		</div>
 		<div id='choice-legend-reduced' class="choice-legend legend-closed"><a href="#" id="choice-legend-open"
@@ -149,6 +152,57 @@
 		<i class="material-icons md-18 align-middle">email</i>
 		<span class="align-middle">Feedback</span></a>
 	</button>
+
+	<div class="modal fade" id="modalMoreInfo" tabindex="-1" role="dialog" aria-labelledby="modalMoreInfoLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalMoreInfoLabel">More information</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p class="text-justify">
+						The levels (shown in the table below) for the air quality index are taken from the 
+						<a href="https://airindex.eea.europa.eu/" target="_blank">European Air Quality Index</a>. 
+						The polygon representing the area is divided in square cells of side size given by the selector.
+						If the platform finds data in the cell, it calculates the average and sends it. 
+						The averages of the values taken into account can be displayed by clicking on a cell. 
+						More information in the <a href="/about" target="_blank">about</a> page.
+					</p>
+					<table id="table_index_levels" class="table table-hover table-responsive text-center">
+						<thead>
+							<tr>
+								<th colspan="1">Pollutant name</th>
+								<th colspan="5">Index level (based on pollutant concentrations in µg/m3)</th>
+							</tr>
+							<tr>
+								<th scope="col"></th>
+								{{#aqiMust.0.index_levels}}
+								<th scope="col" style="background-color:{{{color}}};">{{name}}</th>
+								{{/aqiMust.0.index_levels}}
+							</tr>
+						</thead>
+						<tbody>
+							{{#aqiMust}}
+							<tr>
+								<th scope="row">{{name}}</th>
+								{{#index_levels}}
+								<td style="background-color:{{{color}}};">{{values.0}}-{{values.1}}</td>
+								{{/index_levels}}
+							</tr>
+							{{/aqiMust}}
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-labelledby="modalFeedbackLabel"
 		aria-hidden="true">
@@ -187,8 +241,7 @@
 		</div>
 	</div>
 
-	<div id="data_res">{{data.data}}</div>
-	<div id="area_center" data-value="{{{data.currentarea.center}}}"></div>
+	<div id="data_res">{{data}}</div>
 
 	<!-- Cookie alert with bootstrap from https://github.com/Wruczek/Bootstrap-Cookie-Alert MIT license can be commercialy used without credits -->
 	<div class="alert text-center cookiealert" role="alert">

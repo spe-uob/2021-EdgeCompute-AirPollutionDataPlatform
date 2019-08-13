@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <title>AQP - API</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- Special tag for Microsoft -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Description -->
+    <meta name="description" content="API page page of the air pollution data website">
+    <!-- How the layout and content adapts to the mobile viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel='shortcut icon' type='image/x-icon' href='/static/img/aqp_logo.ico' />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="/static/css/style.css" rel="stylesheet">
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="/static/frameworks/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+
+    <script type="text/javascript" src='/static/frameworks/bootstrap-autocomplete/bootstrap-typeahead.min.js'
+        defer></script>
+    <script type="text/javascript" src="/static/frameworks/code-prettifier/code-prettifier.js" defer></script>
+    <script type="text/javascript" src="/static/js/send.js" defer></script>
+    <script type="text/javascript" src="/static/js/main.js" defer></script>
+</head>
+
+<body class="h-100 d-flex flex-column body-fill">
+    <header>
+        <nav id="site-navbar" class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                <span class="site-name">Air Quality Platform</span>
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Get pollution data
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/fromlocation">
+                                <i class="material-icons md-18 align-middle">my_location</i>
+                                <span class="align-middle">From location</span>
+                            </a>
+                            <a class="dropdown-item" href="/airdata/anydevice">
+                                <i class="material-icons md-18 align-middle">location_on</i>
+                                <span class="align-middle">Any device</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/airdata/aqi">Air quality map</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/api">API</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="position-fixed w-100 d-flex flex-column p-4 toast-show">
+        <div class="toast" id="toastInfo" role="alert" data-delay="10000" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong id="toastTitle" class="mr-auto"></strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="toastBody" class="toast-body"></div>
+        </div>
+    </div>
+
+    <main>
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-api">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">API</h4>
+                        <p class="card-text text-justify">
+                            The data can be consumed via this API that allows to search and download records using
+                            various criteria exposed in the console below. The url section below shows the url of your
+                            request.
+                        </p>
+                        <div id="url-div">
+                            <h5>URL</h5>
+                            <a id="url-div-url" href="#" target="_blank" class="text-primary">url</a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab-api" role="tablist">
+                                <a class="nav-item nav-link nav-link-card active" id="nav-base-tab" data-toggle="tab"
+                                    href="#nav-base" role="tab" aria-controls="nav-base" aria-selected="true">Base</a>
+                                <a class="nav-item nav-link nav-link-card" id="nav-search-tab" data-toggle="tab"
+                                    href="#nav-search" role="tab" aria-controls="nav-search" aria-selected="false">Data
+                                    search</a>
+                                <a class="nav-item nav-link nav-link-card" id="nav-download-tab" data-toggle="tab"
+                                    href="#nav-download" role="tab" aria-controls="nav-download"
+                                    aria-selected="false">Download</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent-api">
+                            <div class="tab-pane fade show active" id="nav-base" role="tabpanel"
+                                aria-labelledby="nav-home-tab">
+                                <br>
+                                <p class="card-text text-justify">
+                                    Retrieve data from pre-made requests which do the same job as in the get pollution
+                                    data pages.
+                                    Select the request you want to do below.
+                                </p>
+                                <select id="base-request-choice" class="custom-select">
+                                    <option selected>Choose a request</option>
+                                    {{#data.base.list_options}}
+                                    <option value="{{{id}}}">{{name}}</option>
+                                    {{/data.base.list_options}}
+                                </select>
+                                <div id="anydevice" class="base-choice-div">
+                                    <hr>
+                                    <p class="card-text text-justify">
+                                        Choose the area where you want the data to come from and also the interval
+                                        between data records.
+                                        For instance, yearly means that it retrieves data from data sources that only
+                                        update their data annually,
+                                        hourly means that it retrieves data from data sources that update their data
+                                        every hour.
+                                    </p>
+                                    <select class="custom-select" id="select-anydevice">
+                                        <option selected>Choose an option</option>
+                                        {{#data.base.anydevice}}
+                                        <optgroup label="{{{name}}}">
+                                            {{#intervals}}
+                                            <option value="{{{.}}}">{{.}}</option>
+                                            {{/intervals}}
+                                        </optgroup>
+                                        {{/data.base.anydevice}}
+                                    </select>
+                                </div>
+                                <div id="fromlocation" class="base-choice-div">
+                                    <br>
+                                    <hr>
+                                    <div class="location-choice-coordinates-api container">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="longitudeInput">Longitude</label>
+                                                    <input type="text" id="longitudeInput" class="form-control"
+                                                        placeholder="Longitude">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="longitudeInput">Latitude</label>
+                                                    <input type="text" id="latitudeInput" class="form-control"
+                                                        placeholder="Latitude">
+                                                </div>
+                                            </div>
+                                            <div id="invalidCoordinatesInputs" class="invalid-message">Enter valid
+                                                coordinates.</div>
+                                        </form>
+                                        <hr>
+                                        <div id="submitCoordinatesDiv" class="text-center">
+                                            <button type="button" class="btn btn-success right" id="submitCoordinates">
+                                                <i class="material-icons md-18 align-middle">send</i>
+                                                <span class="align-middle">Submit coordinates</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="aqi" class="base-choice-div">
+                                    <br>
+                                    <hr>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Square side size
+                                                (km)</span>
+                                        </div>
+                                        <input id="diameter_value" type="text" class="form-control" aria-label=""
+                                            aria-describedby="inputGroup-sizing-default" disabled>
+                                    </div>
+                                    <input type="range" class="custom-range" min="{{{data.base.aqi.min}}}"
+                                        max="{{{data.base.aqi.max}}}" step="{{{data.base.aqi.step}}}"
+                                        value="{{{data.base.aqi.size_default}}}" id="choiceDiameter">
+                                    <select class="custom-select" id="select-aqi">
+                                        <option selected>Choose an area</option>
+                                        {{#data.base.anydevice}}
+                                        <option value="{{{name}}}">{{name}}</option>
+                                        {{/data.base.anydevice}}
+                                    </select>
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" id="submitAQIinputs">
+                                            <i class="material-icons md-18 align-middle">send</i>
+                                            <span class="align-middle">Submit</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-search" role="tabpanel"
+                                aria-labelledby="nav-profile-tab">
+                                <br>
+                                <p class="card-text text-justify">
+                                    Retrieve data from the datasets of the platform.
+                                    Choosing a dataset in the list below displays the fields of the dataset in the code
+                                    snippet and the inputs that can be given below.
+                                </p>
+                                <select class="custom-select" id="dataset-choice">
+                                    <option selected>Choose a dataset</option>
+                                    {{#data.data_search}}
+                                    <optgroup
+                                        label="{{#groups}}{{.}} {{/groups}} - {{{organization}}} - {{{package_name}}}">
+                                        {{#resources}}
+                                        <option value="{{{id}}}">{{name}}</option>
+                                        {{/resources}}
+                                    </optgroup>
+                                    {{/data.data_search}}
+                                </select>
+                                <div id="group-fields-inputs">
+                                    <hr>
+                                    <p class="card-text text-justify">
+                                        Enter filters if you want the data to be filtered.
+                                        Just write the name of the field and the value you want it to be.
+                                        If you want a string to be searched on all fields, just type "all" as a field.
+                                        Be aware that if you add a field "all", other fields are not taken into account.
+                                        Autocompletion will help you fill the inputs.
+                                        Inputs appear as you add inputs.
+                                        The type of the field will appear as a placeholder in the value input if the
+                                        field exists.
+                                        Don't enter any fields if you want all the records.
+                                        Be aware that the more you request, the more time it takes to retrieve and
+                                        display the data.
+                                        Be aware that researching on the field "_id" doesn't work.
+                                        For instance, filter with "recordid" or "reading" instead.
+                                    </p>
+                                    <div id="list-inputs">
+                                        <div class="input-group input-group-next">
+                                            <div class="row row-inputs">
+                                                <div class="col-auto input-group-prepend padding-col">
+                                                    <span class="input-group-text input-group-text-special"><i
+                                                            class="material-icons">add</i></span>
+                                                </div>
+                                                <div class="col padding-col">
+                                                    <input id="field0" type="text" aria-label="Field"
+                                                        class="form-control field-input" placeholder="Field">
+                                                </div>
+                                                <div class="col padding-col">
+                                                    <input id="value0" type="text" aria-label="Value"
+                                                        class="form-control value-input" placeholder="Value">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-group">
+                                        <div class="from-group row">
+                                            <label for="limitInput" class="col-sm-12 col-md-9 col-form-label">Maximum
+                                                number of records to return</label>
+                                            <div class="col-sm-12 col-md-3">
+                                                <input type="number" class="form-control" id="limitInput"
+                                                    aria-describedby="limitInputHelp" step="1" placeholder="Integer">
+                                            </div>
+                                        </div>
+                                        <small id="limitInputHelp" class="form-text text-muted text-center">Default
+                                            value is {{data.limit}}.</small>
+
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-9">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text" for="sortSelection">Sort</label>
+                                                    </div>
+                                                    <select class="custom-select" id="sortSelection">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm12 col-md-3">
+                                                <select class="custom-select" id="orderSelection">
+                                                    <option value="asc" selected>ASC</option>
+                                                    <option value="desc">DESC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <hr>
+                                        <p>Fields to return (don't check anything if you want all fields):</p>
+                                        <div class="form-check" id="fieldsCheckboxes">
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success" id="submitFiltersInputs">
+                                            <i class="material-icons md-18 align-middle">send</i>
+                                            <span class="align-middle">Submit</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-download" role="tabpanel"
+                                aria-labelledby="nav-contact-tab">
+                                <br>
+                                <p class="card-text text-justify">
+                                    Download the code from the url above as a JSON file by clicking the button below.
+                                </p>
+                                <div class="text-center">
+                                    <button id="downloadBtn" type="button" class="btn btn-primary">
+                                        <i class="material-icons md-18 align-middle">cloud_download</i>
+                                        <span class="align-middle">Download</span>
+                                    </button>
+                                    <button id="downloadLoadingBtn" class="btn btn-primary" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm" role="status"
+                                            aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-6 col-api">
+                <div id="spinnyBoi" class="d-flex align-items-center">
+                    <strong id="spinnyBoiText">Loading...</strong>
+                    <div id="spinnyBoiChild" class="spinner-border ml-auto text-dark" role="status" aria-hidden="true">
+                    </div>
+                </div>
+                <div id="copyAndCode">
+                    <button id="btnCopy" type="button" class="btn btn-dark">Copy</button>
+                    <pre><code id="api_output">JSON code appears here when choosing the parameters.</code></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <button type="button" class="feedback-button btn btn-info" data-toggle="modal" data-target="#modalFeedback">
+        <i class="material-icons md-18 align-middle">email</i>
+        <span class="align-middle">Feedback</span></a>
+    </button>
+
+    <div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-labelledby="modalFeedbackLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalFeedbackLabel">Feedback</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="feedbackText" class="col-form-label">Message:</label>
+                            <textarea class="form-control" id="feedbackText"
+                                placeholder="Enter your comment"></textarea>
+                            <div id="invalidFeedbackText" class="invalid-message">Enter a message.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="senderEmail" class="col-form-label">You can put your email address if you want
+                                us to reach you back. Email address:</label>
+                            <input type="email" class="form-control" id="senderEmail" aria-describedby="emailHelp"
+                                placeholder="Enter email">
+                            <div id="invalidSenderEmail" class="invalid-message">Enter a valid email or no email.</div>
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                                else.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendFeedback">Send feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie alert with bootstrap from https://github.com/Wruczek/Bootstrap-Cookie-Alert MIT license can be commercialy used without credits -->
+    <div class="alert text-center cookiealert" role="alert">
+        <b>Do you like cookies?</b> &#x1F36A; We use cookies to ensure you get the best experience on our website by
+        complying to the European cookie law.
+        <a href="https://cookiesandyou.com/" target="_blank">Learn more</a>
+        <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
+            I agree
+        </button>
+    </div>
+
+    <footer class="footer mt-auto py-3 text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Quick
+                            links</span></h5>
+                    <ul class="quick-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="https://github.com/Kevjolly/AirPollutionDataPlatform">Github repository</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-8">
+                    <h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Data
+                            sources</span></h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="quick-links">
+                                <li><a href="https://smartcitizen.me/kits/">Smart Citizen</a></li>
+                                <li><a href="https://luftdaten.info/">Luftdaten</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="quick-links">
+                                <li><a href="https://opendata.bristol.gov.uk/pages/homepage/">Open Bristol Data</a></li>
+                                <li><a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn">DEFRA AURN</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="text-center">
+                <span class="text-white">This website was made as part of a master thesis at the
+                    <u><a href="http://www.bristol.ac.uk/" class="text-white">University of Bristol</a></u>.</span>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

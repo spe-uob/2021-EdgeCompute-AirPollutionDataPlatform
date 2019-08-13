@@ -5,14 +5,14 @@
 This module inserts data into the units datasets
 """
 
+import log_config
 import utils
 
-ID_UNITS_HOUR_POINT = "10df8c8d-f681-4325-bf75-21064ba81a2f"
-ID_UNITS_DAY_POINT = ""
-ID_UNITS_YEAR_POINT = "439b51f6-6d44-4106-a17e-46cb803158a7"
-ID_UNITS_YEAR_POLYGON = "86ee6685-1c2a-46ce-adbe-59a91039b65f"
+LOGGER = log_config.setup_logger('ckan_import_default_log')
 
-RECORDS_HOUR_POINT = [
+ID_UNITS = "10df8c8d-f681-4325-bf75-21064ba81a2f"
+
+RECORDS_POINT = [
     {
         "reading": "pm1",
         "unit": "μg/m3"
@@ -58,18 +58,13 @@ RECORDS_HOUR_POINT = [
     }, {
         "reading": "pressure",
         "unit": "KPa"
+    }, {
+        "reading": "battery",
+        "unit": "%"
     }
 ]
 
-RECORDS_DAY_POINT = []
-
-RECORDS_YEAR_POINT = [
-    {
-        "reading":"no2",
-        "unit":"μg/m3"
-    }
-]
-RECORDS_YEAR_POLYGON = [
+RECORDS_POLYGON = [
     {
         "reading": "population_estimate",
         "unit": None
@@ -116,9 +111,7 @@ RECORDS_YEAR_POLYGON = [
 ]
 
 try:
-    utils.ckan_upsert(ID_UNITS_HOUR_POINT, RECORDS_HOUR_POINT)
-    #utils.ckan_upsert(ID_UNITS_DAY_POINT, RECORDS_DAY_POINT)
-    utils.ckan_upsert(ID_UNITS_YEAR_POINT, RECORDS_YEAR_POINT)
-    utils.ckan_upsert(ID_UNITS_YEAR_POLYGON, RECORDS_YEAR_POLYGON)
+    #utils.ckan_upsert(ID_UNITS, RECORDS_HOUR_POINT)
+    #utils.ckan_upsert(ID_UNITS, RECORDS_YEAR_POLYGON)
 except Exception as exception_returned:
     print(exception_returned)

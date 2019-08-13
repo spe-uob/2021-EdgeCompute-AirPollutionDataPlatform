@@ -52,6 +52,14 @@ function recreateGraph(list_parameters) {
                     });
                     list_param_yAxis.push(LyAxis.length - 1);
                 }
+                series.push({
+                    name: infoField[1],
+                    data: [],
+                    yAxis: list_param_yAxis[i],
+                    tooltip: {
+                        valueSuffix: " " + infoField[2]
+                    }
+                });
             } else {
                 indexYaxis = getIndexInLyAxis(LyAxis, "Value");
                 if (indexYaxis != null) {
@@ -68,16 +76,15 @@ function recreateGraph(list_parameters) {
                     });
                     list_param_yAxis.push(LyAxis.length - 1);
                 }
+                series.push({
+                    name: infoField[1],
+                    data: [],
+                    yAxis: list_param_yAxis[i],
+                    tooltip: {
+                        valueSuffix: " "
+                    }
+                });
             }
-
-            series.push({
-                name: infoField[1],
-                data: [],
-                yAxis: list_param_yAxis[i],
-                tooltip: {
-                    valueSuffix: " " + infoField[2]
-                }
-            });
         }
 
         var record = {};
@@ -114,7 +121,7 @@ function recreateGraph(list_parameters) {
                     var stylePlotBands = {
                         color: '#606060'
                     };
-                    stylePlotBands["font-size"] = "16px";
+                    stylePlotBands["font-size"] = "12px";
                     for (var k = 0; k < index_levels.length; k++) {
                         il_values = index_levels[k];
                         plotBands.push({
@@ -163,7 +170,7 @@ function recreateGraph(list_parameters) {
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Choose the parameters you want to display above'
+                    text: 'Parameters selected as functions of time'
                 },
                 xAxis: {
                     type: 'datetime'

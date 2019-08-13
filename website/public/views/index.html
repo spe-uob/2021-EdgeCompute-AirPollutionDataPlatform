@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
 	<title>AQP - Home</title>
@@ -14,18 +14,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Favicon -->
-	<link rel='shortcut icon' type='image/x-icon' href='/static/img/favicon.ico' />
+	<link rel='shortcut icon' type='image/x-icon' href='/static/img/aqp_logo.ico' />
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
-	<link href='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.css' rel='stylesheet' />
-	<link rel='stylesheet'
-		href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
-		type='text/css' />
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 	<link href="/static/css/style.css" rel="stylesheet">
@@ -39,23 +34,21 @@
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
-	<script src='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
-	<script
-		src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
 
-	<script type="text/javascript" src="/static/js/send.js"></script>
-	<script type="text/javascript" src="/static/js/map.js" defer></script>
-	<script type="text/javascript" src="/static/js/main.js"></script>
+	<script type="text/javascript" src="/static/js/main.js" defer></script>
 </head>
 
-<body>
+<body class="h-100 d-flex flex-column">
 	<header>
-		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+		<nav id="site-navbar" class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
 				aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand site-name" href="/">Air Quality Platform</a>
+			<a class="navbar-brand" href="/">
+				<img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+				<span class="site-name">Air Quality Platform</span>
+			</a>
 
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -79,7 +72,7 @@
 						</div>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/aqi">AQI</a>
+						<a class="nav-link" href="/airdata/aqi">Air quality map</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/api">API</a>
@@ -106,13 +99,13 @@
 
 	<main>
 		<div class="jumbotron jumbotron-fluid">
-			<div class="container">
+			<div id="jumbotron-container" class="container">
 				<h1 class="display-4">Hello, citizen!</h1>
 				<p class="lead">
-					Here, you can get air pollution data from any location where devices have been registered on the
-					data platform. We currently have data from the Bristol city area.
-					Data comes from sources like the Smart Citizen project, Luftdaten or Open Bristol Data. More
-					information can be found in the about section.</p>
+					Get air pollution data from any location where devices have been registered on the
+					data platform. We presently have data from the Bristol city area.
+					Data comes from sources like the Smart Citizen project, Luftdaten or Open Bristol Data.
+				</p>
 				<hr class="my-4">
 				<p>You can get data from any location. The platform checks for data from devices around that location.
 					You can also
@@ -125,6 +118,8 @@
 						<i class="material-icons md-18 align-middle">location_on</i>
 						<span class="align-middle">Any device</span></a>
 				</div>
+				<hr class="my-4">
+				<p>Learn more about why it is important to be concerned about air pollution and how we use data in the <a href="/about" target="_blank">about</a> page.</p>
 			</div>
 		</div>
 	</main>

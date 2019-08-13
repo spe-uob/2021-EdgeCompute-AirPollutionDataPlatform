@@ -26,9 +26,16 @@ app.get('/fromlocation', function (req, res) {
 	res.sendFile('public/views/fromlocation.html', { root: __dirname });
 });
 
+app.get('/about', function (req, res) {
+	res.sendFile('public/views/about.html', { root: __dirname });
+});
+
+app.get('/favicon.ico', (req, res) => res.sendStatus(204));
+
 // routers
 app.use('/mail', require('./router/mail-router'));
 app.use('/airdata', require('./router/airdata-router'));
+app.use('/api', require('./router/api-router'));
 
 // general error handler
 app.use(function (err, req, res, next) {
@@ -50,4 +57,4 @@ app.use(function (req, res, next) {
 });
 
 // Port to listen to
-app.listen(8081, "0.0.0.0", () => console.log(`server started`));
+app.listen(8081, "0.0.0.0", () => console.log(`SERVER STARTED`));

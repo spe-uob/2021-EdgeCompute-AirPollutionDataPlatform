@@ -5,7 +5,7 @@ var router = decorateRouter(express.Router());
 
 const airdataService = require('../service/airdata-service');
 
-router.get('/fromlocation', async function (req, res, next) {
+router.get('/datalocation', async function (req, res, next) {
     try {
         if (!('longitude' in req.query)) {
             throw {name: "InputMissingError", message: "Parameters are missing in the query url."};
@@ -15,12 +15,13 @@ router.get('/fromlocation', async function (req, res, next) {
         }
         
         const response = await airdataService.getDataLocation(req.query.longitude, req.query.latitude);
-        res.send(JSON.stringify({
+        const aqi = await airdataService.getAQI();
+        res.render('datafromlocation.html', {
             code: 0,
-            data: {
-                result: response
-            }
-        }));
+            location: response.location,
+            data: JSON.stringify(response.result),
+            aqi: JSON.stringify(aqi)
+        });
     } catch (err) {
         next(err);
     }
@@ -52,6 +53,38 @@ router.get('/anydevice', async function (req, res, next) {
             code: 0,
             data: response
         });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get('/aqi', async function (req, res, next) {
+    try {
+        if (!('area' in req.query)) {
+            const response = (!('diameter' in req.query)) ? await airdataService.getAQIArea(null, null) : await airdataService.getAQIArea(req.query.diameter, null);
+            const listareas =  await airdataService.getListAreas(null);
+            const diameterParams = await airdataService.getCellValues();
+            res.render('aqi.html', {
+                code: 0,
+                data: JSON.stringify(response),
+                aqiMust: response.aqi,
+                listareas: listareas,
+                diameterParams: diameterParams,
+                diameter: (!('diameter' in req.query)) ? diameterParams.size_default : req.query.diameter
+            });
+        } else {
+            const responseBis = (!('diameter' in req.query)) ? await airdataService.getAQIArea(null, req.query.area) : await airdataService.getAQIArea(req.query.diameter, req.query.area);
+            const listareas =  await airdataService.getListAreas(req.query.area);
+            const diameterParams = await airdataService.getCellValues();
+            res.render('aqi.html', {
+                code: 0,
+                data: JSON.stringify(responseBis),
+                aqiMust: responseBis.aqi,
+                listareas: listareas,
+                diameterParams: diameterParams,
+                diameter: (!('diameter' in req.query)) ? diameterParams.size_default : req.query.diameter
+            });
+        }
     } catch (err) {
         next(err);
     }

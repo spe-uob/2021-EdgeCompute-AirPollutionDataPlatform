@@ -1,5 +1,5 @@
 html{
-    font-family: 'Roboto', 'Sofia', 'Arial', sans-serif;
+    font-family: 'Roboto', 'Arial', sans-serif;
 }
 
 body { 
@@ -93,8 +93,8 @@ footer ul.quick-links li:hover{
     color: #dc3545;
 }
 
-#map {
-    height: 450px;
+.map-large {
+    min-height: 450px;
 }
 
 .row {
@@ -160,7 +160,7 @@ footer ul.quick-links li:hover{
 }
 
 .site-name {
-    font-family: 'Brush Script MT', 'Copperplate', 'Roboto', 'Arial', sans-serif
+    font-family: 'Kaushan Script', 'Roboto', 'Arial', sans-serif
 }
 
 #data_res, #area_center, #last_record, #eu_aqi{
@@ -169,6 +169,10 @@ footer ul.quick-links li:hover{
 
 .mapboxgl-popup-content{
     width: 330px;
+}
+
+.popups-req-location .mapboxgl-popup-content{
+    width: unset !important;
 }
 
 .link-popup-tab {
@@ -193,7 +197,7 @@ footer ul.quick-links li:hover{
     border-radius: 3px;
     top: 210px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-    font: 12px/20px 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font: 12px/20px 'Roboto', 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
     padding: 10px;
     position: fixed;
     right: 10px;
@@ -216,7 +220,7 @@ footer ul.quick-links li:hover{
     width: 10px;
 }
 
-#map-legend-reduced, #choice-legend-reduced{
+#map-legend-reduced, #choice-legend-reduced, #map-legend-reduced-2{
     display: none;
 }
 
@@ -236,7 +240,15 @@ footer ul.quick-links li:hover{
     width: 50px;
 }
 
-.main{
+.legend-top {
+    top: 120px !important;
+}
+
+.legend-bottom {
+    top: 400px !important;
+}
+
+.body-fill{
     background-color: #80808029;
 }
 
@@ -247,4 +259,86 @@ footer ul.quick-links li:hover{
 
 .map-for-details{
     height: 300px !important;
+}
+
+/* CSS for the code section */
+pre {
+    background-color: #f8f8ff;
+    border: 1px solid #C0C0C0;
+    padding: 10px 20px;
+}
+
+.json-key {
+    color: #A52A2A;
+}
+.json-value {
+    color: #000080;
+}
+.json-string {
+    color: #556b2f;
+}
+
+.col-api {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.base-choice-div, #url-div{
+    display: none;
+}
+
+#nav-download-tab, #group-fields-inputs{
+    display: none;
+}
+
+.padding-col{
+    padding-right:0;
+    padding-left:0;
+}
+
+.input-group-next .row-inputs{
+    width: 100%;
+}
+
+#btnCopy {
+    position: absolute;
+    right: 25px;
+    margin-top: 8px;
+}
+
+#spinnyBoi {
+    display: none !important;
+    position: absolute;
+    top: 40%;
+    right: 40%;
+}
+
+#spinnyBoiChild{
+    width: 60px;
+    height: 60px;
+} 
+
+#spinnyBoiText{
+    padding-right: 20px;
+}
+
+#btnCopy, #downloadLoadingBtn{
+    display: none;
+}
+
+.card-margins {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-margins-bis {
+    margin: 15px;
+}
+
+.diameterWidth{
+    width: 200px;
+}
+
+.scroll-about {
+    overflow: auto;
 }

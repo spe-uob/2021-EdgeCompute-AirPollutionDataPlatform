@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 
 <head>
 	<title>AQP - Get pollution data from location</title>
@@ -14,7 +14,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<!-- Favicon -->
-	<link rel='shortcut icon' type='image/x-icon' href='/static/img/favicon.ico' />
+	<link rel='shortcut icon' type='image/x-icon' href='/static/img/aqp_logo.ico' />
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -24,8 +24,7 @@
 	<link rel='stylesheet'
 		href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
 		type='text/css' />
-	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	<link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
@@ -49,14 +48,17 @@
 	<script type="text/javascript" src="/static/js/main.js" defer></script>
 </head>
 
-<body>
+<body class="h-100 d-flex flex-column body-fill">
 	<header>
-		<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+		<nav id="site-navbar" class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
 				aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand site-name" href="/">Air Quality Platform</a>
+			<a class="navbar-brand" href="/">
+				<img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+				<span class="site-name">Air Quality Platform</span>
+			</a>
 
 			<div class="collapse navbar-collapse" id="navbarContent">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -80,7 +82,7 @@
 						</div>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/aqi">AQI</a>
+						<a class="nav-link" href="/airdata/aqi">Air quality map</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/api">API</a>
@@ -235,7 +237,7 @@
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-6 col-md-7 col-lg-8 col-map">
-				<div id='map' class="map-col"></div>
+				<div id='map' class="map-col map-large"></div>
 			</div>
 		</div>
 	</main>

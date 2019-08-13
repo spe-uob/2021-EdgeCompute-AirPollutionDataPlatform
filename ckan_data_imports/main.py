@@ -92,22 +92,22 @@ def do_hour():
             'id': 'pm1',
             'type': 'float',
             "info": {
-                "label": "Particle Matter PM 1",
-                "notes": "Particle Matter PM 1"
+                "label": "PM1",
+                "notes": "Particulate matter PM1 Concentration"
             }
         }, {
             'id': 'pm25',
             'type': 'float',
             "info": {
                 "label": "PM2.5",
-                "notes": "PM2.5 Concetration"
+                "notes": "Particulate matter PM2.5 Concentration"
             }
         }, {
             'id': 'pm10',
             'type': 'float',
             "info": {
                 "label": "PM10",
-                "notes": "PM10 Concetration"
+                "notes": "Particulate matter PM10 Concentration"
             }
         }, {
             'id': 'no',

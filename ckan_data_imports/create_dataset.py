@@ -39,14 +39,14 @@ pm25 = {'id': 'pm25',
         'type': 'float',
         "info": {
             "label": "PM2.5",
-            "notes": "PM2.5 Concetration"
+            "notes": "Particulate matter PM2.5 Concentration"
         }
         }
 pm10 = {'id': 'pm10',
         'type': 'float',
         "info": {
             "label": "PM10",
-            "notes": "PM10 Concetration"
+            "notes": "Particulate matter PM10 Concentration"
         }
         }
 no = {'id': 'no',
@@ -326,8 +326,8 @@ pressure = {'id': 'pressure',
 pm1 = {'id': 'pm1',
        'type': 'float',
        "info": {
-           "label": "Particle Matter PM 1",
-           "notes": "Particle Matter PM 1"
+           "label": "PM1",
+           "notes": "Particulate matter PM1 Concentration"
        }
        }
 co = {'id': 'co',
@@ -369,6 +369,22 @@ dataset_id = {'id': 'dataset_id',
                   "notes": "ID of the dataset the data comes from"
               }
               }
+
+# NECESSARY FIELDS
+geometry = {'id': 'geometry',
+            'type': 'text',
+            "info": {
+                "label": "Geometry",
+                "notes": "Geometry of the records"
+            }
+            }
+necessary_fields = {'id': 'necessary_fields',
+                    'type': 'text[]',
+                    "info": {
+                        "label": "Necessary fields",
+                        "notes": "Necessary fields"
+                    }
+                    }
 
 # OPEN BRISTOL DATA
 air_quality_data_continuous_fields_data = [
@@ -443,8 +459,11 @@ yearly_point_aggregation_fields_data = [
     recordid, year, geojson, dataset_name, dataset_id, no2,
     readings_count, location, siteid]
 
+# NECESSARY FIELDS
+necessary_fields_fields_data = [geometry, necessary_fields]
+
 try:
-    #utils.ckan_upsert("adadv", [])
+    #utils.ckan_create_from_scratch("", , [])
     print("done")
     
 except Exception as exception_returned:

@@ -2,14 +2,14 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>AQP - Data over time</title>
+    <title>AQP - Data from location</title>
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <!-- Special tag for Microsoft -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Description -->
-    <meta name="description" content="Device data over time page of the air pollution data website">
+    <meta name="description" content="Data from location page of the air pollution data website">
     <!-- How the layout and content adapts to the mobile viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -35,7 +35,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.2.0/mapbox-gl.js'></script>
 
@@ -52,16 +51,16 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a class="navbar-brand" href="/">
-				<img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-				<span class="site-name">Air Quality Platform</span>
-			</a>
+                <img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                <span class="site-name">Air Quality Platform</span>
+            </a>
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="/">Home</a>
                     </li>
-                    <li class="nav-item dropdown active">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Get pollution data
@@ -77,13 +76,13 @@
                             </a>
                         </div>
                     </li>
-					<li class="nav-item">
-						<a class="nav-link" href="/airdata/aqi">Air quality map</a>
-					</li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/airdata/aqi">Air quality map</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/api">API</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="/about">About</a>
                     </li>
                 </ul>
@@ -103,57 +102,72 @@
         </div>
     </div>
 
-    <main class="main-overtime">
-        <div class="row">
-            <div class="col-sm-12 col-md-5 col-lg-4 col-details">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Device details</h4>
-                        <p class="card-text text-justify">Here are some information about the device.</p>
-                    </div>
-                    <ul id="device_info" class="list-group list-group-flush">
-                    </ul>
-                    <div class="card-body">
-                        <h5 class="card-title">Location of the device</h5>
-                        <div id='map' class="map-for-details"></div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Last record from device</h5>
-                        <p class="card-text text-justify">Here are the last data recorded.</p>
-                    </div>
-                    <ul id="last_data" class="list-group list-group-flush">
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-7 col-lg-8 col-details">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-6">
-                                <h4 class="card-title">Data charts</h4>
-                                <p class="card-text text-justify">
-                                    You can display a chart containing one or many parameters over time by selecting the
-                                    parameters.
-                                    You can then interact with the charts below.
-                                    For instance, click and drag in the plot area to zoom in on desktop or pinch the
-                                    chart to zoom in you can on touchscreen.
-                                    You can display or remove parameters by clicking n their names in the legend.
-                                    If only one parameter is selected, lines added represent the recommended values from
-                                    the
-                                    <a href="https://airindex.eea.europa.eu/" target="_blank">European Air Quality
-                                        Index</a>.
-                                </p>
+    <main class="main">
+        <div class="card card-margins-bis">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="scroll-about">
+                            <h4>Sections</h4>
+                            <div id="list-about" class="list-group">
+                                <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                                <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                                <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                                <a class="list-group-item list-group-item-action active" href="#list-item-4">Item 4</a>
                             </div>
-                            <div class="col-md-12 col-lg-6">
-                                <h4 class="card-title">Select parameter(s)</h4>
-                                <select id="select-parameters" class="custom-select" multiple size="5">
-                                </select>
+                            <br>
+                            <h4>References</h4>
+                            <div class="list-group">
+                                <a class="list-group-item list-group-item-action" href="#">Item 1</a>
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12 col-md-8">
+                        <div class="scroll-about" data-spy="scroll" data-target="#list-about" data-offset="0">
+                            <h4 id="list-item-1">Why it is important to care about air pollution?</h4>
+                            <p>Ex consequat commodo adipisicing exercitation aute excepteur occaecat ullamco duis aliqua
+                                id
+                                magna ullamco eu. Do aute ipsum ipsum ullamco cillum consectetur ut et aute consectetur
+                                labore.
+                                Fugiat laborum incididunt tempor eu consequat enim dolore proident. Qui laborum do non
+                                excepteur
+                                nulla magna eiusmod consectetur in. Aliqua et aliqua officia quis et incididunt
+                                voluptate non
+                                anim reprehenderit adipisicing dolore ut consequat deserunt mollit dolore. Aliquip nulla
+                                enim
+                                veniam non fugiat id cupidatat nulla elit cupidatat commodo velit ut eiusmod cupidatat
+                                elit
+                                dolore.</p>
+                            <h4 id="list-item-2">Why creating such a platform?</h4>
+                            <p>Quis magna Lorem anim amet ipsum do mollit sit cillum voluptate ex nulla tempor. Laborum
+                                consequat non elit enim exercitation cillum aliqua consequat id aliqua. Esse ex
+                                consectetur
+                                mollit voluptate est in duis laboris ad sit ipsum anim Lorem. Incididunt veniam velit
+                                elit elit
+                                veniam Lorem aliqua quis ullamco deserunt sit enim elit aliqua esse irure. Laborum nisi
+                                sit est
+                                tempor laborum mollit labore officia laborum excepteur commodo non commodo dolor
+                                excepteur
+                                commodo. Ipsum fugiat ex est consectetur ipsum commodo tempor sunt in proident.</p>
+                            <h4 id="list-item-3">How it works</h4>
+                            <p>Quis anim sit do amet fugiat dolor velit sit ea ea do reprehenderit culpa duis. Nostrud
+                                aliqua
+                                ipsum fugiat minim proident occaecat excepteur aliquip culpa aute tempor reprehenderit.
+                                Deserunt
+                                tempor mollit elit ex pariatur dolore velit fugiat mollit culpa irure ullamco est ex
+                                ullamco
+                                excepteur.</p>
+                            <h4 id="list-item-4">Using an air quality index</h4>
+                            <p>Quis anim sit do amet fugiat dolor velit sit ea ea do reprehenderit culpa duis. Nostrud
+                                aliqua
+                                ipsum fugiat minim proident occaecat excepteur aliquip culpa aute tempor reprehenderit.
+                                Deserunt
+                                tempor mollit elit ex pariatur dolore velit fugiat mollit culpa irure ullamco est ex
+                                ullamco
+                                excepteur.</p>
+                        </div>
+                    </div>
                 </div>
-                <br>
-                <div id="graphs" style="width:100%; height:400px;"></div>
             </div>
         </div>
     </main>
@@ -199,10 +213,6 @@
             </div>
         </div>
     </div>
-
-    <div id="data_res">{{data.data}}</div>
-    <div id="last_record">{{data.last_record}}</div>
-    <div id="eu_aqi">{{data.eu_aqi}}</div>
 
     <!-- Cookie alert with bootstrap from https://github.com/Wruczek/Bootstrap-Cookie-Alert MIT license can be commercialy used without credits -->
     <div class="alert text-center cookiealert" role="alert">

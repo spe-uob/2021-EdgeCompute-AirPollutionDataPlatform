@@ -1,8 +1,7 @@
 var CKAN = require('ckan')
 const client = new CKAN.Client('http://ckan.bitvijays.local');
-const limitData = 999;
 
-function getDataFromDataset(datasetID) {
+function getDataFromDatasetLimited(datasetID, limitData) {
     return new Promise((resolve, reject) => {
         client.action('datastore_search', { resource_id: datasetID, limit: limitData }, (error, out) => {
             if (error) {
@@ -14,14 +13,44 @@ function getDataFromDataset(datasetID) {
     });
 }
 
-function getDataFDOverTime(datasetID, geojsonData) {
+function getDataFromDataset(data) {
+    return new Promise((resolve, reject) => {
+        client.action('datastore_search', data, (error, out) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(out);
+            }
+        });
+    });
+}
+
+function getDataFDOverTimeHourly(datasetID, geojsonData, limitData) {
     return new Promise((resolve, reject) => {
         var data = {
             resource_id: datasetID,
-            q: {geojson: JSON.stringify(geojsonData)},
+            q: { geojson: JSON.stringify(geojsonData) },
             sort: "date_time desc",
-            limit: 999
-          };
+            limit: limitData
+        };
+        client.action('datastore_search', data, (error, out) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(out);
+            }
+        });
+    });
+}
+
+function getDataFDOverTimeYearly(datasetID, geojsonData, limitData) {
+    return new Promise((resolve, reject) => {
+        var data = {
+            resource_id: datasetID,
+            q: { geojson: JSON.stringify(geojsonData) },
+            sort: "year desc",
+            limit: limitData
+        };
         client.action('datastore_search', data, (error, out) => {
             if (error) {
                 reject(error);
@@ -56,17 +85,55 @@ function getPackageFromDatasetPr(datasetID) {
     });
 }
 
+function getDatasetNamePr(datasetID) {
+    return new Promise((resolve, reject) => {
+        client.action('resource_show', { id: datasetID }, (error, out) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(out);
+            }
+        });
+    });
+}
+
+function getFieldsPr(datasetID) {
+    return new Promise((resolve, reject) => {
+        var data = {
+            resource_id: datasetID,
+            limit: 0
+        };
+        client.action('datastore_search', data, (error, out) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(out);
+            }
+        });
+    });
+}
+
 class DatasetDao {
-    async getData(datasetID) {
-        const response = await getDataFromDataset(datasetID);
+    async getData(datasetID, limitData) {
+        const response = await getDataFromDatasetLimited(datasetID, limitData);
         return response.result;
     }
 
-    async getDataOverTime(datasetID, geojson) {
-        const response = await getDataFDOverTime(datasetID, geojson);
+    async getDataAPI(data) {
+        const response = await getDataFromDataset(data);
         return response.result;
     }
-    
+
+    async getDataOverTimeHourly(datasetID, geojson, limitData) {
+        const response = await getDataFDOverTimeHourly(datasetID, geojson, limitData);
+        return response.result;
+    }
+
+    async getDataOverTimeYearly(datasetID, geojson, limitData) {
+        const response = await getDataFDOverTimeYearly(datasetID, geojson, limitData);
+        return response.result;
+    }
+
     async getPackageFromDataset(datasetID) {
         const response = await getPackageFromDatasetPr(datasetID);
         return response.result.package_id;
@@ -75,9 +142,19 @@ class DatasetDao {
     async getPackageNameFromPackageID(packageID) {
         const response = await getPackageNameFromPackageIDPr(packageID);
         return {
-            package_name: response.result.title, 
+            package_name: response.result.title,
             organization: response.result.organization.title
         };
+    }
+
+    async getDatasetName(datasetID) {
+        const response = await getDatasetNamePr(datasetID);
+        return response.result.name;
+    }
+
+    async getDatasetFields(datasetID) {
+        const response = await getFieldsPr(datasetID);
+        return response.result;
     }
 }
 
