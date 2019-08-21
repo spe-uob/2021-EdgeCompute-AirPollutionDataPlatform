@@ -220,7 +220,7 @@ $(document).ready(function () {
             }
         });
 
-        $("#map-legend-close").click(function (e) {
+        $("#map-legend").click("#map-legend-close", function (e) {
             e.preventDefault();
             mapLegendHidden = true;
             $('#map-legend').hide();

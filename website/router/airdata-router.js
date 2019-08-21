@@ -90,6 +90,18 @@ router.get('/aqi', async function (req, res, next) {
     }
 });
 
+router.get('/about', async function (req, res, next) {
+    try {
+        const aqi = await airdataService.getAQI();
+        res.render('about.html', {
+            code: 0,
+            aqiMust: aqi
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.get('/dataovertime', async function (req, res, next) {
     try {
         if (!('device' in req.query)) {

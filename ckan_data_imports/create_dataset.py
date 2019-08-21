@@ -338,6 +338,29 @@ co = {'id': 'co',
       }
       }
 
+# DEFRA AURN
+day = {'id': 'day',
+            'type': 'text',
+            "info": {
+                "label": "Day",
+                "notes": "Day of the record"
+            }
+            }
+wd = {'id': 'wd',
+       'type': 'float',
+       "info": {
+           "label": "Wind Direction",
+           "notes": "Wind Direction"
+       }
+       }
+ws = {'id': 'ws',
+      'type': 'float',
+      "info": {
+            "label": "Wind Speed",
+            "notes": "Wind Speed"
+      }
+      }
+
 # UNITS
 reading = {'id': 'reading',
            'type': 'text',
@@ -424,6 +447,10 @@ smart_citizen_fields_data = [deviceid, date_time, geojson, tvoc, eCO2,
                              light, battery, noise, pressure, pm1,
                              pm25, pm10, no2, co, rh, temperature]
 
+# DEFRA AURN
+defra_aurn_fields_data = [recordid, day, geojson,
+                          pm25, pm10, no, nox, no2, ws, wd, location]
+
 # UNITS
 units_fields_data = [reading, unit]
 
@@ -434,6 +461,11 @@ hourly_point_aggregation_fields_data = [recordid, date_time, geojson,
                                         temperature, rh, tvoc, eCO2, light,
                                         battery, noise, pressure, location,
                                         siteid]
+
+# AIR POLLUTION DAILY AGGREGATION
+daily_point_aggregation_fields_data = [recordid, day, geojson,
+                                       dataset_name, dataset_id, pm25,
+                                       pm10, no, nox, no2, ws, wd, location]
 
 # AIR POLLUTION YEARLY POLYGON AGGREGATION
 yearly_polygon_aggregation_fields_data = [recordid, year, geojson, dataset_name,
@@ -465,6 +497,6 @@ necessary_fields_fields_data = [geometry, necessary_fields]
 try:
     #utils.ckan_create_from_scratch("", , [])
     print("done")
-    
 except Exception as exception_returned:
     print(exception_returned)
+

@@ -61,6 +61,12 @@ RECORDS_POINT = [
     }, {
         "reading": "battery",
         "unit": "%"
+    }, {
+        "reading": "wd",
+        "unit": "°"
+    }, {
+        "reading": "ws",
+        "unit": "m/s"
     }
 ]
 
@@ -111,7 +117,7 @@ RECORDS_POLYGON = [
 ]
 
 try:
-    #utils.ckan_upsert(ID_UNITS, RECORDS_HOUR_POINT)
-    #utils.ckan_upsert(ID_UNITS, RECORDS_YEAR_POLYGON)
+    #utils.ckan_upsert(ID_UNITS, RECORDS_POINT)
+    #utils.ckan_upsert(ID_UNITS, RECORDS_POLYGON)
 except Exception as exception_returned:
     print(exception_returned)

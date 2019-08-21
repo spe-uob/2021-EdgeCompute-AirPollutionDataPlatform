@@ -13,13 +13,7 @@ import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-ID_AIRQUALITYDATACONTINUOUS = "9bdded4d-17a7-4cf2-95ab-621ca856e4e4"
-ID_WARDS = "2be61e5f-d0e8-4328-b467-fa6c923dacb8"
-ID_CARAVAILABILITY = "597c07fd-231c-4693-9787-284470abb2ee"
-ID_NO2 = "e87634f2-58e7-4db8-a677-a513f4d6705b"
-ID_POPULATIONESTIMATES = "3f6fc44e-2fdc-44f6-8edd-f338ed3f2467"
-
-def get_hourly_data(url, last_date_to_retrieve, id_hourlypointdataset):
+def get_hourly_data(url, last_date_to_retrieve, id_hourlypointdataset, id_air_quality_data_continuous):
     """
     Get data every hour and push to the necessary datasets
 
@@ -27,10 +21,23 @@ def get_hourly_data(url, last_date_to_retrieve, id_hourlypointdataset):
     url -- the url to get the data
     last_date_to_retrieve -- the date to retrieve
     id_dataset -- the id of the dataset to push data every hour
+    id_air_quality_data_continuous -- id of the air quality continuous dataset
     """
-    push_airqualitydatacontinous(url, last_date_to_retrieve, id_hourlypointdataset)
+    push_airqualitydatacontinous(url, last_date_to_retrieve, id_hourlypointdataset, id_air_quality_data_continuous)
 
-def get_yearly_data(url, last_year_to_retrieve, id_yearlypolygondataset, id_yearlypointdataset):
+def get_yearly_data_point(url, last_year_to_retrieve, id_yearlypointdataset, id_no2):
+    """
+    Get data every year and push to the necessary datasets
+
+    Keyword arguments:
+    url -- the url to get the data
+    last_year_to_retrieve -- the year to retrieve
+    id_yearlypointdataset -- the id of the point dataset to push data every year
+    id_no2 -- the id of the no2 dataset
+    """
+    push_no2(url, last_year_to_retrieve, id_yearlypointdataset, id_no2)
+
+def get_yearly_data_polygon(url, last_year_to_retrieve, id_yearlypolygondataset, id_car_availability, id_wards, id_population_estimates):
     """
     Get data every year and push to the necessary datasets
 
@@ -38,18 +45,19 @@ def get_yearly_data(url, last_year_to_retrieve, id_yearlypolygondataset, id_year
     url -- the url to get the data
     last_year_to_retrieve -- the year to retrieve
     id_yearlypolygondataset -- the id of the polygon dataset to push data every year
-    id_yearlypolygondataset -- the id of the point dataset to push data every year
+    id_car_availability -- the id of the car availaibility dataset
+    id_wards -- the id of the wards dataset
+    id_population_estimates -- the id of the population estimates dataset
     """
-    wards = push_wards(url)
-    cars = push_caravailability(url)
+    wards = push_wards(url, id_wards)
+    cars = push_caravailability(url, id_car_availability)
     if (wards is not None) and (cars is not None):
-        push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars)
-    push_no2(url, last_year_to_retrieve, id_yearlypointdataset)
-    push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset)
+        push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars, id_car_availability)
+    push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset, id_population_estimates)
 
 ####### AIR QUALITY DATA CONTINUOUS ########
 
-def push_airqualitydatacontinous(url, last_date_to_retrieve, id_hourlypointdataset):
+def push_airqualitydatacontinous(url, last_date_to_retrieve, id_hourlypointdataset, id_air_quality_data_continuous):
     """
     Push data to the necessary datasets
 
@@ -57,11 +65,12 @@ def push_airqualitydatacontinous(url, last_date_to_retrieve, id_hourlypointdatas
     url -- the url to get the data
     last_date_to_retrieve -- date to retrieve
     id_dataset -- the id of the dataset to push data every hour
+    id_air_quality_data_continuous -- id of the air quality continuous dataset
     """
     to_push = get_airqualitydatacontinous(url, last_date_to_retrieve)
     if to_push is not None:
-        utils.ckan_upsert(ID_AIRQUALITYDATACONTINUOUS, to_push)
-        push_to_hourly(id_hourlypointdataset, to_push)
+        utils.ckan_upsert(id_air_quality_data_continuous, to_push)
+        push_to_hourly(id_hourlypointdataset, to_push, id_air_quality_data_continuous)
 
 def get_airqualitydatacontinous(url, last_date_to_retrieve):
     """
@@ -133,32 +142,34 @@ def transform_aqdcontinuous(records):
             to_return.append(new_record)
     return to_return
 
-def push_to_hourly(id_hourlypointdataset, records):
+def push_to_hourly(id_hourlypointdataset, records, id_air_quality_data_continuous):
     """
     Push the data every hour to the aggregated dataset
 
     Keyword arguments:
     id_hourlypointdataset -- the id of the dataset where to push data
     records -- records that were pushed to the dataset
+    id_air_quality_data_continuous -- id of the air quality continuous dataset
     """
     for record in records:
-        record["dataset_id"] = ID_AIRQUALITYDATACONTINUOUS
+        record["dataset_id"] = id_air_quality_data_continuous
         record["dataset_name"] = "air-quality-data-continuous"
     utils.ckan_upsert(id_hourlypointdataset, records)
 
 ############################################
 ################ WARDS #####################
 
-def push_wards(url):
+def push_wards(url, id_wards):
     """
     Push data to the necessary datasets
 
     Keyword arguments:
     url -- the url to get the data
+    id_wards -- the id of the wards dataset
     """
     to_push = get_wards(url)
     if to_push is not None:
-        utils.ckan_upsert(ID_WARDS, to_push)
+        utils.ckan_upsert(id_wards, to_push)
         return to_push
     else:
         return None
@@ -220,16 +231,17 @@ def transform_wards(records):
 ############################################
 ############### CAR AVAILABILITY ###########
 
-def push_caravailability(url):
+def push_caravailability(url, id_car_availability):
     """
     Push data to the necessary datasets
 
     Keyword arguments:
     url -- the url to get the data
+    id_car_availability -- the id of the car availaibility dataset
     """
     to_push = get_caravailability(url)
     if to_push is not None:
-        utils.ckan_upsert(ID_CARAVAILABILITY, to_push)
+        utils.ckan_upsert(id_car_availability, to_push)
         return to_push
     else:
         return None
@@ -307,7 +319,7 @@ def transform_caravailability(records):
             to_return.append(new_record)
     return to_return
 
-def push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars):
+def push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars, id_car_availability):
     """
     Push the data every year to the aggregated dataset
 
@@ -315,6 +327,7 @@ def push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars):
     id_yearlypolygondataset -- the id of the dataset where to push data
     wards -- wards that were pushed to the dataset
     cars -- cars data that were pushed to the dataset
+    id_car_availability -- the id of the car availaibility dataset
     """
     new_cars = []
     for car in cars:
@@ -336,14 +349,14 @@ def push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars):
                                                     '%Y-%m-%dT%H:%M:%S+00:00').year)
         except KeyError:
             pass
-        new_car["dataset_id"] = ID_CARAVAILABILITY
+        new_car["dataset_id"] = id_car_availability
         new_car["dataset_name"] = "car-availability-by-ward"
     utils.ckan_upsert(id_yearlypolygondataset, new_cars)
 
 ############################################
 ## AIR QUALITY (NO2 DIFFUSION TUBE) DATA ###
 
-def push_no2(url, last_year_to_retrieve, id_yearlypointdataset):
+def push_no2(url, last_year_to_retrieve, id_yearlypointdataset, id_no2):
     """
     Push data to the necessary datasets
 
@@ -351,11 +364,12 @@ def push_no2(url, last_year_to_retrieve, id_yearlypointdataset):
     url -- the url to get the data
     last_year_to_retrieve -- year to retrieve
     id_yearlypointdataset -- the id of the dataset to push data every year
+    id_no2 -- the id of the no2 dataset
     """
     to_push = get_no2(url, last_year_to_retrieve)
     if to_push is not None:
-        utils.ckan_upsert(ID_NO2, to_push)
-        push_to_yearly_point(id_yearlypointdataset, to_push)
+        utils.ckan_upsert(id_no2, to_push)
+        push_to_yearly_point(id_yearlypointdataset, to_push, id_no2)
 
 def get_no2(url, last_year_to_retrieve):
     """
@@ -413,23 +427,24 @@ def transform_no2(records):
             to_return.append(new_record)
     return to_return
 
-def push_to_yearly_point(id_yearlypointdataset, records):
+def push_to_yearly_point(id_yearlypointdataset, records, id_no2):
     """
     Push the data every year to the aggregated dataset
 
     Keyword arguments:
     id_yearlypointdataset -- the id of the dataset where to push data
     records -- records that were pushed to the dataset
+    id_no2 -- the id of the no2 dataset
     """
     for record in records:
-        record["dataset_id"] = ID_NO2
+        record["dataset_id"] = id_no2
         record["dataset_name"] = "air-quality-no2-diffusion-tube-data"
     utils.ckan_upsert(id_yearlypointdataset, records)
 
 ############################################
 ######### POPULATION ESTIMATES #############
 
-def push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset):
+def push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset, id_population_estimates):
     """
     Push data to the necessary datasets
 
@@ -437,11 +452,12 @@ def push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset
     url -- the url to get the data
     last_year_to_retrieve -- year to retrieve
     id_yearlypolygondataset -- the id of the dataset to push data every year
+    id_population_estimates -- the id of the population estimates dataset
     """
     to_push = get_populationestimates(url, last_year_to_retrieve)
     if to_push is not None:
-        utils.ckan_upsert(ID_POPULATIONESTIMATES, to_push)
-        push_to_yearly_poly_popest(id_yearlypolygondataset, to_push)
+        utils.ckan_upsert(id_population_estimates, to_push)
+        push_to_yearly_poly_popest(id_yearlypolygondataset, to_push, id_population_estimates)
 
 def get_populationestimates(url, last_year_to_retrieve):
     """
@@ -499,16 +515,17 @@ def transform_populationestimates(records):
             to_return.append(new_record)
     return to_return
 
-def push_to_yearly_poly_popest(id_yearlypolygondataset, records):
+def push_to_yearly_poly_popest(id_yearlypolygondataset, records, id_population_estimates):
     """
     Push the data every year to the aggregated dataset
 
     Keyword arguments:
     id_yearlypolygondataset -- the id of the dataset where to push data
     records -- records that were pushed to the dataset
+    id_population_estimates -- the id of the population estimates dataset
     """
     for record in records:
-        record["dataset_id"] = ID_POPULATIONESTIMATES
+        record["dataset_id"] = id_population_estimates
         record["dataset_name"] = "population-estimates"
     utils.ckan_upsert(id_yearlypolygondataset, records)
 

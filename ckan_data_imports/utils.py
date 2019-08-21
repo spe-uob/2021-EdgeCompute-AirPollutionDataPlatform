@@ -17,7 +17,6 @@ LOGGER = logging.getLogger('ckan_import_default_log')
 
 REMOTE_CONTROL = ckanapi.RemoteCKAN(
     'http://localhost', apikey='7b470db5-0e89-4a02-90a9-6fcdab52a0d5')
-DEFRA_AURN_FILES_FOLDER = "/home/kevin/import_scripts/defra_aurn_imports/"
 
 def get_data(url_param, dataset_params):
     """
@@ -43,22 +42,24 @@ def get_data(url_param, dataset_params):
         LOGGER.error(exception_returned)
         return None
 
-def get_defra_data(file):
+def get_defra_data(file, files_folder_defra_aurn):
     """
     Get data from csv file of defra
 
     Keyword arguments:
     file -- name of the file
+    files_folder_defra_aurn -- folder for the files
     """
     try:
-        with open(DEFRA_AURN_FILES_FOLDER+file) as file_opened:
-            res = [{k: int(v) for \
-                    k, v in row.items()} for \
-                    row in csv.DictReader(file_opened, skipinitialspace=True)]
-            reader = csv.DictReader(file_opened)
-            list_read = list(reader)
-            print(list_read)
-        return res
+        reader = csv.reader(open(files_folder_defra_aurn+file+".csv"))
+        result = []
+        for row in reader:
+                if (row != ""):
+                        #key = row[0]
+                        result.append(row[1:])
+        return result
+    except IOError:
+        LOGGER.warning("There is no file "+file+".csv which probably means this station is no longer sustained by DEFRA AURN")    
     except Exception as exception_returned:
         LOGGER.error(exception_returned)
         return None

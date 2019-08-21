@@ -23,3 +23,4 @@ def rmv_and_create_dataset_back(id_dataset, fields_data, primary_keys):
     """
     utils.ckan_delete(id_dataset, {})
     utils.ckan_create_after_delete(id_dataset, fields_data, primary_keys)
+    

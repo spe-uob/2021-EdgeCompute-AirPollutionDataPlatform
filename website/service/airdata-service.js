@@ -18,7 +18,7 @@ const areas = [{
         necessaryFields: "6a0c2e53-f6a8-4198-bd52-c9655890e381",
         pointIDS: {
             Yearly: "0e6c4aaa-eef3-41a1-b70c-fb3a826a27be",
-            Daily: null,
+            Daily: "7e96b4d8-854c-489a-94aa-1f9c19bedd07",
             Hourly: "665b5270-9867-4ba6-889d-c9d5c46e310f"
 
         },
@@ -51,39 +51,35 @@ const areas = [{
 },
 {
     area: "London",
-    center: [-0.1, 51.49],
-    groupID: "8e049fd6-4407-4d7f-ad32-16a5d405790a",
+    center: [-0.129, 51.505],
+    groupID: "350f430f-8487-4a09-a193-d4f5652d644e",
     lastData: {
-        necessaryFields: "6a0c2e53-f6a8-4198-bd52-c9655890e381",
+        necessaryFields: "262940a0-7d73-4eb4-abf5-a7711cc025b5",
         pointIDS: {
-            Yearly: "0e6c4aaa-eef3-41a1-b70c-fb3a826a27be",
-            Daily: null,
-            Hourly: "665b5270-9867-4ba6-889d-c9d5c46e310f"
-        },
-        polygonIDS: {
-            Yearly: "eb10e278-9766-4f12-9f1d-cf9dbce8bec4"
+            Daily: "06f747ed-0b42-4350-8aef-bd761589b3f8",
+            Hourly: "341031b0-8fee-469a-accc-b1dccc1d738c"
         }
     },
     polygon: [
         [
-            -2.8784179687499996,
-            51.36406405506362
+            -0.6207275390625,
+            51.17417731875822
         ],
         [
-            -2.4629974365234375,
-            51.36406405506362
+            0.3570556640625,
+            51.17417731875822
         ],
         [
-            -2.4629974365234375,
-            51.57749625888323
+            0.3570556640625,
+            51.81201099369774
         ],
         [
-            -2.8784179687499996,
-            51.57749625888323
+            -0.6207275390625,
+            51.81201099369774
         ],
         [
-            -2.8784179687499996,
-            51.36406405506362
+            -0.6207275390625,
+            51.17417731875822
         ]
     ]
 }];
@@ -367,7 +363,7 @@ function tryParseJSON(jsonString) {
 function checkDiameterArea(diameter, area) {
     if (diameter != null) {
         if (/^[+]?([0-9]*[.])?[0-9]{0,2}$/.test(diameter)) {
-            if (parseFloat(diameter) <= intervalSquareCellSize[1] && parseFloat(diameter) >= intervalSquareCellSize[0]){
+            if (parseFloat(diameter) <= intervalSquareCellSize[1] && parseFloat(diameter) >= intervalSquareCellSize[0]) {
                 if (area != null) {
                     if (/^[a-zA-Z]+$/.test(area)) {
                         return true;
@@ -721,7 +717,11 @@ class AirDataService {
         }
     }
 
-    async getCellValues(){
+    async getAQI() {
+        return eu_aqi;
+    }
+
+    async getCellValues() {
         return {
             size_default: squareCellSizeDefault,
             min: intervalSquareCellSize[0],
@@ -742,8 +742,8 @@ class AirDataService {
                             if ("pointIDS" in areaToTake.lastData) {
                                 const lastDataProps = Object.keys(areaToTake.lastData.pointIDS).reverse();
                                 var squareCell, results, sum, avg,
-                                squareCellData = {},
-                                fieldsToSend = [];
+                                    squareCellData = {},
+                                    fieldsToSend = [];
                                 for (var k = 0; k < listIndexes.length; k++) {
                                     squareCellData[listIndexes[k]] = [];
                                 }
@@ -950,7 +950,7 @@ class AirDataService {
             if (device.interval === "Hourly") {
                 data = await datasetDao.getDataOverTimeHourly(device.dataset_id, geojson, limitData);
             } else if (device.interval === "Daily") {
-                // Nothing yet
+                data = await datasetDao.getDataOverTimeDaily(device.dataset_id, geojson, limitData);
             } else if (device.interval === "Yearly") {
                 data = await datasetDao.getDataOverTimeYearly(device.dataset_id, geojson, limitData);
             } else {
@@ -984,7 +984,6 @@ class AirDataService {
 
     async getLists() {
         const datasets_list = await groupDao.packagesListWithResources();
-
         return {
             base: {
                 list_options: [{
@@ -1059,9 +1058,8 @@ class AirDataService {
             const dataset_name = await datasetDao.getDatasetName(dataset_id);
             response["resource_name"] = dataset_name;
             response["resource_info"] = package_name;
-            response["total_records_dataset"] = response["total"];
             response["total_records_result"] = response["records"].length;
-            return formatResp(response, ["resource_name", "resource_id", "resource_info", "total_records_dataset", "total_records_result", "fields", "records"]);
+            return formatResp(response, ["resource_name", "resource_id", "resource_info", "total_records_result", "fields", "records"]);
         } else {
             throw { name: "QueryParameterError", message: "The parameter given does not respect the format required." };
         }

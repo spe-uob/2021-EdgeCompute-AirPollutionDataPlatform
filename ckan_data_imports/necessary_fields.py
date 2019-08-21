@@ -10,9 +10,10 @@ import utils
 
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
-ID_NECESSARY_FIELDS = "6a0c2e53-f6a8-4198-bd52-c9655890e381"
+ID_BRISTOL_NECESSARY_FIELDS = "6a0c2e53-f6a8-4198-bd52-c9655890e381"
+ID_LONDON_NECESSARY_FIELDS = "262940a0-7d73-4eb4-abf5-a7711cc025b5"
 
-RECORDS_NECESSARY_FIELDS = [
+RECORDS_BRISTOL_NECESSARY_FIELDS = [
     {
         "geometry": "Point",
         "necessary_fields": ["pm1",
@@ -29,7 +30,9 @@ RECORDS_NECESSARY_FIELDS = [
                              "eCO2",
                              "light",
                              "noise",
-                             "pressure"]
+                             "pressure",
+                             "ws",
+                             "wd"]
     }, {
         "geometry": "Polygon",
         "necessary_fields": ["population_estimate",
@@ -49,7 +52,32 @@ RECORDS_NECESSARY_FIELDS = [
     }
 ]
 
+RECORDS_LONDON_NECESSARY_FIELDS = [
+    {
+        "geometry": "Point",
+        "necessary_fields": ["pm1",
+                             "pm25",
+                             "pm10",
+                             "no",
+                             "nox",
+                             "no2",
+                             "o3",
+                             "co",
+                             "temperature",
+                             "rh",
+                             "tvoc",
+                             "eCO2",
+                             "light",
+                             "noise",
+                             "pressure",
+                             "ws",
+                             "wd"]
+    }
+]
+
 try:
-    utils.ckan_upsert(ID_NECESSARY_FIELDS, RECORDS_NECESSARY_FIELDS)
+    #utils.ckan_upsert(ID_LONDON_NECESSARY_FIELDS, RECORDS_LONDON_NECESSARY_FIELDS)
+    print("done")
 except Exception as exception_returned:
     print(exception_returned)
+

@@ -183,7 +183,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         color = colors[assoColors.length];
                         assoColors.push(record[property]);
                     }
-                } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "readings_count")) {
+                } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "day") || (property === "readings_count")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
@@ -294,7 +294,7 @@ function fillDeviceDetails() {
                     } else {
                         info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
                     }
-                } else if ((property === "year") || (property === "readings_count")) {
+                } else if ((property === "year") || (property === "readings_count") || (property === "day")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
@@ -530,7 +530,7 @@ function formatPopupPolygon(record, index, fields) {
                     } else {
                         info += '<li class="list-group-item">Dataset name: ' + record[property] + '</li>';
                     }
-                } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "readings_count") || (property === "wardid") || (property === "ward_name") || (property === "objectid") || (property === "lsoa11_code") || (property === "lsoa11_local_name")) {
+                } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "readings_count") || (property === "wardid") || (property === "ward_name") || (property === "objectid") || (property === "lsoa11_code") || (property === "lsoa11_local_name") || (property === "day")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
@@ -625,16 +625,16 @@ function buildDataTable(record, fields, aqi, results) {
                 } else {
                     if (infoField != null) {
                         if (infoField[2] != null) {
-                            returnElem += '<tr><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
+                            returnElem += '<tr class="' + classToAdd + '"><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
                                         <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + ' ' + infoField[2] + '</td>\
                                         <td></td></tr>';
                         } else {
-                            returnElem += '<tr><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
+                            returnElem += '<tr class="' + classToAdd + '"><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
                                         <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
                                         <td></td></tr>';
                         }
                     } else {
-                        returnElem += '<tr><th scope="row">' + property + '</th>\
+                        returnElem += '<tr class="' + classToAdd + '"><th scope="row">' + property + '</th>\
                                     <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
                                     <td></td></tr>';
                     }
@@ -781,11 +781,11 @@ function displayPolygonCollection() {
         }
     });
 
-    if (aqi[0].index_levels.length > 0) {
+    if (results.aqi[0].index_levels.length > 0) {
         var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Levels</span></a></h4>';
-        for (var k = 0; k < aqi[0].index_levels.length; k++) {
-            if ("color" in aqi[0].index_levels[k] && "name" in aqi[0].index_levels[k])
-                elemStr += '<div><span style="background-color: ' + aqi[0].index_levels[k].color + '"></span>' + aqi[0].index_levels[k].name + '</div>';
+        for (var k = 0; k < results.aqi[0].index_levels.length; k++) {
+            if ("color" in results.aqi[0].index_levels[k] && "name" in results.aqi[0].index_levels[k])
+                elemStr += '<div><span style="background-color: ' + results.aqi[0].index_levels[k].color + '"></span>' + results.aqi[0].index_levels[k].name + '</div>';
         }
         elemStr += '<div><span style="border: 1px solid black; background-color: white"></span>No data found in this cell</div>'
         $("#map-legend").prepend(elemStr);

@@ -23,7 +23,6 @@ function getLineTitle(unit, info) {
 }
 
 function recreateGraph(list_parameters) {
-    console.log(list_parameters);
     if (list_parameters.length > 0) {
         const fields = JSON.parse($("#data_res").text()).fields;
         const records = JSON.parse($("#data_res").text()).records;
@@ -104,6 +103,9 @@ function recreateGraph(list_parameters) {
                         dataToAdd.push([dateToPush, record[list_parameters[i]]]);
                     } else if (record.hasOwnProperty("year")) {
                         dateToPush = (new Date(record["year"] + "-01-01T00:00Z")).getTime();
+                        dataToAdd.push([dateToPush, record[list_parameters[i]]]);
+                    } else if (record.hasOwnProperty("day")) {
+                        dateToPush = (new Date(record["day"] + "T00:00Z")).getTime();
                         dataToAdd.push([dateToPush, record[list_parameters[i]]]);
                     }
                 }

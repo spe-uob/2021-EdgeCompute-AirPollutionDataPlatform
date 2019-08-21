@@ -43,6 +43,24 @@ function getDataFDOverTimeHourly(datasetID, geojsonData, limitData) {
     });
 }
 
+function getDataFDOverTimeDaily(datasetID, geojsonData, limitData) {
+    return new Promise((resolve, reject) => {
+        var data = {
+            resource_id: datasetID,
+            q: { geojson: JSON.stringify(geojsonData) },
+            sort: "day desc",
+            limit: limitData
+        };
+        client.action('datastore_search', data, (error, out) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(out);
+            }
+        });
+    });
+}
+
 function getDataFDOverTimeYearly(datasetID, geojsonData, limitData) {
     return new Promise((resolve, reject) => {
         var data = {
@@ -126,6 +144,11 @@ class DatasetDao {
 
     async getDataOverTimeHourly(datasetID, geojson, limitData) {
         const response = await getDataFDOverTimeHourly(datasetID, geojson, limitData);
+        return response.result;
+    }
+
+    async getDataOverTimeDaily(datasetID, geojson, limitData) {
+        const response = await getDataFDOverTimeDaily(datasetID, geojson, limitData);
         return response.result;
     }
 

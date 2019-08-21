@@ -27,7 +27,7 @@ function getPackagesList(areaID) {
 
 function getPackagesListWithResources() {
     return new Promise((resolve, reject) => {
-        client.action('current_package_list_with_resources', {}, (error, out) => {
+        client.action('current_package_list_with_resources', {limit: 1000, page: 1}, (error, out) => {
             if (error) {
                 reject(error);
             } else {

@@ -4,7 +4,6 @@ var path = require("path");
 var bodyParser = require('body-parser');
 var xssFilter = require('./middleware/xss-filter');
 var mustache = require('mustache-express');
-
 var app = express();
 
 // middlewares
@@ -24,10 +23,6 @@ app.get('/', function (req, res) {
 
 app.get('/fromlocation', function (req, res) {
 	res.sendFile('public/views/fromlocation.html', { root: __dirname });
-});
-
-app.get('/about', function (req, res) {
-	res.sendFile('public/views/about.html', { root: __dirname });
 });
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));

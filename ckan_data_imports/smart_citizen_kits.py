@@ -12,10 +12,6 @@ import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-ID_SMARTCITIZENKITS = "2398321b-cb1b-43da-8d33-c33f4c37b1dd"
-# List of geohashes covering Bristol in order to know from which kits to take the data
-BRISTOL_GEOHASHES = ["gcnh", "gcnj"]
-BRISTOL_CENTER = "51.456074, -2.605626"
 READING_NAMES = [
     "TVOC",
     "eCO2",
@@ -47,7 +43,7 @@ EQUI_READING_NAMES = [
     "temperature"
 ]
 
-def get_hourly_data(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset):
+def get_hourly_data(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset, id_sck, geohashes, center):
     """
     Get Smart Citizen Kit data every hour and push to the necessary datasets
 
@@ -56,12 +52,15 @@ def get_hourly_data(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, 
     first_date_to_retrieve_SCK -- the start of the hour
     last_date_to_retrieve_SCK -- the end of the hour
     id_dataset -- the id of the dataset to push data every hour
+    id_sck -- id of the sck dataset
+    geohashes -- geohashes to cover
+    center -- center of the area
     """
-    push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset)
+    push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset, id_sck, geohashes, center)
 
 ####### SMART CITIZEN KITS ########
 
-def push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset):
+def push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve_sck, id_dataset, id_sck, geohashes, center):
     """
     Push Smart Citizen Kit data to the necessary datasets
 
@@ -70,6 +69,9 @@ def push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve
     first_date_to_retrieve_sck -- the start of the hour
     last_date_to_retrieve_sck -- the end of the hour
     id_dataset -- the id of the dataset to push data every hour
+    id_sck -- id of the sck dataset
+    geohashes -- geohashes to cover
+    center -- center of the area
     """
     page = 1
     finish = False
@@ -77,11 +79,13 @@ def push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve
         result_from_get = get_smartcitizenkits(url,
                                                page,
                                                first_date_to_retrieve_sck,
-                                               last_date_to_retrieve_sck)
+                                               last_date_to_retrieve_sck,
+                                               geohashes,
+                                               center)
         if result_from_get is not None:
             if result_from_get["records"] is not None:
-                utils.ckan_upsert(ID_SMARTCITIZENKITS, result_from_get["records"])
-                push_to_hourly(id_dataset, result_from_get["records"])
+                utils.ckan_upsert(id_sck, result_from_get["records"])
+                push_to_hourly(id_dataset, result_from_get["records"], id_sck)
             if result_from_get["finish"]:
                 finish = True
             else:
@@ -89,7 +93,7 @@ def push_smartcitizenkits(url, first_date_to_retrieve_sck, last_date_to_retrieve
         else:
             finish = True
 
-def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_retrieve_sck):
+def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_retrieve_sck, geohashes, center):
     """
     Get the data from the url
 
@@ -98,9 +102,11 @@ def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_ret
     first_date_to_retrieve_sck -- the start of the hour
     last_date_to_retrieve_sck -- the end of the hour
     page -- page of the response
+    geohashes -- geohashes to cover
+    center -- center of the area
     """
     params = {
-        "near":BRISTOL_CENTER,
+        "near":center,
         "page":page
     }
     records = utils.get_data(url, params)
@@ -108,7 +114,8 @@ def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_ret
         if len(records) != 0:
             to_push = transform_smartcitizenkits(records,
                                                  first_date_to_retrieve_sck,
-                                                 last_date_to_retrieve_sck)
+                                                 last_date_to_retrieve_sck,
+                                                 geohashes)
             return to_push
         else:
             LOGGER.warning("Records imported from the Smart Citizen API are empty")
@@ -117,7 +124,7 @@ def get_smartcitizenkits(url, page, first_date_to_retrieve_sck, last_date_to_ret
         LOGGER.error("Records imported from the Smart Citizen API are NONE")
         return None
 
-def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to_retrieve_sck):
+def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to_retrieve_sck, geohashes):
     """
     Transform the data to records that can be pushed in the Smart Citizen dataset
 
@@ -125,6 +132,7 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
     records -- the records taken from the API
     first_date_to_retrieve_sck -- the start of the hour
     last_date_to_retrieve_sck -- the end of the hour
+    geohashes -- geohashes to cover
     """
     finished = False
     to_return = {}
@@ -141,7 +149,7 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
             if "location" in record_data and "sensors" in record_data:
                 location = record_data["location"]
                 if "geohash" in location:
-                    if test_record_in_zone(location):
+                    if test_record_in_zone(location, geohashes):
                         sensors = record_data["sensors"]
                         if "longitude" in location and "latitude" in location:
                             geo_json = {
@@ -184,16 +192,17 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
     }
     return to_return
 
-def test_record_in_zone(location):
+def test_record_in_zone(location, geohashes):
     """
     Test if the record is in the desirable location
 
     Keyword arguments:
     location -- location of the record
+    geohashes -- geohashes to cover
     """
     in_zone = False
     if location["country_code"] == "GB":
-        for elem in BRISTOL_GEOHASHES:
+        for elem in geohashes:
             if elem in location["geohash"]:
                 in_zone = True
     return in_zone
@@ -228,20 +237,21 @@ def get_data_by_sensor(device_id, sensor_id, first_date_to_retrieve_sck, last_da
                     return value
     return None
 
-def push_to_hourly(id_dataset, records):
+def push_to_hourly(id_dataset, records, id_sck):
     """
     Push the data every hour to the aggregated dataset
 
     Keyword arguments:
     id_dataset -- the id of the dataset where to push data
     records -- records that were pushed to the Smart Citizen dataset
+    id_sck -- id of the sck dataset
     """
     for record in records:
         try:
             record["recordid"] = record.pop("deviceid")
         except KeyError:
             pass
-        record["dataset_id"] = ID_SMARTCITIZENKITS
+        record["dataset_id"] = id_sck
         record["dataset_name"] = "smart-citizen-kits"
     utils.ckan_upsert(id_dataset, records)
 

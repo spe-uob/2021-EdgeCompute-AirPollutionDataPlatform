@@ -13,32 +13,32 @@ import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-ID_LUFTDATEN = "8c8389f9-3dac-4fa4-9170-69ef72af0cbb"
-
-def get_hourly_data(url, id_dataset):
+def get_hourly_data(url, id_dataset, id_luftdaten):
     """
     Get Luftdaten data every hour and push to the necessary datasets
 
     Keyword arguments:
     url -- the url to get the data
-    id_dataset -- the id of the dataset to push data every hour
+    id_dataset -- the id of the dataset to push data every hour,
+    id_luftdaten --  the id of the luftdaten dataset
     """
-    push_luftdaten(url, id_dataset)
+    push_luftdaten(url, id_dataset, id_luftdaten)
 
 ####### LUFTDATEN ########
 
-def push_luftdaten(url, id_dataset):
+def push_luftdaten(url, id_dataset, id_luftdaten):
     """
     Push Luftdaten data to the necessary datasets
 
     Keyword arguments:
     url -- the url to get the data
     id_dataset -- the id of the dataset to push data every hour
+    id_luftdaten --  the id of the luftdaten dataset
     """
     to_push = get_luftdaten(url)
     if to_push is not None:
-        utils.ckan_upsert(ID_LUFTDATEN, to_push)
-        push_to_hourly(id_dataset, to_push)
+        utils.ckan_upsert(id_luftdaten, to_push)
+        push_to_hourly(id_dataset, to_push, id_luftdaten)
 
 
 def get_luftdaten(url):
@@ -139,16 +139,17 @@ def transform_luftdaten(records):
             to_return.append(new_record)
     return to_return
 
-def push_to_hourly(id_dataset, records):
+def push_to_hourly(id_dataset, records, id_luftdaten):
     """
     Push the data every hour to the aggregated dataset
 
     Keyword arguments:
     id_dataset -- the id of the dataset where to push data
     records -- records that were pushed to the Luftdaten dataset
+    id_luftdaten --  the id of the luftdaten dataset
     """
     for record in records:
-        record["dataset_id"] = ID_LUFTDATEN
+        record["dataset_id"] = id_luftdaten
         record["dataset_name"] = "luftdaten"
     utils.ckan_upsert(id_dataset, records)
 
