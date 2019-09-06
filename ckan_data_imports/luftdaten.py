@@ -116,13 +116,12 @@ def transform_luftdaten(records):
                 new_record["date_time"] = datetime.strptime(record["timestamp"],
                                                             '%Y-%m-%d %H:%M:%S') \
                                                   .strftime("%Y-%m-%dT%H:%M:%S")
-            if ("longitude" in location) and ("latitude" in location) and ("altitude" in location):
+            if ("longitude" in location) and ("latitude" in location):
                 geo_json = {
                     "type": "Point",
                     "coordinates": [
                         float(location["longitude"]),
-                        float(location["latitude"]),
-                        float(location["altitude"])
+                        float(location["latitude"])
                     ]
                 }
                 geo_json = utils.fix_geojson(geo_json)
