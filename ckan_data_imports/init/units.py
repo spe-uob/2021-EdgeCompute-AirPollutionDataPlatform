@@ -10,7 +10,7 @@ import utils
 
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
-ID_UNITS = "10df8c8d-f681-4325-bf75-21064ba81a2f"
+ID_UNITS = "d6c9bb0e-aace-4133-962f-e2e65f745974"
 
 RECORDS_POINT = [
     {
@@ -117,7 +117,7 @@ RECORDS_POLYGON = [
 ]
 
 try:
-    #utils.ckan_upsert(ID_UNITS, RECORDS_POINT)
-    #utils.ckan_upsert(ID_UNITS, RECORDS_POLYGON)
+    utils.ckan_upsert(ID_UNITS, RECORDS_POINT)
+    utils.ckan_upsert(ID_UNITS, RECORDS_POLYGON)
 except Exception as exception_returned:
     print(exception_returned)

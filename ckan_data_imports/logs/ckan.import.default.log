@@ -1,0 +1,156 @@
+2020-04-15T20:28:01 - utils.py - ckan_delete - INFO - Data was deleted from dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03
+2020-04-15T20:28:01 - utils.py - ckan_create_after_delete - INFO - Structure of dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03 was (re)created
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file brs8.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file br11.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - ckan_delete - ERROR - Data was not deleted from the dataset of id 06f747ed-0b42-4350-8aef-bd761589b3f8
+2020-04-15T20:28:01 - utils.py - ckan_delete - ERROR - Not found
+2020-04-15T20:28:01 - utils.py - ckan_create_after_delete - ERROR - Structure of dataset of id 06f747ed-0b42-4350-8aef-bd761589b3f8 was not (re)created
+2020-04-15T20:28:01 - utils.py - ckan_create_after_delete - ERROR - {u'__type': u'Validation Error', u'resource_id': [u'Not found: Resource']}
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file a3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file bex.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file bren.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file bri.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file brn.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file by2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file by1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file cll2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file crd.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file ea8.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hg1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hg2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hg4.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hil.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hk4.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hors.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hr3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hrl.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file hs1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file ks1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file lon5.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file lon6.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file lw1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file my1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file sk1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file sk2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file sk5.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file sut1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file sut3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file ted.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file ted2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file th2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file wa2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:01 - utils.py - get_defra_data - WARNING - There is no file wl.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:01 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - ckan_delete - INFO - Data was deleted from dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03
+2020-04-15T20:28:39 - utils.py - ckan_create_after_delete - INFO - Structure of dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03 was (re)created
+2020-04-15T20:28:39 - utils.py - ckan_upsert - INFO - 1 records were upserted into the dataset of id 0ceda6f1-9ce0-4a54-96f5-9651a612cd20
+2020-04-15T20:28:39 - utils.py - ckan_upsert - INFO - 1 records were upserted into the dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03
+2020-04-15T20:28:39 - utils.py - ckan_upsert - INFO - 1 records were upserted into the dataset of id 0ceda6f1-9ce0-4a54-96f5-9651a612cd20
+2020-04-15T20:28:39 - utils.py - ckan_upsert - INFO - 1 records were upserted into the dataset of id 74928f7f-5e25-43cf-8a94-d330ff1f2c03
+2020-04-15T20:28:39 - utils.py - ckan_delete - ERROR - Data was not deleted from the dataset of id 06f747ed-0b42-4350-8aef-bd761589b3f8
+2020-04-15T20:28:39 - utils.py - ckan_delete - ERROR - Not found
+2020-04-15T20:28:39 - utils.py - ckan_create_after_delete - ERROR - Structure of dataset of id 06f747ed-0b42-4350-8aef-bd761589b3f8 was not (re)created
+2020-04-15T20:28:39 - utils.py - ckan_create_after_delete - ERROR - {u'__type': u'Validation Error', u'resource_id': [u'Not found: Resource']}
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file a3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file bex.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file bren.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file bri.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file brn.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file by2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file by1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file cll2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file crd.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file ea8.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hg1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hg2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hg4.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hil.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hk4.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hors.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hr3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hrl.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file hs1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file ks1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file lon5.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file lon6.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file lw1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file my1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file sk1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file sk2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file sk5.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file sut1.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file sut3.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file ted.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file ted2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file th2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file wa2.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE
+2020-04-15T20:28:39 - utils.py - get_defra_data - WARNING - There is no file wl.csv which probably means this station is no longer sustained by DEFRA AURN
+2020-04-15T20:28:39 - defra_aurn.py - get_aurn - WARNING - Records imported from Defra are NONE

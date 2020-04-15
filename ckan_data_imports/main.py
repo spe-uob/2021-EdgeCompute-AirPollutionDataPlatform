@@ -11,66 +11,66 @@ import sys
 import datetime
 from dateutil.relativedelta import relativedelta
 
-import log_config
-
-import open_bristol_data
-import luftdaten
-import defra_aurn
-import smart_citizen_kits
-import rmv_and_create_reccurent_datasets
-import utils
+from utility import log_config
+from plugins import open_bristol_data
+from plugins import luftdaten
+from plugins import defra_aurn
+from plugins import smart_citizen_kits
+from utility import rmv_and_create_reccurent_datasets
+from utility import utils
+from utility import config
+from utility import variables
 
 # LOGGER
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
 # GLOBAL VARIABLES
 ARG_COMMAND = sys.argv[1]
-
 AREAS = [
     {
         "name": "Bristol",
         "last_records": {
-            "necessary_fields": "6a0c2e53-f6a8-4198-bd52-c9655890e381",
+            "necessary_fields": "b6e26b86-6b32-4b38-b672-3f513e5a6bd4",
             "point_ids": {
-                "yearly": "0e6c4aaa-eef3-41a1-b70c-fb3a826a27be",
-                "daily": "7e96b4d8-854c-489a-94aa-1f9c19bedd07",
-                "hourly": "665b5270-9867-4ba6-889d-c9d5c46e310f"
+                "yearly": "00eb0180-0fe2-4a25-9137-7ca570d9efae",
+                "daily": "74928f7f-5e25-43cf-8a94-d330ff1f2c03",
+                "hourly": "565fa9e3-1644-44a5-aa38-5005b76cac24"
 
             },
             "polygon_ids": {
-                "yearly": "eb10e278-9766-4f12-9f1d-cf9dbce8bec4"
+                "yearly": "80956db6-336c-4e12-aba4-fc52057d9d69"
             }
         },
         "hour": {
             "luftdaten": {
                 "url": "http://api.luftdaten.info/v1/filter/area=51.454762,-2.597043,25",
-                "id": "8c8389f9-3dac-4fa4-9170-69ef72af0cbb"
+                "id": "5239cbd6-563e-44d3-aea0-3bfe9e8f9c31"
             },
             "sck": {
                 "url": "https://api.smartcitizen.me/v0/devices",
-                "id": "2398321b-cb1b-43da-8d33-c33f4c37b1dd",
+                "id": "011bfff3-24a4-4a09-80b1-97d1bd04395f",
                 "geohashes": ["gcnh", "gcnj"],
                 "center": "51.456074, -2.605626"
             },
             "open_data_bristol": {
                 "url": "https://opendata.bristol.gov.uk/api/records/1.0/search/",
-                "id_air_quality_data_continuous": "9bdded4d-17a7-4cf2-95ab-621ca856e4e4",
+                "id_air_quality_data_continuous": "af64436f-5171-4d6e-a13e-8caeeb5d1a4c",
             }
         },
         "day": {
             "defra_aurn": {
-                "files_folder": "/home/kevin/import_scripts/defra_aurn_imports/",
-                "id": "09d1c1a9-1364-4ef3-a56f-50614d1dad4f",
+                "files_folder": config.aurn_files_folder,
+                "id": "0ceda6f1-9ce0-4a54-96f5-9651a612cd20",
                 "stations": ["brs8", "br11"]
             }
         },
         "year": {
             "open_data_bristol": {
                 "url": "https://opendata.bristol.gov.uk/api/records/1.0/search/",
-                "id_wards": "2be61e5f-d0e8-4328-b467-fa6c923dacb8",
-                "id_car_availability": "597c07fd-231c-4693-9787-284470abb2ee",
-                "id_no2": "e87634f2-58e7-4db8-a677-a513f4d6705b",
-                "id_population_estimates": "3f6fc44e-2fdc-44f6-8edd-f338ed3f2467"
+                "id_wards": "b3464d18-23b3-407e-8a93-1b062ab8593b",
+                "id_car_availability": "95c09bf9-6438-4e57-9af2-784359fd97a0",
+                "id_no2": "a37a3f86-691e-4f7a-99c1-9225e40fb6bf",
+                "id_population_estimates": "5d22da6d-eea3-4ebd-a769-555c92253191"
             }
         }
     }, {
@@ -99,7 +99,7 @@ AREAS = [
         },
         "day": {
             "defra_aurn": {
-                "files_folder": "/home/kevin/import_scripts/defra_aurn_imports/",
+                "files_folder": config.aurn_files_folder,
                 "id": "09d1c1a9-1364-4ef3-a56f-50614d1dad4f",
                 "stations": ["a3", "bex", "bren",
                              "bri", "brn", "by2",
@@ -743,18 +743,21 @@ def do_year():
                                                                             last_year_to_retrieve,
                                                                             id_yearlypointdataset,
                                                                             id_no2)
+                        LOGGER.info("First If") 
                     if "polygon_ids" in area["last_records"]:
                         if "yearly" in area["last_records"]["polygon_ids"]:
                             id_yearlypolygondataset = area["last_records"]["polygon_ids"]["yearly"]
                             rmv_and_create_reccurent_datasets.rmv_and_create_dataset_back(id_yearlypolygondataset,
                                                                                           yearly_polygon_fields_data,
                                                                                           ["recordid"])
+                            LOGGER.info("Second If") 
                             if "open_data_bristol" in area["year"]:
                                 if "id_car_availability" in area["year"]["open_data_bristol"] and "url" in area["year"]["open_data_bristol"] and "id_wards" in area["year"]["open_data_bristol"] and "id_population_estimates" in area["year"]["open_data_bristol"]:
                                     url_open_bristol_data = area["year"]["open_data_bristol"]["url"]
                                     id_car_availability = area["year"]["open_data_bristol"]["id_car_availability"]
                                     id_wards = area["year"]["open_data_bristol"]["id_wards"]
                                     id_population_estimates = area["year"]["open_data_bristol"]["id_population_estimates"]
+                                    LOGGER.info("Inside if")
                                     open_bristol_data.get_yearly_data_polygon(url_open_bristol_data,
                                                                               last_year_to_retrieve,
                                                                               id_yearlypolygondataset,

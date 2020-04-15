@@ -10,7 +10,7 @@ and the aggregated air pollution datasets.
 import uuid
 from datetime import datetime
 import logging
-import utils
+from utility import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 

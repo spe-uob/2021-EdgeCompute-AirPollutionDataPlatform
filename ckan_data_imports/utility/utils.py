@@ -15,8 +15,7 @@ import ckanapi
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-REMOTE_CONTROL = ckanapi.RemoteCKAN(
-    'http://localhost', apikey='7b470db5-0e89-4a02-90a9-6fcdab52a0d5')
+REMOTE_CONTROL = ckanapi.RemoteCKAN('http://localhost', apikey='7edc79a0-bb46-41d5-a099-a71b8b8a93af')
 
 def get_data(url_param, dataset_params):
     """
@@ -127,7 +126,7 @@ def ckan_delete(resource_id, filters):
                      resource_id)
         LOGGER.error(exception_returned)
 
-def ckan_create_from_scratch(package_id, fields_data, primary_keys):
+def ckan_create_from_scratch(package_id, resource_name, fields_data, primary_keys):
     """
     Create dataset from scratch
 
@@ -137,7 +136,7 @@ def ckan_create_from_scratch(package_id, fields_data, primary_keys):
     primary_keys -- list of fields name which are primary keys
     """
     try:
-        _ = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id},
+        _ = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id, 'name':resource_name},
                                                      fields=fields_data,
                                                      primary_key=primary_keys,
                                                      calculate_record_count=True)
@@ -185,4 +184,3 @@ def fix_geojson(data):
             coordinates[k] = math.floor(tmp*10**5)/10**5
     data["coordinates"] = coordinates
     return data
-    

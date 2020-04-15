@@ -2,13 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-This script was made in order
-to be able to create a dataset
-in a package
+Header file to contain the variable defintions
 """
-
-import log_config
-import utils
 
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
@@ -493,10 +488,3 @@ yearly_point_aggregation_fields_data = [
 
 # NECESSARY FIELDS
 necessary_fields_fields_data = [geometry, necessary_fields]
-
-try:
-    #utils.ckan_create_from_scratch("", , [])
-    print("done")
-except Exception as exception_returned:
-    print(exception_returned)
-

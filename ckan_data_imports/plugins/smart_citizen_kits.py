@@ -8,7 +8,7 @@ and the aggregated air pollution datasets.
 """
 
 import logging
-import utils
+from utility import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
