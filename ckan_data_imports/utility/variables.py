@@ -5,8 +5,6 @@
 Header file to contain the variable defintions
 """
 
-LOGGER = log_config.setup_logger('ckan_import_default_log')
-
 # AIR QUALITY CONTINUOUS DATA
 
 recordid = {'id': 'recordid',
