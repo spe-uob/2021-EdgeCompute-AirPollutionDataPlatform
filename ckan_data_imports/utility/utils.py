@@ -15,7 +15,7 @@ import ckanapi
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-REMOTE_CONTROL = ckanapi.RemoteCKAN('http://localhost', apikey='7edc79a0-bb46-41d5-a099-a71b8b8a93af')
+REMOTE_CONTROL = ckanapi.RemoteCKAN('http://localhost', apikey='xxxxxxxxxxxxxxxxxx')
 
 def get_data(url_param, dataset_params):
     """
@@ -184,3 +184,12 @@ def fix_geojson(data):
             coordinates[k] = math.floor(tmp*10**5)/10**5
     data["coordinates"] = coordinates
     return data
+
+def create_org(name, description, image_url):
+    """
+    Function to create organisation in the CKAN
+    """
+    try:
+        _ = REMOTE_CONTROL.action.create.organization_create(name=name,description=description,image_url=image_url)
+    except Exception as exception_returned:
+        LOGGER.error("Organisation creations of %s failed", name)
