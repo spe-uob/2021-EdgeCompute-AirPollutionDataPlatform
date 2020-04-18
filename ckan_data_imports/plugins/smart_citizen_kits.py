@@ -12,6 +12,22 @@ from utility import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
+# ID of Sensors obtained from https://raw.githubusercontent.com/fablabbcn/smartcitizen-kit-21/master/lib/Sensors/Sensors.h
+READING_ID = [
+    113,
+    112,
+    14,
+    10,
+    53,
+    58,
+    89,
+    87,
+    88,
+    999,
+    999,
+    56,
+    55
+]
 READING_NAMES = [
     "TVOC",
     "eCO2",
@@ -167,9 +183,11 @@ def transform_smartcitizenkits(records, first_date_to_retrieve_sck, last_date_to
                                     reading_description = sensor["description"]
                                     new_record_rn = ""
                                     for k in range(len(READING_NAMES)):
-                                        if READING_NAMES[k] in reading_name:
+                                        if READING_ID[k] == sensor_id:
                                             new_record_rn = EQUI_READING_NAMES[k]
                                     if new_record_rn == "":
+                                        LOGGER.info("This code should never run! Condition should not be true")
+                                        LOGGER.info("Sensor ID is %s, Reading Name is %s", sensor_id, reading_name)
                                         for k in range(len(READING_NAMES)):
                                             if READING_NAMES[k] in reading_description:
                                                 new_record_rn = EQUI_READING_NAMES[k]
