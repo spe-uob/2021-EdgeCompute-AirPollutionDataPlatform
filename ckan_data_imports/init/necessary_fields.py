@@ -5,13 +5,14 @@
 This module inserts data into the necessary field dataset
 """
 
-import log_config
-import utils
+from utility import log_config
+from utility import utils
+from utility import config
 
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
-ID_BRISTOL_NECESSARY_FIELDS = "6a0c2e53-f6a8-4198-bd52-c9655890e381"
-ID_LONDON_NECESSARY_FIELDS = "262940a0-7d73-4eb4-abf5-a7711cc025b5"
+ID_BRISTOL_NECESSARY_FIELDS = config.dict_resource_id["resource_id_main_air_pollution_bristol_necessary"]
+#ID_LONDON_NECESSARY_FIELDS = "262940a0-7d73-4eb4-abf5-a7711cc025b5"
 
 RECORDS_BRISTOL_NECESSARY_FIELDS = [
     {
@@ -75,9 +76,11 @@ RECORDS_LONDON_NECESSARY_FIELDS = [
     }
 ]
 
-try:
-    #utils.ckan_upsert(ID_LONDON_NECESSARY_FIELDS, RECORDS_LONDON_NECESSARY_FIELDS)
-    print("done")
-except Exception as exception_returned:
-    print(exception_returned)
+def insert_necessary_fields():
+
+   try:
+       utils.ckan_upsert(ID_BRISTOL_NECESSARY_FIELDS, RECORDS_BRISTOL_NECESSARY_FIELDS)
+       print("done")
+   except Exception as exception_returned:
+       print(exception_returned)
 

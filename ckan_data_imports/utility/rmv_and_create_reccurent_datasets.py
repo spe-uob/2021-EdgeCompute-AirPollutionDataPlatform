@@ -8,7 +8,7 @@ and create the structure of the dataset again
 """
 
 import logging
-import utils
+from utility import utils
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 

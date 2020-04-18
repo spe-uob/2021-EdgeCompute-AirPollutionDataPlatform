@@ -10,14 +10,14 @@ resultStoreFiles<-function(vector_sites){
     meta <- importAURN(site = value, year = current_year, pollutant = "all",hc = FALSE, meta = TRUE, verbose = FALSE)
     if (!is.null(meta)){
       meta_day <- selectByDate(meta, start=previous_day, end=previous_day)
-      write.csv(meta_day, file = paste("/home/kevin/import_scripts/defra_aurn_imports/", value, ".csv", sep = "", collapse = ""))
+      write.csv(meta_day, file = paste("/home/ubuntu/AirPollutionDataPlatform/ckan_data_imports/plugins/defra_aurn_imports/", value, ".csv", sep = "", collapse = ""))
     }
   }
   return("Done")
 }
 
 london_sites <- c("a3", "bex", "bren", "bri", "brn", "by2", "by1", "cll2", "crd", "ea8", "hg1", "hg2", "hg4", "hil", "hk4", "hors", "hr3", "hrl", "hs1", "ks1", "lon5", "lon6", "lw1", "my1", "sk1", "sk2", "sk5", "sut1", "sut3", "ted", "ted2", "th2", "wa2", "wl")
-result <- resultStoreFiles(london_sites)
+#result <- resultStoreFiles(london_sites)
 
 bristol_sites <- c("brs8", "br11")
 result <- resultStoreFiles(bristol_sites)

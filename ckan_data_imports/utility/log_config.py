@@ -14,7 +14,7 @@ def setup_logger(name):
     Keyword arguments:
     name -- name of the logger
     """
-    logging.basicConfig(filename="/home/kevin/import_scripts/logs/ckan.import.default.log",
+    logging.basicConfig(filename="/home/ubuntu/AirPollutionDataPlatform/ckan_data_imports/logs/ckan.import.default.log",
                         filemode='a',
                         format='%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s',
                         datefmt='%Y-%m-%dT%H:%M:%S',
