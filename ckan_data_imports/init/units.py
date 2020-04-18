@@ -5,12 +5,13 @@
 This module inserts data into the units datasets
 """
 
-import log_config
-import utils
+from utility import log_config
+from utility import utils
+from utility import config
 
 LOGGER = log_config.setup_logger('ckan_import_default_log')
 
-ID_UNITS = "d6c9bb0e-aace-4133-962f-e2e65f745974"
+ID_UNITS = config.dict_resource_id["resource_id_main_units"]
 
 RECORDS_POINT = [
     {
@@ -116,8 +117,9 @@ RECORDS_POLYGON = [
     }
 ]
 
-try:
-    utils.ckan_upsert(ID_UNITS, RECORDS_POINT)
-    utils.ckan_upsert(ID_UNITS, RECORDS_POLYGON)
-except Exception as exception_returned:
-    print(exception_returned)
+def insert_units():
+   try:
+       utils.ckan_upsert(ID_UNITS, RECORDS_POINT)
+       utils.ckan_upsert(ID_UNITS, RECORDS_POLYGON)
+   except Exception as exception_returned:
+       print(exception_returned)

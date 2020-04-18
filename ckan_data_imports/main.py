@@ -20,6 +20,9 @@ from utility import rmv_and_create_reccurent_datasets
 from utility import utils
 from utility import config
 from utility import variables as var
+from init import init_ckan
+from init import units
+from init import necessary_fields
 
 # LOGGER
 LOGGER = log_config.setup_logger('ckan_import_default_log')
@@ -177,3 +180,8 @@ elif ARG_COMMAND == "day":
 
 elif ARG_COMMAND == "year":
     do_year()
+elif ARG_COMMAND == "init":
+    init_ckan.init_ckan()
+elif ARG_COMMAND == "units":
+    units.insert_units()
+    necessary_fields.insert_necessary_fields()

@@ -49,15 +49,11 @@ def get_yearly_data_polygon(url, last_year_to_retrieve, id_yearlypolygondataset,
     id_wards -- the id of the wards dataset
     id_population_estimates -- the id of the population estimates dataset
     """
-    LOGGER.info("Inside get yearly data polygon")
     wards = push_wards(url, id_wards)
 
-    LOGGER.info("After ward")
     cars = push_caravailability(url, id_car_availability)
-    LOGGER.info("After cars")
     if (wards is not None) and (cars is not None):
         push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars, id_car_availability)
-    LOGGER.info("Before push")
     push_populationestimates(url, last_year_to_retrieve, id_yearlypolygondataset, id_population_estimates)
 
 ####### AIR QUALITY DATA CONTINUOUS ########
@@ -173,7 +169,6 @@ def push_wards(url, id_wards):
     id_wards -- the id of the wards dataset
     """
     to_push = get_wards(url)
-    LOGGER.info("After Get wards")
     if to_push is not None:
         utils.ckan_upsert(id_wards, to_push)
         return to_push
@@ -193,7 +188,6 @@ def get_wards(url):
         "timezone":"UTC"
     }
     imported_result = utils.get_data(url, params)
-    LOGGER.info("After imported_results")
     if imported_result is not None:
         records = imported_result["records"]
         if len(records) != 0:
@@ -220,11 +214,9 @@ def transform_wards(records):
         fields = record["fields"]
         if "ward_id" in fields:
             new_record["wardid"] = fields["ward_id"]
-            LOGGER.info("inside Hula1")
             if "geo_shape" in fields:
 #                new_record["geojson"] = utils.fix_geojson(fields["geo_shape"])
                 new_record["geojson"] = fields["geo_shape"]
-                LOGGER.info("inside Hula2")
             if "geometry" in record:
                 new_record["ward_center"] = record["geometry"]
             if "name" in fields:
@@ -352,21 +344,22 @@ def push_to_yrly_caravail_wth_wards(id_yearlypolygondataset, wards, cars, id_car
                 if "objectid" in ward:
                     car["objectid"] = ward["objectid"]
         if found:
-            LOGGER.info("Inside Push_to_trly_car")
             new_cars.append(car)
     for new_car in new_cars:
         try:
-            LOGGER.info("Inside Push_to_trly_car 2")
-            LOGGER.info(new_car)
+            if new_car["date_time"] == "2019-04-10T12:46:07.442000+00:00":
+               new_car["date_time"] = "2019-04-10T12:46:07+00:00"
+               LOGGER.info("Car Availablity Data record_timestamp is in wrong format--> Hacking here")
             new_car["year"] = int(datetime.strptime(new_car.pop("date_time"),
                                                     '%Y-%m-%dT%H:%M:%S+00:00').year)
-            LOGGER.info("Inside Push_to_trly_car 3")
         except KeyError:
             pass
         new_car["dataset_id"] = id_car_availability
         new_car["dataset_name"] = "car-availability-by-ward"
     utils.ckan_upsert(id_yearlypolygondataset, new_cars)
-    LOGGER.info("Outside Push_to_trly_car 2")
+
+
+
 ############################################
 ## AIR QUALITY (NO2 DIFFUSION TUBE) DATA ###
 

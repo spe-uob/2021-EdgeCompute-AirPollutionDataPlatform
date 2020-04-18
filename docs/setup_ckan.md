@@ -3,9 +3,9 @@
 ## Install Other packages requirements
 
 ```
-apt-get install python-pip
-pip install requests ckanapi
-pip install python-dateutil
+apt-get install python3-pip
+pip3 install requests ckanapi
+pip3 install python-dateutil
 ```
 
 ### Install R for AURN Database

@@ -12,10 +12,11 @@ import csv
 import logging
 import requests
 import ckanapi
+from utility import config
 
 LOGGER = logging.getLogger('ckan_import_default_log')
 
-REMOTE_CONTROL = ckanapi.RemoteCKAN('http://localhost', apikey='xxxxxxxxxxxxxxxxxx')
+REMOTE_CONTROL = ckanapi.RemoteCKAN('http://localhost', apikey=config.apikey)
 
 def get_data(url_param, dataset_params):
     """
@@ -126,9 +127,9 @@ def ckan_delete(resource_id, filters):
                      resource_id)
         LOGGER.error(exception_returned)
 
-def ckan_create_from_scratch(package_id, resource_name, fields_data, primary_keys):
+def ckan_create_resource(package_id, resource_name, fields_data, primary_keys):
     """
-    Create dataset from scratch
+    Create resource 
 
     Keyword arguments:
     package_id -- id of the package of datasets
@@ -136,12 +137,12 @@ def ckan_create_from_scratch(package_id, resource_name, fields_data, primary_key
     primary_keys -- list of fields name which are primary keys
     """
     try:
-        _ = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id, 'name':resource_name},
+        dict_resource = REMOTE_CONTROL.action.datastore_create(resource={'package_id':package_id, 'name':resource_name},
                                                      fields=fields_data,
                                                      primary_key=primary_keys,
                                                      calculate_record_count=True)
-        LOGGER.info("Dataset was created in package of id %s",
-                    package_id)
+        LOGGER.info("Dataset was created in package of id %s", package_id)
+        return dict_resource
     except Exception as exception_returned:
         LOGGER.error("Dataset was not created in package of id %s",
                      package_id)
@@ -185,11 +186,28 @@ def fix_geojson(data):
     data["coordinates"] = coordinates
     return data
 
-def create_org(name, description, image_url):
+def ckan_create_org(title, name, description, image_url):
     """
     Function to create organisation in the CKAN
     """
     try:
-        _ = REMOTE_CONTROL.action.create.organization_create(name=name,description=description,image_url=image_url)
+        dict_org = REMOTE_CONTROL.action.organization_create(title=title,name=name,description=description,image_url=image_url)
+        LOGGER.info("Creation of Organisation %s was successful", name)
+        return dict_org
     except Exception as exception_returned:
-        LOGGER.error("Organisation creations of %s failed", name)
+        LOGGER.error("Creation of Organisation %s failed", name)
+        LOGGER.error(exception_returned)
+
+
+
+def ckan_create_package(title, name, private, url, owner_org):
+    """
+    Function to create Package in the CKAN
+    """
+    try:
+        dict_pkg = REMOTE_CONTROL.action.package_create(title=title,name=name,private=private, url=url, owner_org=owner_org)
+        LOGGER.info("Creation of Dataset %s was successful", name)
+        return dict_pkg
+    except Exception as exception_returned:
+        LOGGER.error("Creation of Dataset %s failed", name)
+        LOGGER.error(exception_returned)
