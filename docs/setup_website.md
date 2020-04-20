@@ -1,18 +1,18 @@
-# Website 
+# Setup Website
 
 ## Install Web Packages
 
-```
+```shell
  apt-get install nodejs nodejs-doc npm
 ```
 
-Or 
+Or
 
 Install from [NodeSource](https://github.com/nodesource/distributions/blob/master/README.md)
 
 ## Install npm Packages
 
-```
+```shell
 npm install express xss nodemailer ckan point-in-polygon easy-autocomplete jscoord @turf/turf @turf/hex-grid @turf/square-grid @awaitjs/express mustache-express
 ```
 
@@ -20,7 +20,7 @@ npm install express xss nodemailer ckan point-in-polygon easy-autocomplete jscoo
 
 Modify the CKAN Hostname in `dataset-dao.js` and  `group-dao.js`
 
-```
+```js
 var CKAN = require('ckan')
 const client = new CKAN.Client('http://ckan.bitvijays.local');
 ```
@@ -51,15 +51,13 @@ const areas = [{
 
 Search for `mapboxgl.accessToken`
 
-
-
 ## Setup the webserver as a service
 
-```
+```shell
 vi /etc/systemd/system/airqualityplatform.service
 ```
 
-```
+```bash
 [Unit]
 Description=Nodejs app for the air quality platform
 
