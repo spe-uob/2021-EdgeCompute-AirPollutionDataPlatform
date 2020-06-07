@@ -8,7 +8,7 @@ This repository contains the following elements:
 
 ## Setup the Air Pollution Data Platform
 
-We would need to virtual machines.
+We would need to setup two virtual machines.
 
 One machine to setup CKAN and one to setup the website.
 
