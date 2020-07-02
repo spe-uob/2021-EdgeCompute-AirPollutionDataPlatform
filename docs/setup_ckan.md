@@ -151,7 +151,9 @@ apikey = "def41a89-8b9f-4225-9637-b9a015aa4546"
 
 ### Create Organisations
 
-Edit `utility/init_ckan.py`
+Edit `init/init_ckan.py`
+
+We utilise [Create Organization](https://docs.ckan.org/en/2.8/api/index.html#ckan.logic.action.create.organization_create) to create the organisations.
 
 In the function `create_org`
 
@@ -161,7 +163,7 @@ utils.ckan_create_org("Title","Name","Description","image_url")
 
 Provide the parameters as the function and uncomment the unrequired function.
 
-Comment the other called functions in the `init_ckan`
+To create the default organisations (Defra, Luftdaten, Open Data Bristol, Main repository), just comment the other called functions in the `init_ckan` function.
 
 ```python
 def init_ckan():
@@ -170,7 +172,7 @@ def init_ckan():
 #   create_resource()
 ```
 
-Once, the organisations, you require are defined in the `create_org` function and the other functions are commented in the `init_ckan` function.
+Once, the organisations required by your requirement are defined in the `create_org` function and the other functions are commented in the `init_ckan` function.
 
 Do,
 
@@ -181,6 +183,8 @@ python3 main.py init
 This would call the `init_ckan.init()` function which would call the `create_org` function, which would create the organisations.
 
 Running the above command would provide you the `organisation_id` for the organisations created.
+
+For example:
 
 ```python
 {'org_id_main': 'ab6995bc-b8cf-404d-b0e0-7666913e378b', 'org_id_odb': '41e37dc3-ebc7-41bc-afb6-83162b26e0ad', 'org_id_luftdaten': '2644b7c5-e9d7-4529-b39a-a18f62de38f8', 'org_id_sck': '13c0cdf9-2c74-4157-a9fd-980928a0ebe1', 'org_id_defra': 'ecc9ae47-7337-4d3f-9fad-d4f6fd6bd201'}
@@ -203,6 +207,25 @@ A sample function is
 ```
 
 which would create a Dataset with title `Automatic Urban and Rural Network` and name `automatic-urban-and-rural-network-aurn` as a `Public` dataset with datasource url as `http://uk-air.defra.gov.uk` in the organisation of `Defra` (Created using `create_org` function.)
+
+To create the default packages/ datasets, just comment the other called functions in the `init_ckan` function.
+
+```python
+def init_ckan():
+#    create_org()
+   create_package()
+#   create_resource()
+```
+
+Once, the datasets required by your requirement are defined in the `create_package` function and the other functions are commented in the `init_ckan` function.
+
+Do,
+
+```shell
+python3 main.py init
+```
+
+This would call the `init_ckan.init()` function which would call the `create_package` function, which would create the packages/ datasets.
 
 ### Create Resources
 
@@ -237,6 +260,8 @@ The four parameters are:
 - AS A LIST of dictionnaries : the list of fields of the parameters that are going to be in that resource. We have created a lot of those lists and advised to use those. The variables describing those lists are just above the try-except block.
 - AS A LIST of STRING: the primary fields (primary key) of the resource we are creating. It is usually "recordid" but not always!. The primary fields are probably indicated on the website.
 
+#### Script based
+
 Example of a request:
 
 ```python
@@ -249,7 +274,28 @@ Check on the website if the new created resource appears in the intended package
 
 Running the `create_resource` function the same way `python main.pu init` would create all the resources under the respective datasets and provide with the resource ID.
 
-Copy the `resource_id` printed and copy it in the `config.py` in the utility folder
+To create the default packages/ datasets, just comment the other called functions in the `init_ckan` function.
+
+```python
+def init_ckan():
+#    create_org()
+#   create_package()
+   create_resource()
+```
+
+Once, the datasets required by your requirement are defined in the `create_resource` function and the other functions are commented in the `init_ckan` function.
+
+Do,
+
+```shell
+python3 main.py init
+```
+
+This would call the `init_ckan.init()` function which would call the `create_resource` function, which would create the resources.
+
+### Update the config file
+
+Running the last command of creating resources, the resource_id would have been printed. Copy the `resource_id` printed and copy it in the `config.py` in the utility folder
 
 A sample below:
 
@@ -264,7 +310,7 @@ At one point we will have to create the units package and resource. We need to i
 - [OPTIONAL] add the units you want in the dictionnaries if you want to add new ones, you don't need to add anything if you are just trying to reproduce what we did first.
 - There are two list of dictionaries: one for the units of the data recorded at one point, one for the units of the data recorded in a polygon like population for example.
 
-## Insert Necessary Fields in "Air Pollution Data - City"
+### Insert Necessary Fields in "Air Pollution Data - City"
 
 We need to create a resource `necessary_fields` in the package containing the latest data (called Air Pollution Data - Bristol & Bath Area OR/AND Air Pollution Data - Greater London). These resource contains the fields that the website will have to at least look for to present to the end user.
 
@@ -277,6 +323,8 @@ python main.py units
 which would create the Reading Units and the Necessary Fields
 
 ## Setup CronJobs
+
+Now to fetch the data from the websites, we utilise cronjob to run the scripts. Before copy and pasting, please do change the username or make sure that location of the scripts is correct.
 
 ```shell
 30 3 * * 0 > /home/ubuntu/AirPollutionDataPlatform/ckan_data_imports/logs/ckan.import.default.log
