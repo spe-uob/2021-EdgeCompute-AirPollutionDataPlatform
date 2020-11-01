@@ -795,7 +795,7 @@ function displayPolygonCollection() {
 if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1) || (window.location.href.indexOf("datalocation") > -1) || (window.location.href.indexOf("aqi") > -1)) {
 
     // Map
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW91c2Vsc2F0YW5pY28iLCJhIjoiY2tldjV0aXJ4MGxsZDJzbWU4OHU2bWpqZCJ9.d5TzdkWyJ0tPCFAIPqcDzQ';
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
     // Define marker
     var map = new mapboxgl.Map({
@@ -824,7 +824,7 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
 
         // Geocoder
         var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-            accessToken: 'pk.eyJ1IjoiZGV2aW91c2Vsc2F0YW5pY28iLCJhIjoiY2tldjV0aXJ4MGxsZDJzbWU4OHU2bWpqZCJ9.d5TzdkWyJ0tPCFAIPqcDzQ', // Set the access token
+            accessToken: mapboxgl.accessToken, // Set the access token
             mapboxgl: mapboxgl, // Set the mapbox-gl instance
             marker: false
         });

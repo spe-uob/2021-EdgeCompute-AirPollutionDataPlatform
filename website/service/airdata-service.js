@@ -9,17 +9,17 @@ const squareCellSizeDefault = 5; // square mesh diameter in kilometers
 const intervalSquareCellSize = [0.5, 10];
 const stepIntervalSCS = 0.1;
 const limitDistance = [2.0, null];
-const unitsID = "0d4f4029-b074-465c-8304-07682ee2d01d"
+const unitsID = "10df8c8d-f681-4325-bf75-21064ba81a2f"
 const areas = [{
     area: "Bristol",
     center: [-2.6, 51.47],
     groupID: "8e049fd6-4407-4d7f-ad32-16a5d405790a",
     lastData: {
-        necessaryFields: "b60f62c1-9f19-4ebd-ae48-ce3135f33c17",
+        necessaryFields: "6a0c2e53-f6a8-4198-bd52-c9655890e381",
         pointIDS: {
-            Yearly: "93c6660c-909c-49d5-b275-29a581a09127",
-            Daily: "23b22e1c-3e51-47d3-a0fa-7df998498c69",
-            Hourly: "63520b2a-f7d0-47bb-8dd8-d4635fd0a1b3"
+            Yearly: "0e6c4aaa-eef3-41a1-b70c-fb3a826a27be",
+            Daily: "7e96b4d8-854c-489a-94aa-1f9c19bedd07",
+            Hourly: "665b5270-9867-4ba6-889d-c9d5c46e310f"
 
         },
         polygonIDS: {

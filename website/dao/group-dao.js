@@ -1,5 +1,5 @@
 var CKAN = require('ckan')
-const client = new CKAN.Client('http://ckan');
+const client = new CKAN.Client('http://ckan.bitvijays.local');
 
 function getGroupList() {
     return new Promise((resolve, reject) => {
