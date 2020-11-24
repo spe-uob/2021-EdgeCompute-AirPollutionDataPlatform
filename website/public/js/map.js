@@ -31,7 +31,7 @@ function choiceProcess(choice, firstTime) {
 }
 
 function buildLegend(colors, assoColors) {
-    var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Datasets</span></a></h4>';
+    var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Sensors</span></a></h4>';
     for (var k = 0; k < assoColors.length; k++) {
         if (k !== colors.length) {
             elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
