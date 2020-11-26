@@ -797,12 +797,18 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
     // Map
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
+    var bounds = [ 
+        [-2.9834939036187067, 51.336293565527875,], // Southwest coordinates
+        [-3.023237163084873, 51.653498948701845] // Northeast coordinates
+    ];
+    
     // Define marker
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-2.6, 51.47], // Default Bristol Center
-        zoom: 10
+        zoom: 10,
+        maxBounds: bounds
     });
 
     /* Map parameters */
