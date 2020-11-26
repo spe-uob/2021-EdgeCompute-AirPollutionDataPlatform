@@ -797,9 +797,9 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
     // Map
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
-    var bounds = [ 
-        [-2.9834939036187067, 51.336293565527875,], // Southwest coordinates
-        [-3.023237163084873, 51.653498948701845] // Northeast coordinates
+    var bounds = [
+	[-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
+	[-2.3307087078190345, 51.5741181250848 ]  // Northeast coordinates
     ];
     
     // Define marker
