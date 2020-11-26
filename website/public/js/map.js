@@ -807,7 +807,7 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-2.6, 51.47], // Default Bristol Center
-        zoom: 10,
+        //zoom: 10,
         maxBounds: bounds
     });
 
