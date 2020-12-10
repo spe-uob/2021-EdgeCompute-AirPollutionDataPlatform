@@ -336,6 +336,7 @@ function fillDeviceDetails() {
     map.setZoom(13);
 }
 
+// Function to prepare the data for Home > Get Pollution Data > From Location 
 function fromLocationDisplay() {
     const results = JSON.parse($("#data_res").text());
     const long = $("#long").text();
@@ -561,6 +562,7 @@ function formatPopupPolygon(record, index, fields) {
     return returnElem;
 }
 
+// Function to build the data table for "Home > Get Pollution Data > From Location "
 function buildDataTable(record, fields, aqi, results) {
     var valueAQI, result,
         returnElem = "",
