@@ -562,7 +562,7 @@ function formatPopupPolygon(record, index, fields) {
     return returnElem;
 }
 
-// Function to build the data table for "Home > Get Pollution Data > From Location "
+// Function to prepare the data for Home > Get Pollution Data > From Location 
 function buildDataTable(record, fields, aqi, results) {
     var valueAQI, result,
         returnElem = "",
@@ -715,9 +715,9 @@ function setPopupFeature(properties, aqi, fields) {
             color = findColorFeature(newProperty, aqi);
             infoField = findField(fields, property);
             if (infoField != null) {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + properties[property] + ' ' + infoField[2] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + properties[property].toFixed(2) + ' ' + infoField[2] + '</li>';
             } else {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + properties[property] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + properties[property].toFixed(2) + '</li>';
             }
         }
     }
@@ -788,6 +788,7 @@ function displayPolygonCollection() {
         for (var k = 0; k < results.aqi[0].index_levels.length; k++) {
             if ("color" in results.aqi[0].index_levels[k] && "name" in results.aqi[0].index_levels[k])
                 elemStr += '<div><span style="background-color: ' + results.aqi[0].index_levels[k].color + '"></span>' + results.aqi[0].index_levels[k].name + '</div>';
+                console.log(elemstr)
         }
         elemStr += '<div><span style="border: 1px solid black; background-color: white"></span>No data found in this cell</div>'
         $("#map-legend").prepend(elemStr);
@@ -800,8 +801,8 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
     var bounds = [
-	[-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
-	[-2.3307087078190345, 51.5741181250848 ]  // Northeast coordinates
+        [-3.023237163084873, 51.653498948701845], // Southwest coordinates
+        [-2.9834939036187067, 51.336293565527875,] // Northeast coordinatesq
     ];
     
     // Define marker
@@ -810,7 +811,7 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
         style: 'mapbox://styles/mapbox/streets-v11',
         center: [-2.6, 51.47], // Default Bristol Center
         zoom: 10,
-        maxBounds: bounds
+        //maxBounds: bounds
     });
 
     /* Map parameters */
