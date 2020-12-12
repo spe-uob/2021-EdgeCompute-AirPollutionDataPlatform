@@ -807,7 +807,7 @@ function displayPolygonCollection() {
 if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1) || (window.location.href.indexOf("datalocation") > -1) || (window.location.href.indexOf("aqi") > -1)) {
 
     // Map
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW91c2Vsc2F0YW5pY28iLCJhIjoiY2tnemV5ZHBiMTM1NzJ1cnI4ZW96N2kzeSJ9.VcBIx15DDmIgcTnu7570Tg';
+    mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
     var bounds = [
         [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
