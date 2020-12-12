@@ -194,11 +194,16 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     // Dismiss
                 } else {
                     infoField = findField(fields, property);
+                    if (!isNaN(record[property])) {
+                        valueToDisplay = +record[property].toFixed(2)
+                    } else {
+                        valueToDisplay = +parseFloat(record[property]).toFixed(2);
+                    }
                     if (infoField != null) {
                         if (infoField[2] != null) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property].toFixed(2) + ' ' + infoField[2] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
                         } else {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property].toFixed(2) + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + '</li>';
                         }
                     } else {
                         last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
@@ -709,15 +714,20 @@ function setPopupFeature(properties, aqi, fields) {
     var returnElem = '<br><ul class="list-group">';
     var infoField, color,
     newProperty = {}; 
+    if (!isNaN(record[property])) {
+        valueToDisplay = +record[property].toFixed(2)
+    }  else {
+        valueToDisplay = +parseFloat(record[property]).toFixed(2);        
+    }
     for (var property in properties) {
         if (properties.hasOwnProperty(property)) {
             newProperty[property] = properties[property]
             color = findColorFeature(newProperty, aqi);
             infoField = findField(fields, property);
             if (infoField != null) {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + properties[property].toFixed(2) + ' ' + infoField[2] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
             } else {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + properties[property].toFixed(2) + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + valueToDisplay + '</li>';
             }
         }
     }
