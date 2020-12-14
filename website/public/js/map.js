@@ -194,11 +194,16 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     // Dismiss
                 } else {
                     infoField = findField(fields, property);
+                    if (!isNaN(record[property])) {
+                        valueToDisplay = +record[property].toFixed(2)
+                    } else {
+                        valueToDisplay = +parseFloat(record[property]).toFixed(2);
+                    }
                     if (infoField != null) {
                         if (infoField[2] != null) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + ' ' + infoField[2] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
                         } else {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + '</li>';
                         }
                     } else {
                         last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
@@ -562,7 +567,7 @@ function formatPopupPolygon(record, index, fields) {
     return returnElem;
 }
 
-// Function to build the data table for "Home > Get Pollution Data > From Location "
+// Function to prepare the data for Home > Get Pollution Data > From Location 
 function buildDataTable(record, fields, aqi, results) {
     var valueAQI, result,
         returnElem = "",
@@ -709,15 +714,21 @@ function setPopupFeature(properties, aqi, fields) {
     var returnElem = '<br><ul class="list-group">';
     var infoField, color,
     newProperty = {}; 
+
     for (var property in properties) {
         if (properties.hasOwnProperty(property)) {
             newProperty[property] = properties[property]
             color = findColorFeature(newProperty, aqi);
             infoField = findField(fields, property);
+            if (!isNaN(record[property])) {
+                valueToDisplay = +record[property].toFixed(2)
+            }  else {
+                valueToDisplay = +parseFloat(record[property]).toFixed(2);
+            }
             if (infoField != null) {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + properties[property] + ' ' + infoField[2] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
             } else {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + properties[property] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + valueToDisplay + '</li>';
             }
         }
     }
@@ -800,8 +811,8 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
     mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
     var bounds = [
-	[-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
-	[-2.3307087078190345, 51.5741181250848 ]  // Northeast coordinates
+        [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
+        [-2.3307087078190345, 51.5741181250848] // Northeast coordinates
     ];
     
     // Define marker
