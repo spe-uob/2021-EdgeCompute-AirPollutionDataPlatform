@@ -714,12 +714,13 @@ function setPopupFeature(properties, aqi, fields) {
     var returnElem = '<br><ul class="list-group">';
     var infoField, color,
     newProperty = {}; 
-    if (!isNaN(record[property])) {
-        valueToDisplay = +record[property].toFixed(2)
-    }  else {
-        valueToDisplay = +parseFloat(record[property]).toFixed(2);        
-    }
+
     for (var property in properties) {
+        if (!isNaN(record[property])) {
+            valueToDisplay = +record[property].toFixed(2)
+        }  else {
+            valueToDisplay = +parseFloat(record[property]).toFixed(2);
+        }
         if (properties.hasOwnProperty(property)) {
             newProperty[property] = properties[property]
             color = findColorFeature(newProperty, aqi);
