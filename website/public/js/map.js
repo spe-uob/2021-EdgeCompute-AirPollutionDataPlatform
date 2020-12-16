@@ -710,6 +710,7 @@ function findColorFeature(properties, aqi) {
     return aqi[0].index_levels[colorValue].color;
 }
 
+//Function to setup data for Air Quality Map
 function setPopupFeature(properties, aqi, fields) {
     var returnElem = '<br><ul class="list-group">';
     var infoField, color,
@@ -720,10 +721,10 @@ function setPopupFeature(properties, aqi, fields) {
             newProperty[property] = properties[property]
             color = findColorFeature(newProperty, aqi);
             infoField = findField(fields, property);
-            if (!isNaN(record[property])) {
-                valueToDisplay = +record[property].toFixed(2)
+            if (!isNaN(properties[property])) {
+                valueToDisplay = +properties[property].toFixed(2)
             }  else {
-                valueToDisplay = +parseFloat(record[property]).toFixed(2);
+                valueToDisplay = +parseFloat(properties[property]).toFixed(2);
             }
             if (infoField != null) {
                 returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
