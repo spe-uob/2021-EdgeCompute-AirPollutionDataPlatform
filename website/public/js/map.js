@@ -56,7 +56,7 @@ function buildChoiceLegend(results) {
 }
 
 function processResult(result, choice) {
-    const markerColors = ["blue", "red", "green", "yellow", "purple", "orange", "cyan", "grey", "black"];
+    const markerColors = ["blue", "red", "#FFD700", "green" ,"purple", "orange", "cyan", "grey", "black"];
     var assoColors = [];
     var records = result["records"];
     for (var i = 0; i < records.length; i++) {
@@ -66,7 +66,7 @@ function processResult(result, choice) {
 }
 
 function processAllResult(results) {
-    const markerColors = ["blue", "red", "green", "yellow", "purple", "orange", "cyan", "grey", "black"];
+    const markerColors = ["blue", "red", "#FFD700", "green", "purple", "orange", "cyan", "grey", "black"];
     var assoColors = [];
     var index = 0;
     var offset = 0;
