@@ -642,7 +642,7 @@ $(document).ready(function () {
             $('#choice-legend').show();
         });
 
-        $(".link-area").click(function (e) {
+        $(".choiceArea").click(function (e) {
             e.preventDefault();
             var addressValue = $(this).attr("href");
             var diameter = $('#choiceDiameter').val();
