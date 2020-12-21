@@ -342,3 +342,9 @@ pre {
 .scroll-about {
     overflow: auto;
 }
+
+#btntxt, #btntxt.hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: transparent;
+}
