@@ -35,6 +35,10 @@ body {
     background: #3d4477 !important;
 }
 
+.navbar-nav {
+    width:100%;
+}
+
 .footer-divider{
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -347,4 +351,18 @@ pre {
     color: #fff;
     text-decoration: none;
     background-color: transparent;
+}
+
+#githubbtn {
+    margin-left:auto;
+    margin-right:2rem;
+    border-color: rgb(9, 249, 101);
+    border-radius: 30px;
+    background-color: rgb(255, 255, 255);
+    width: 100px;
+    color: white
+}
+
+#githubbtn a {
+    color:rgb(0, 0, 0);
 }
