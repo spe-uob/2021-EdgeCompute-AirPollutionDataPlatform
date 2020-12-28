@@ -37,62 +37,19 @@
 
 	<script type="text/javascript" src="/static/js/main.js" defer></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<script>
+		$(function() {
+			$("#header").load("/static/views/header.html");
+			$("#footer").load("/static/views/footer.html");
+		})
+	</script>
+	
 </head>
 
+
 <body class="h-100 d-flex flex-column">
-	<header>
-		<nav id="site-navbar" class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
-				aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<a class="navbar-brand" href="/">
-				<img src="/static/img/aqp_logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-				<span class="site-name">Air Quality Platform</span>
-			</a>
-
-			<div class="collapse navbar-collapse" id="navbarContent">
-				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item active">
-						<a class="nav-link" href="/">Home</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" role="button"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Get pollution data
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="/fromlocation">
-								<i class="material-icons md-18 align-middle">my_location</i>
-								<span class="align-middle">From location</span>
-							</a>
-							<a class="dropdown-item" href="/airdata/anydevice">
-								<i class="material-icons md-18 align-middle">location_on</i>
-								<span class="align-middle">Any device</span>
-							</a>
-						</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/airdata/aqi">Air quality map</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/api">API</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/airdata/about">About</a>
-					</li>
-					<li class="nav-item" id="githubbtn">
-						<a class=" nav-link btn Github" href="https://github.com/Kevjolly/AirPollutionDataPlatform" target="_blank">
-							<i class="fab fa fa-github-square fa-lg"></i>
-							<span>Github</span>
-						</a>
-						</button>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</header>
-
+	<header id="header"></header>
 	<div class="position-fixed w-100 d-flex flex-column p-4 toast-show">
 		<div class="toast" id="toastInfo" role="alert" data-delay="10000" aria-live="assertive" aria-atomic="true">
 			<div class="toast-header">
@@ -105,8 +62,8 @@
 		</div>
 	</div>
 
-	<main>
-		<div class="jumbotron jumbotron-fluid">
+	<main style="height:100%;">
+		<div class="jumbotron jumbotron-fluid" style="height: inherit;">
 			<div id="jumbotron-container" class="container">
 				<h1 class="display-4">Hello, citizen!</h1>
 				<p class="lead">
@@ -184,21 +141,8 @@
 		</button>
 	</div>
 
-	<footer class="footer mt-auto py-3 text-white">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<h5><i class="material-icons md-28 align-middle">list</i><span class="align-middle">Data Sources</span></h5>
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 12px;">
-				<div class="col-lg-3 col-md3 col-sm12"><a href="https://smartcitizen.me/kits/" target="_blank" >Smart Citizen</a></div>
-				<div class="col-lg-3 col-md3 col-sm-12"><a href="https://luftdaten.info/" target="_blank">Luftdaten</a></div>
-				<div class="col-lg-3 col-md3 col-sm-12"><a href="https://opendata.bristol.gov.uk/pages/homepage" target="_blank">Open Bristol Data</a></div>
-				<div class="col-lg-3 col-md3 col-sm-12"><a href="https://uk-air.defra.gov.uk/networks/network-info?view=aurn" target="_blank">DEFRA AURN</a></div>
-			</div>
-					
-		</div>
+	<footer id = "footer" class="footer mt-auto py-3 text-white">
+
 	</footer>
 </body>
 
