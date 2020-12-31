@@ -99,6 +99,7 @@ footer ul.quick-links li:hover{
 
 .map-large {
     min-height: 450px;
+    height:100%;
 }
 
 .row {
@@ -365,4 +366,8 @@ pre {
 
 #githubbtn a {
     color:rgb(0, 0, 0);
+}
+
+main {
+    height: 100%;
 }
