@@ -35,8 +35,17 @@ body {
     background: #3d4477 !important;
 }
 
+footer{
+    flex-shrink: 0;
+    z-index: 1000;
+    bottom: 0px;
+    width:100%;
+    position:fixed;
+}
+
 .navbar-nav {
     width:100%;
+
 }
 
 .footer-divider{
@@ -99,7 +108,7 @@ footer ul.quick-links li:hover{
 
 .map-large {
     min-height: 450px;
-    height:100%;
+    height:95% !important;
 }
 
 .row {
@@ -369,5 +378,5 @@ pre {
 }
 
 main {
-    height: 100%;
+    height: inherit;
 }
