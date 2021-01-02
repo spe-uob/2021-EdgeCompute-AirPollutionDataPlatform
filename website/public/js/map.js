@@ -51,10 +51,21 @@ function buildLegend(colors, assoColors) {
             }
         }
         if (k !== colors.length) {
-            elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
+            if (kilolima != null){
+                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
+            }
+            else {
+                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
+            }
         } else {
+            if (kilolima != null){
             elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
-        }
+            } 
+            else {
+                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
+            }
+    
+    }
     }
     if (window.location.href.indexOf("datalocation") > -1) {
         elemStr += '<div><span style="background-color: #97CBFF"></span>Chosen location</div>';

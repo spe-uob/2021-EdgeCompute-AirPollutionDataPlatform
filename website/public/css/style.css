@@ -209,7 +209,7 @@ footer ul.quick-links li:hover{
 .legend {
     background-color: #fff;
     border-radius: 3px;
-    top: 210px;
+    top: 245px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.10);
     font: 12px/20px 'Roboto', 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
     padding: 10px;
@@ -347,6 +347,7 @@ pre {
 
 .card-margins-bis {
     margin: 15px;
+    margin-bottom: 56px;
 }
 
 .diameterWidth{
