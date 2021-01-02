@@ -37,35 +37,27 @@ function buildLegend(colors, assoColors) {
             if (assoColors[k] == "luftdaten") {
                 (kilolima = "Luftdaten")
             }
-    
             else if (assoColors[k] == "smart-citizen-kits") {
                 (kilolima = "Smart Citizen Kit")
             }
-    
             else if(assoColors[k] == "automatic-urban-and-rural-network-aurn") {
                 kilolima = "DEFRA AURN";
             }
-    
             else if (assoColors[k] == "air-quality-data-continuous") {
-                kilolima = "Air Quality";
+                kilolima = "Bristol Air Quality Continuous";
+            }
+            else if (assoColors[k] == "air-quality-no2-diffusion-tube-data") {
+                kilolima = "Bristol NO2 Diffusion Tubes";
+            }
+            else {
+                kilolima = assoColors[k]
             }
         }
         if (k !== colors.length) {
-            if (kilolima != null){
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
-            }
-            else {
-                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
-            }
         } else {
-            if (kilolima != null){
-            elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
-            } 
-            else {
-                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
-            }
-    
-    }
+             elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
+        }
     }
     if (window.location.href.indexOf("datalocation") > -1) {
         elemStr += '<div><span style="background-color: #97CBFF"></span>Chosen location</div>';
