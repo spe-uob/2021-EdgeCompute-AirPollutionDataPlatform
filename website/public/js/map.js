@@ -33,10 +33,27 @@ function choiceProcess(choice, firstTime) {
 function buildLegend(colors, assoColors) {
     var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Sensors</span></a></h4>';
     for (var k = 0; k < assoColors.length; k++) {
+        if (assoColors[k]!=null) {
+            if (assoColors[k] == "luftdaten") {
+                (kilolima = "Luftdaten")
+            }
+    
+            else if (assoColors[k] == "smart-citizen-kits") {
+                (kilolima = "Smart Citizen Kit")
+            }
+    
+            else if(assoColors[k] == "automatic-urban-and-rural-network-aurn") {
+                kilolima = "DEFRA AURN";
+            }
+    
+            else if (assoColors[k] == "air-quality-data-continuous") {
+                kilolima = "Air Quality";
+            }
+        }
         if (k !== colors.length) {
-            elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
+            elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
         } else {
-            elemStr += '<div><span style="background-color: black"></span>' + assoColors[k] + '</div>';
+            elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
         }
     }
     if (window.location.href.indexOf("datalocation") > -1) {
