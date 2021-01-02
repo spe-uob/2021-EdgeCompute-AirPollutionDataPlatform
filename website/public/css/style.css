@@ -108,7 +108,7 @@ footer ul.quick-links li:hover{
 
 .map-large {
     min-height: 450px;
-    height:100%;
+    height:95% !important;
 }
 
 .row {
