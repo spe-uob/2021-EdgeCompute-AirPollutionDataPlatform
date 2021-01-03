@@ -30,10 +30,13 @@ function choiceProcess(choice, firstTime) {
     }
 }
 
+// Builds the sensors legend in "Get Pollution Data" functionality
 function buildLegend(colors, assoColors) {
     var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Sensors</span></a></h4>';
     for (var k = 0; k < assoColors.length; k++) {
         if (assoColors[k]!=null) {
+
+            // Currently, we want to display human-friendly names on the front-end. This is a hack
             if (assoColors[k] == "luftdaten") {
                 (kilolima = "Luftdaten")
             }

@@ -21,6 +21,7 @@ app.get('/', function (req, res) {
 	res.sendFile('public/views/index.html', { root: __dirname });
 });
 
+// Get Pollution Data > From Location functionality (Search a location)
 app.get('/fromlocation', function (req, res) {
 	res.sendFile('public/views/fromlocation.html', { root: __dirname });
 });
@@ -28,8 +29,14 @@ app.get('/fromlocation', function (req, res) {
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // routers
+
+// Mail functionality uses /mail
 app.use('/mail', require('./router/mail-router'));
+
+// Everything else (Get Pollution Data/Air Quality Map) uses /airdata
 app.use('/airdata', require('./router/airdata-router'));
+
+// API functionality uses /api
 app.use('/api', require('./router/api-router'));
 
 // general error handler
