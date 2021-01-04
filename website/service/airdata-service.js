@@ -1,7 +1,3 @@
-//mport {unitsID1} from "./config.js';
-//import areas1 from './config.js';
-//import eu_aqi1 from './config.js';
-
 const confFile = require('./config')
 
 var inside = require('point-in-polygon');
@@ -9,7 +5,6 @@ var turfSquareGrid = require('@turf/square-grid');
 
 const groupDao = require('../dao/group-dao');
 const datasetDao = require('../dao/dataset-dao');
-const { include } = require('underscore');
 const limitData = 999;
 const limitDataLarge = 99999;
 const squareCellSizeDefault = 5; // square mesh diameter in kilometers
