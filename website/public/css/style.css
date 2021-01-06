@@ -209,7 +209,6 @@ footer ul.quick-links li:hover{
 .legend {
     background-color: #fff;
     border-radius: 3px;
-    top: 245px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.10);
     font: 12px/20px 'Roboto', 'Helvetica Neue', 'Arial', 'Helvetica', sans-serif;
     padding: 10px;
@@ -236,6 +235,11 @@ footer ul.quick-links li:hover{
 
 #map-legend-reduced, #choice-legend-reduced, #map-legend-reduced-2{
     display: none;
+    position: absolute;
+}
+
+#map-legend, #map-legend-2 {
+    position:absolute;
 }
 
 .choice-legend {
@@ -255,11 +259,11 @@ footer ul.quick-links li:hover{
 }
 
 .legend-top {
-    top: 120px !important;
+    top: 33% !important;
 }
 
 .legend-bottom {
-    top: 400px !important;
+    top: 33% !important;
 }
 
 .body-fill{
@@ -380,4 +384,8 @@ pre {
 
 main {
     height: inherit;
+}
+
+.card-body {
+    position: relative;
 }
