@@ -79,27 +79,6 @@
 					<div class="bg-grey-col location-choice-title">
 						<p class="h4 text-center">Get air quality data from a position of your choice.</p>
 					</div>
-					<div class="location-choice-coordinates container">
-						<form>
-							<div class="row">
-								<div class="col">
-									<label for="longitudeInput">Longitude</label>
-									<input type="text" id="longitudeInput" class="form-control" placeholder="Longitude">
-								</div>
-								<div class="col">
-									<label for="longitudeInput">Latitude</label>
-									<input type="text" id="latitudeInput" class="form-control" placeholder="Latitude">
-								</div>
-							</div>
-							<div id="invalidCoordinatesInputs" class="invalid-message">Enter valid coordinates.</div>
-						</form>
-						<div id="submitCoordinatesDiv" class="text-center">
-							<button type="button" class="btn btn-success right" id="submitCoordinates">
-								<i class="material-icons md-18 align-middle">send</i>
-								<span class="align-middle">Submit coordinates</span>
-							</button>
-						</div>
-					</div>
 					<div class="location-choice-content">
 						<div class="accordion" id="accordionLocationChoices">
 							<div class="card">
@@ -158,7 +137,7 @@
 											aria-controls="collapseThree">
 											<i
 												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
-											<span class="align-middle">Add a marker</span>
+											<span class="align-middle">Drop a Pin</span>
 										</button>
 									</h2>
 								</div>
@@ -172,30 +151,35 @@
 										<div class="text-center">
 											<button type="button" class="btn btn-info" id="addMarkerBtn">
 												<i class="material-icons md-18 align-middle">gps_fixed</i>
-												<span class="align-middle">Add a marker</span>
+												<span class="align-middle">Drop a Pin</span>
 											</button>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="card">
-								<div class="card-header" id="headingFour">
+								<div class="location-choice-coordinates container">
 									<h2 class="mb-0">
-										<button class="btn btn-link btn-collapse" type="button" data-toggle="collapse"
-											data-target="#collapseFour" aria-expanded="true"
-											aria-controls="collapseFour">
-											<i
-												class="material-icons md-18 align-middle location-icons">keyboard_arrow_down</i>
-											<span class="align-middle">Give coordinates</span>
-										</button>
+										<form style="display: none;" >
+											<div class="row">
+												<div class="col">
+													<label for="longitudeInput">Longitude</label>
+													<input type="text" id="longitudeInput" class="form-control" placeholder="Longitude">
+												</div>
+												<div class="col">
+													<label for="longitudeInput">Latitude</label>
+													<input type="text" id="latitudeInput" class="form-control" placeholder="Latitude">
+												</div>
+											</div>
+											<div id="invalidCoordinatesInputs" class="invalid-message">Enter valid coordinates.</div>
+										</form>
+										<div id="submitCoordinatesDiv" class="text-center">
+											<button type="button" class="btn btn-success right" id="submitCoordinates">
+												<i class="material-icons md-18 align-middle">send</i>
+												<span class="align-middle">Submit</span>
+											</button>
+										</div>
 									</h2>
-								</div>
-								<div id="collapseFour" class="collapse collapse-cards" aria-labelledby="headingFour"
-									data-parent="#accordionLocationChoices">
-									<div class="card-body">
-										<p class="text-justify">You can enter coordinates directly in the inputs above.
-										</p>
-									</div>
 								</div>
 							</div>
 						</div>
