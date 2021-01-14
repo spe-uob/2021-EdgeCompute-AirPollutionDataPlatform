@@ -7,6 +7,20 @@ function addZeroForDate(t) {
     return t;
 }
 
+function pad(number, length) {
+    var str = "" + number;
+    while (str.length < length) {
+        str = "0" + str;
+    }
+    return str;
+}
+
+function clint_side_time() {
+    var offset = new Date().getTimezoneOffset();
+    offset = ((offset<0 ? '+':'-') + pad(parseInt(Math.abs(offset/60)),2) + ":" + pad(Math.abs(offset%60), 2));
+    return offset;
+}
+
 function formatDate(date) {
     var monthNames = [
         "January", "February", "March",
@@ -134,13 +148,15 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                       <li class="nav-item">\
                       <a class="nav-link active link-popup-tab" id="infoTab'+ index + '" data-toggle="tab" href="#info' + index + '" role="tab" aria-controls="info' + index + '" aria-selected="true">Info</a>\
                       </li><li class="nav-item">\
-                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Last record</a>\
+                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Recent Readings</a>\
                       </li><li class="nav-item">\
                       <a class="nav-link link-popup-tab" id="moreTab'+ index + '" data-toggle="tab" href="#more' + index + '" role="tab" aria-controls="more' + index + '" aria-selected="false">More data</a>\
                       </li></ul>';
     var info = "";
+    info += "<table class='table'><thead style='display:none'><tr><th>field</th><th>data</th></tr></thead><tbody>"
     var last_data = "";
     var position;
+    last_data += "<table class='table'><thead style='display:none'><tr><th>field</th><th>data</th></tr></thead><tbody>"
     var linkToMore = {
         interval: choice
     };
@@ -153,53 +169,53 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         if (record[property].includes("Z")) {
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + '</li>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';
                         } else if (record[property].includes("+")) {
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + frecord[property] + '</li>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + frecord[property] + '</ts></tr>';
                         } else {
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
-                            info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + "Z" + '</li>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property] + "Z")); + '</td></tr>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';
                         }
                     } else {
                         if (record[property].includes("Z")) {
-                            info += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
-                            info += '<li class="list-group-item">Record time (UTC): ' + record[property] + '</li>';
+                            info += '<tr><td>Date:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
+                            info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';
                         } else if (record[property].includes("+")) {
-                            info += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
-                            info += '<li class="list-group-item">Record time (UTC): ' + frecord[property] + '</li>';
+                            info += '<tr><td>Date:</th><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
+                            info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';
                         } else {
-                            info += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
-                            info += '<li class="list-group-item">Record time (UTC): ' + record[property] + "Z" + '</li>';
+                            info += '<tr><td>Date:</td><td> ' + formatDate(new Date(record[property] + "Z")); + '</td></tr>';
+                            info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';
                         }
                     }
                 } else if (property === "geojson") {
                     linkToMore["geojson"] = JSON.stringify(record[property]);
                     position = record[property].coordinates.slice(0, 2);
-                    info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>: ' + record[property].coordinates.toString() + '</li>';
+                    info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
                 } else if (property === "recordid") {
                     linkToMore["recordid"] = record[property];
                     infoField = findField(fields, property);
-                    if (infoField != null) {
+                    /*if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-container="body" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
                     } else {
                         info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
-                    }
+                    }*/
                 } else if (property === "dataset_id") {
                     linkToMore["dataset_id"] = record[property];
                     infoField = findField(fields, property);
-                    if (infoField != null) {
+                    /*if (infoField != null) {
                         info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
                     } else {
                         info += '<li class="list-group-item">Dataset id: ' + record[property] + '</li>';
-                    }
+                    }*/
                 } else if (property === "dataset_name") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
                     } else {
-                        info += '<li class="list-group-item">Dataset name: ' + record[property] + '</li>';
+                        info += '<tr><td>Dataset name:</td><td> ' + record[property] + '</td><tr>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
                         color = colors[assoColors.indexOf(record[property])];
@@ -214,9 +230,9 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                 } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "day") || (property === "readings_count")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
                     } else {
-                        info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        info += '<tr><td>' + property + ':</td><td> ' + record[property] + '</td></tr>';
                     }
                 } else if ((property === "_id") || (property.includes("rank"))) {
                     // Dismiss
@@ -229,20 +245,20 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     }
                     if (infoField != null) {
                         if (infoField[2] != null) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
+                            last_data += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: </td><td>' + valueToDisplay + ' ' + infoField[2] + '</td></tr>';
                         } else {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + '</li>';
+                            last_data += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: </td><td>' + valueToDisplay + '</td></tr>';
                         }
                     } else {
-                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        last_data += '<tr><td>' + property + ': </td><td>' + record[property] + '</td></tr>';
                     }
                 }
             }
         }
     }
     returnElem += '<div class="tab-content" id="popupTabContent' + index + '">\
-                   <div class="tab-pane fade show active" id="info' + index + '" role="tabpanel" aria-labelledby="info' + index + '-tab"><ul class="list-group">' + info + '</ul></div>\
-                   <div class="tab-pane fade show" id="lastdata' + index + '" role="tabpanel" aria-labelledby="lastdata' + index + '-tab"><ul class="list-group">' + last_data + '</ul></div>\
+                   <div class="tab-pane fade show active" id="info' + index + '" role="tabpanel" aria-labelledby="info' + index + '-tab"><ul class="list-group">' + info + '</tbody></table></ul></div>\
+                   <div class="tab-pane fade show" id="lastdata' + index + '" role="tabpanel" aria-labelledby="lastdata' + index + '-tab"><ul class="list-group">' + last_data + '</tbody></table></ul></div>\
                    <div class="text-center tab-pane fade show" id="more' + index + '" role="tabpanel" aria-labelledby="more' + index + '-tab">\
                    <p class="text-justify">If you want to see parameters over time for this device, click on the link below.</p>\
                    <a href="/airdata/dataovertime?device=' + encodeURIComponent(JSON.stringify(linkToMore)) + '" target="_blank">\
@@ -419,7 +435,7 @@ function addPolygonsMap(records, fields) {
     const markerColors = ["blue", "red", "green", "yellow", "purple", "orange", "cyan", "grey", "black"];
     var remainColors = true;
     var assoColors = [];
-    var elemStr = '<h4><a href="#" id="map-legend-close-2" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Areas</span></a></h4>';
+    var elemStr = '<h4><a href="#" id="map-legend-close-2" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Area Info</span></a></h4>';
     elemStr += '<div><span style="background-color: #97CBFF"></span>Chosen location</div>';
     $("#map-legend-2").html(elemStr);
     map2.on('load', function () {
@@ -510,7 +526,7 @@ function formatPopupPolygon(record, index, fields) {
                       <li class="nav-item">\
                       <a class="nav-link active link-popup-tab" id="infoTab'+ index + '" data-toggle="tab" href="#info' + index + '" role="tab" aria-controls="info' + index + '" aria-selected="true">Info</a>\
                       </li><li class="nav-item">\
-                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Last record</a>\
+                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Recent Reading</a>\
                       </li>';
     var info = "";
     var last_data = "";
