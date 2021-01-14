@@ -183,6 +183,7 @@ footer ul.quick-links li:hover{
 
 .mapboxgl-popup-content{
     width: 330px;
+    position: relative;
 }
 
 .popups-req-location .mapboxgl-popup-content{
@@ -390,5 +391,35 @@ main {
 }
 
 .card-body {
+    position: relative;
+}
+
+.table {
+    display: inline-table;
+    font-family: sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:auto;
+    width:100%;
+    table-layout: fixed;
+    position: relative;
+}
+
+
+th {
+    background-color:rgb(112,196,105);
+    color: white;
+    font-weight: normal;
+    padding: 20px 30px;
+    text-align: left;
+}
+
+td {
+    background-color: rgb(238, 238, 238);
+    color:rgb(111, 111, 111);
+    padding: 20px 3-px;
+}
+
+thead, tbody {
+    width: 100%;
     position: relative;
 }
