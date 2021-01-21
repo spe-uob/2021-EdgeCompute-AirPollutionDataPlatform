@@ -8,7 +8,7 @@ body {
 
 .jumbotron {
     /* IMAGE TAKEN FROM https://unsplash.com/photos/TrhLCn1abMU FREE OF USE WITHOUT ANY CREDITS REQUIRED https://unsplash.com/license */
-    background-image: url("/static/img/blurred-map.jpg");
+    /*background-image: url("/static/img/blurred-map.jpg");*/
     background-size: cover;
     text-align: justify;
     margin-bottom: unset !important;
@@ -402,6 +402,7 @@ main {
     width:100%;
     table-layout: fixed;
     position: relative;
+    margin-bottom: 0px;
 }
 
 
@@ -414,12 +415,23 @@ th {
 }
 
 td {
-    background-color: rgb(238, 238, 238);
-    color:rgb(111, 111, 111);
-    padding: 20px 3-px;
+    background-color: rgb(255, 255, 255);
+    color:rgb(111,111,111);
+    padding: 20px 30px;
 }
 
 thead, tbody {
     width: 100%;
     position: relative;
+}
+
+td:first-child {
+    padding-right:0px;
+    width: 40%;
+}
+
+td:last-child {
+    padding-left: 0px;
+    text-align: left;
+    width: 60%;
 }
