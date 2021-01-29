@@ -7,20 +7,6 @@ function addZeroForDate(t) {
     return t;
 }
 
-function pad(number, length) {
-    var str = "" + number;
-    while (str.length < length) {
-        str = "0" + str;
-    }
-    return str;
-}
-
-function clint_side_time() {
-    var offset = new Date().getTimezoneOffset();
-    offset = ((offset<0 ? '+':'-') + pad(parseInt(Math.abs(offset/60)),2) + ":" + pad(Math.abs(offset%60), 2));
-    return offset;
-}
-
 function formatDate(date) {
     var monthNames = [
         "January", "February", "March",
@@ -28,8 +14,8 @@ function formatDate(date) {
         "August", "September", "October",
         "November", "December"
     ];
-    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() + ' at ' + addZeroForDate(date.getHours()) + ':' + addZeroForDate(date.getMinutes()) + ':' + addZeroForDate(date.getSeconds());
-}
+    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() /*+ ' at ' + addZeroForDate(date.getHours()) + ':' + addZeroForDate(date.getMinutes()) + ':' + addZeroForDate(date.getSeconds());
+*/}
 
 function choiceProcess(choice, firstTime) {
     const results = JSON.parse($("#data_res").text());
@@ -143,7 +129,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                       <li class="nav-item">\
                       <a class="nav-link active link-popup-tab" id="infoTab'+ index + '" data-toggle="tab" href="#info' + index + '" role="tab" aria-controls="info' + index + '" aria-selected="true">Info</a>\
                       </li><li class="nav-item">\
-                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Recent Readings</a>\
+                      <a class="nav-link link-popup-tab" id="lastdataTab'+ index + '" data-toggle="tab" href="#lastdata' + index + '" role="tab" aria-controls="lastdata' + index + '" aria-selected="false">Recent Reading</a>\
                       </li><li class="nav-item">\
                       <a class="nav-link link-popup-tab" id="moreTab'+ index + '" data-toggle="tab" href="#more' + index + '" role="tab" aria-controls="more' + index + '" aria-selected="false">More data</a>\
                       </li></ul>';
@@ -168,7 +154,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';
                         } else if (record[property].includes("+")) {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
-                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + frecord[property] + '</ts></tr>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';
                         } else {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property] + "Z")); + '</td></tr>';
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';
@@ -207,10 +193,27 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     }*/
                 } else if (property === "dataset_name") {
                     infoField = findField(fields, property);
+                    if (record[property] != null) {
+                        if (record[property] == "luftdaten") {
+                            (kilolima = "Luftdaten")
+                        }
+                
+                        else if (record[property] == "smart-citizen-kits") {
+                            (kilolima = "Smart Citizen Kit")
+                        }
+                
+                        else if(record[property] == "automatic-urban-and-rural-network-aurn") {
+                            kilolima = "DEFRA AURN";
+                        }
+                
+                        else if(record[property] == "air-quality-data-continuous") {
+                            kilolima = "Air Quality";
+                        }
+                    }
                     if (infoField != null) {
-                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
+                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + kilolima + '</td></tr>';
                     } else {
-                        info += '<tr><td>Dataset name:</td><td> ' + record[property] + '</td><tr>';
+                        info += '<tr><td>Dataset name:</td><td> ' + kilolima + '</td><tr>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
                         color = colors[assoColors.indexOf(record[property])];
@@ -228,8 +231,17 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
                     } else {
                         info += '<tr><td>' + property + ':</td><td> ' + record[property] + '</td></tr>';
+                    } 
+                }else if (property === "siteid")  {
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';*/
+                    } else {
+                        /*info += '<tr><td>' + property + ':</td><td> ' + record[property] + '</td></tr>';*/
                     }
-                } else if ((property === "_id") || (property.includes("rank"))) {
+                }
+                
+                else if ((property === "_id") || (property.includes("rank"))) {
                     // Dismiss
                 } else {
                     infoField = findField(fields, property);
@@ -656,32 +668,32 @@ function buildDataTable(record, fields, aqi, results) {
                     if (infoField != null) {
                         if (infoField[2] != null) {
                             returnElem += '<tr class="' + classToAdd + '"><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
-                                        <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + ' ' + infoField[2] + '</td>\
+                                        <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDisplay.toString() + ' ' + infoField[2] + '">' + valueToDisplay.toString() + ' ' + infoField[2] + '</td>\
                                         <td style="color:'+ colorAQI + '";>' + valueAQI + '</td></tr>';
                         } else {
                             returnElem += '<tr class="' + classToAdd + '><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
-                                        <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
+                                        <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDisplay.toString() + " " + infoField[2] +  + '">' + valueToDisplay.toString() + '</td>\
                                         <td></td></tr>';
                         }
                     } else {
                         returnElem += '<tr class="' + classToAdd + '><th scope="row">' + property + '</th>\
-                                    <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
+                                    <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDisplay.toString() + " " + infoField[2] +  + '">' + valueToDisplay.toString() + '</td>\
                                     <td></td></tr>';
                     }
                 } else {
                     if (infoField != null) {
                         if (infoField[2] != null) {
                             returnElem += '<tr class="' + classToAdd + '"><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
-                                        <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + ' ' + infoField[2] + '</td>\
+                                        <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDisplay.toString() + " " + infoField[2] + '">' + valueToDisplay.toString() + ' ' + infoField[2] + '</td>\
                                         <td></td></tr>';
                         } else {
                             returnElem += '<tr class="' + classToAdd + '"><th scope="row" data-toggle="tooltip" data-placement="bottom" title="' + infoField[1] + '">' + infoField[0] + '</th>\
-                                        <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
+                                        <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDisplay.toString() + " " + infoField[2] + '">' + valueToDisplay.toString() + '</td>\
                                         <td></td></tr>';
                         }
                     } else {
                         returnElem += '<tr class="' + classToAdd + '"><th scope="row">' + property + '</th>\
-                                    <td data-toggle="tooltip" data-placement="bottom" title="' + record[property] + '">' + valueToDisplay.toString() + '</td>\
+                                    <td data-toggle="tooltip" data-placement="bottom" title="' + valueToDivalueToDisplay.toString() + " " + infoField[2] + '">' + valueToDisplay.toString() + '</td>\
                                     <td></td></tr>';
                     }
                 }
