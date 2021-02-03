@@ -14,8 +14,8 @@ function formatDate(date) {
         "August", "September", "October",
         "November", "December"
     ];
-    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() /*+ ' at ' + addZeroForDate(date.getHours()) + ':' + addZeroForDate(date.getMinutes()) + ':' + addZeroForDate(date.getSeconds());
-*/}
+    return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear() + ' at ' + addZeroForDate(date.getHours()) + ':' + addZeroForDate(date.getMinutes()) + ':' + addZeroForDate(date.getSeconds());
+}
 
 function choiceProcess(choice, firstTime) {
     const results = JSON.parse($("#data_res").text());
@@ -49,6 +49,14 @@ function buildLegend(colors, assoColors) {
             else if (assoColors[k] == "air-quality-data-continuous") {
                 kilolima = "Air Quality";
             }
+
+            else if(record[property] == "air-quality-no2-diffusion-tube-data") {
+                kilolima = "Bristol NO2 Diffusion Tubes";
+            }
+
+            else {
+                kilolima = record[property]
+            }    
         }
         if (k !== colors.length) {
             if (kilolima != null){
@@ -59,7 +67,7 @@ function buildLegend(colors, assoColors) {
             }
         } else {
             if (kilolima != null){
-            elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
+                elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
             } 
             else {
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
@@ -214,11 +222,19 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         else if(record[property] == "air-quality-data-continuous") {
                             kilolima = "Air Quality";
                         }
+
+                        else if(record[property] == "air-quality-no2-diffusion-tube-data") {
+                            kilolima = "Bristol NO2 Diffusion Tubes";
+                        }
+
+                        else {
+                            kilolima = record[property]
+                        }
                     }
                     if (infoField != null) {
-                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + kilolima + '</td></tr>';
+                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + kilolima + '</td></tr>';
                     } else {
-                        info += '<tr><td>Dataset name:</td><td> ' + kilolima + '</td><tr>';
+                            info += '<tr><td>Dataset name:</td><td> ' + kilolima + '</td></tr>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
                         color = colors[assoColors.indexOf(record[property])];
@@ -230,7 +246,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         color = colors[assoColors.length];
                         assoColors.push(record[property]);
                     }
-                } else if ((property === "siteid") || (property === "location") || (property === "year") || (property === "day") || (property === "readings_count")) {
+                } else if ((property === "location") || (property === "year") || (property === "day") || (property === "readings_count")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
@@ -783,9 +799,9 @@ function setPopupFeature(properties, aqi, fields) {
                 valueToDisplay = +parseFloat(properties[property]).toFixed(2);
             }
             if (infoField != null) {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + '; width:13em"><a href="#" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + valueToDisplay + ' ' + infoField[2] + '</li>';
             } else {
-                returnElem += '<li class="list-group-item" style="color:' + color + ';"><a href="#">' + property + '</a>: ' + valueToDisplay + '</li>';
+                returnElem += '<li class="list-group-item" style="color:' + color + '; width:13em"><a href="#">' + property + '</a>: ' + valueToDisplay + '</li>';
             }
         }
     }
