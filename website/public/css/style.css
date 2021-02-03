@@ -41,6 +41,9 @@ footer{
     bottom: 0px;
     width:100%;
     position:fixed;
+    display: inline-block;
+    margin-top: auto;
+    position: relative;
 }
 
 .navbar-nav {
@@ -108,7 +111,7 @@ footer ul.quick-links li:hover{
 
 .map-large {
     min-height: 450px;
-    height:95% !important;
+    height:100% !important;
 }
 
 .row {
@@ -182,7 +185,7 @@ footer ul.quick-links li:hover{
 }
 
 .mapboxgl-popup-content{
-    width: 330px;
+    width: inherit;
     position: relative;
 }
 
@@ -355,7 +358,6 @@ pre {
 
 .card-margins-bis {
     margin: 15px;
-    margin-bottom: 56px;
 }
 
 .diameterWidth{
@@ -388,6 +390,7 @@ pre {
 
 main {
     height: inherit;
+    overflow: auto;
 }
 
 .card-body {
@@ -406,7 +409,7 @@ main {
 }
 
 
-th{
+.table > th{
     background-color:rgb(112,196,105);
     color: white;
     font-weight: normal;
@@ -414,30 +417,30 @@ th{
     text-align: left;
 }
 
-td {
+.table > td {
     background-color: rgb(255, 255, 255);
-    color:rgb(111,111,111);
+    color:rgb(0, 0, 0);
     padding: 20px 30px;
 }
 
-thead, tbody {
+.table > thead, .table > tbody {
     width: 100%;
     position: relative;
 }
 
-td:first-child {
+.table > td:first-child {
     padding-right:0px;
     width: 40%;
 }
 
-td:last-child {
+.table > td:last-child {
     padding-left: 0px;
     text-align: left;
     width: 60%;
 }
 
 .table-info > th {
-    background-color: rgb(112,196,105);
+    background-color: rgb(255, 255, 255);
 }
 
 .table-info > td {
@@ -453,7 +456,7 @@ table.table-info:hover >td {
 }
 
 .table:hover .table-info:hover >th {
-    background-color: rgb(112,196,105);
+    background-color: rgb(255, 255, 255);
 }
 .table-info {
     background-color: white;
@@ -461,4 +464,12 @@ table.table-info:hover >td {
 
 .table td {
     padding: 6px;
+}
+
+.target > .map-large > .mapboxgl-popup > .mapboxgl-popup-content {
+    width: 330px;
+}
+
+.card >.card-body > ul > li > a.text-info, .card-body > ul > li > a > #text {
+    width: 50%;
 }
