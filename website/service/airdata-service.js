@@ -348,6 +348,8 @@ function isEmpty(obj) {
 }
 
 class AirDataService {
+
+    // Funtion to manage the "Get Pollution Data > From Location" Functionality
     async getDataLocation(long, lat) {
         const locationStr = [long, lat];
         if (checkIfInputsCorrect(locationStr)) {
@@ -532,6 +534,7 @@ class AirDataService {
         }
     }
 
+    // Function to return eu_aqi (EU Air Quality Indicator - The value ranges of poor, good, very good air quality levels)
     async getAQI() {
         return eu_aqi;
     }
@@ -545,6 +548,7 @@ class AirDataService {
         }
     }
 
+    // Function to provide AQI Levels for square grids based on diameter on "Air Quality Map"
     async getAQIArea(diameter, area) {
         if (checkDiameterArea(diameter, area)) {
             const areaToTake = getArea(area);
@@ -656,6 +660,7 @@ class AirDataService {
         }
     }
 
+    // Function to check that the longitude, latitude submitted are within the range of the city platform is serving.
     async checkDataLocation(long, lat) {
         const locationStr = [long, lat];
         if (checkIfInputsCorrect(locationStr)) {
@@ -679,6 +684,7 @@ class AirDataService {
         }
     }
 
+    // Function to manage "Get Pollution Data > Any Device (View All Sensors)"
     async getAllData(area) {
         if (checkIfArea(area)) {
             const areaToTake = getArea(area);
@@ -711,6 +717,7 @@ class AirDataService {
         }
     }
 
+    // Function to manage "Get Pollution Data > Any Device (View All Sensors)" when called via API
     async getAllDataAPI(area, interval) {
         if (checkIfWord(interval)) {
             if (checkIfArea(area)) {
@@ -757,6 +764,7 @@ class AirDataService {
         }
     }
 
+    // Function to manages the "More Data" Functionality
     async getDataOverTime(deviceRaw) {
         const [device, geojson] = formatDeviceRaw(decodeURIComponent(deviceRaw));
         const units = await datasetDao.getData(unitsID, limitData);
@@ -797,6 +805,7 @@ class AirDataService {
         }
     }
 
+    // Function to populate the API drop down menu
     async getLists() {
         const datasets_list = await groupDao.packagesListWithResources();
         return {
