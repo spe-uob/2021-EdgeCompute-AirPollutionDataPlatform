@@ -61,21 +61,9 @@ function buildLegend(colors, assoColors) {
         if (k !== colors.length) {
             if (kilolima != null){
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
-            }
-            else {
-                kilolima = assoColors[k]
-            }
-        }
-        if (k !== colors.length) {
-                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
-        } else {
-            if (kilolima != null){
-                elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
-            } 
-            else {
+            }else {
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
             }
-    
     }
 
     }
