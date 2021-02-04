@@ -50,12 +50,12 @@ function buildLegend(colors, assoColors) {
                 kilolima = "Air Quality";
             }
 
-            else if(record[property] == "air-quality-no2-diffusion-tube-data") {
+            else if(assoColors[k] == "air-quality-no2-diffusion-tube-data") {
                 kilolima = "Bristol NO2 Diffusion Tubes";
             }
 
             else {
-                kilolima = record[property]
+                kilolima = assoColors[k]
             }    
         }
         if (k !== colors.length) {

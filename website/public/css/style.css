@@ -241,12 +241,12 @@ footer ul.quick-links li:hover{
 #map-legend-reduced, #choice-legend-reduced, #map-legend-reduced-2{
     display: none;
     position: absolute;
-    top:27%;
+    top:25%;
 }
 
 #map-legend, #map-legend-2 {
     position: absolute;
-    top: 27%;
+    top: 25%;
 }
 
 .choice-legend {
