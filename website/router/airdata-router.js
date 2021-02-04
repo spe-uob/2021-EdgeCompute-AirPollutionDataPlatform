@@ -5,6 +5,7 @@ var router = decorateRouter(express.Router());
 
 const airdataService = require('../service/airdata-service');
 
+// Manages the "Get Pollution Data > From Location" Functionality and render Data from Location?
 router.get('/datalocation', async function (req, res, next) {
     try {
         if (!('longitude' in req.query)) {
@@ -27,6 +28,7 @@ router.get('/datalocation', async function (req, res, next) {
     }
 });
 
+// Manages the "Get Pollution Data > From Location" Functionality and checks that the co-ordinates submitted are correct
 router.get('/checkcoordinates', async function (req, res, next) {
     try {
         if (!('longitude' in req.query)) {
@@ -46,6 +48,7 @@ router.get('/checkcoordinates', async function (req, res, next) {
     }
 });
 
+// Manage Get Pollution Data > Any Device (View All Sensors)
 router.get('/anydevice', async function (req, res, next) {
     try {
         const response = (!('area' in req.query)) ? await airdataService.getAllData(null) : await airdataService.getAllData(req.query.area);
@@ -58,6 +61,7 @@ router.get('/anydevice', async function (req, res, next) {
     }
 });
 
+// Manage Air Quality Map Functionality
 router.get('/aqi', async function (req, res, next) {
     try {
         if (!('area' in req.query)) {
@@ -90,6 +94,8 @@ router.get('/aqi', async function (req, res, next) {
     }
 });
 
+
+// Manage the About page
 router.get('/about', async function (req, res, next) {
     try {
         const aqi = await airdataService.getAQI();
@@ -102,6 +108,7 @@ router.get('/about', async function (req, res, next) {
     }
 });
 
+// Manages the "More Data" Functionality
 router.get('/dataovertime', async function (req, res, next) {
     try {
         if (!('device' in req.query)) {

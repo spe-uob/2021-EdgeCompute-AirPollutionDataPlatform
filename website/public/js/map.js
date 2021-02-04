@@ -30,24 +30,24 @@ function choiceProcess(choice, firstTime) {
     }
 }
 
+// Builds the sensors legend in "Get Pollution Data" functionality
 function buildLegend(colors, assoColors) {
     var elemStr = '<h4><a href="#" id="map-legend-close" class="text-info"><i class="material-icons md-28 align-middle">keyboard_arrow_right</i><span class="align-middle">Sensors</span></a></h4>';
     for (var k = 0; k < assoColors.length; k++) {
         if (assoColors[k]!=null) {
+
+            // Currently, we want to display human-friendly names on the front-end. This is a hack
             if (assoColors[k] == "luftdaten") {
                 (kilolima = "Luftdaten")
             }
-    
             else if (assoColors[k] == "smart-citizen-kits") {
                 (kilolima = "Smart Citizen Kit")
             }
-    
             else if(assoColors[k] == "automatic-urban-and-rural-network-aurn") {
                 kilolima = "DEFRA AURN";
             }
-    
             else if (assoColors[k] == "air-quality-data-continuous") {
-                kilolima = "Air Quality";
+                kilolima = "Bristol Air Quality Continuous";
             }
 
             else if(assoColors[k] == "air-quality-no2-diffusion-tube-data") {
@@ -63,8 +63,11 @@ function buildLegend(colors, assoColors) {
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
             }
             else {
-                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
+                kilolima = assoColors[k]
             }
+        }
+        if (k !== colors.length) {
+                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
         } else {
             if (kilolima != null){
                 elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
@@ -74,6 +77,7 @@ function buildLegend(colors, assoColors) {
             }
     
     }
+
     }
     if (window.location.href.indexOf("datalocation") > -1) {
         elemStr += '<div><span style="background-color: #97CBFF"></span>Chosen location</div>';
