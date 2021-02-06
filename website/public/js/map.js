@@ -50,34 +50,21 @@ function buildLegend(colors, assoColors) {
                 kilolima = "Bristol Air Quality Continuous";
             }
 
-            else if(record[property] == "air-quality-no2-diffusion-tube-data") {
+            else if(assoColors[k] == "air-quality-no2-diffusion-tube-data") {
                 kilolima = "Bristol NO2 Diffusion Tubes";
             }
 
             else {
-                kilolima = record[property]
+                kilolima = assoColors[k]
             }    
         }
         if (k !== colors.length) {
             if (kilolima != null){
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
-            }
-            else {
-                kilolima = assoColors[k]
-            }
-        }
-        if (k !== colors.length) {
-                elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + kilolima + '</div>';
-        } else {
-            if (kilolima != null){
-                elemStr += '<div><span style="background-color: black"></span>' + kilolima + '</div>';
-            } 
-            else {
+            }else {
                 elemStr += '<div><span style="background-color: ' + colors[k] + '"></span>' + assoColors[k] + '</div>';
             }
-    
     }
-
     }
     if (window.location.href.indexOf("datalocation") > -1) {
         elemStr += '<div><span style="background-color: #97CBFF"></span>Chosen location</div>';
@@ -163,6 +150,12 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
     for (var property in record) {
         if (record.hasOwnProperty(property)) {
             if (record[property] != null) {
+                if (record["location"] != null){
+                    check=false;
+                }
+                else {
+                    check=true;
+                }
                 if (property === "date_time") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
@@ -188,11 +181,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                             info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';
                         }
                     }
-                } else if (property === "geojson") {
-                    linkToMore["geojson"] = JSON.stringify(record[property]);
-                    position = record[property].coordinates.slice(0, 2);
-                    info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
-                } else if (property === "recordid") {
+                }  else if (property === "recordid") {
                     linkToMore["recordid"] = record[property];
                     infoField = findField(fields, property);
                     /*if (infoField != null) {
@@ -250,14 +239,31 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         color = colors[assoColors.length];
                         assoColors.push(record[property]);
                     }
-                } else if ((property === "location") || (property === "year") || (property === "day") || (property === "readings_count")) {
+                } else if ((property === "year") || (property === "day") || (property === "readings_count")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
                     } else {
                         info += '<tr><td>' + property + ':</td><td> ' + record[property] + '</td></tr>';
                     } 
-                }else if (property === "siteid")  {
+                }else if (property === "location") {
+                    check = true;
+                    infoField = findField(fields, property);
+                    if (infoField != null) {
+                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';
+                    } else {
+                        info += '<tr><td>' + property + ':</td><td> ' + record[property] + '</td></tr>';
+                    } 
+                }else if (property === "geojson") {
+                    linkToMore["geojson"] = JSON.stringify(record[property]);
+                    position = record[property].coordinates.slice(0, 2);
+                    if (check != true) {
+                        //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
+                    }else {
+                        info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
+                    }   
+                }
+                else if (property === "siteid")  {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>:</td><td> ' + record[property] + '</td></tr>';*/
