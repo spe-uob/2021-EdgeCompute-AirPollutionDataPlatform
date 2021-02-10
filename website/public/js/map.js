@@ -327,66 +327,66 @@ function fillDeviceDetails() {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         if (record[property].includes("Z")) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: <span>' + formatDate(new Date(record[property])); + '</span></li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: <span>' + record[property] + '</span></li>';
                         } else if (record[property].includes("+")) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</li>';
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + frecord[property] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property])); + '</span></li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: <span>' + frecord[property] + '</span></li>';
                         } else {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: ' + record[property] + "Z" + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>: <span>' + formatDate(new Date(record[property] + "Z")); + '</span></li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>: <span>' + record[property] + "Z" + '</span></li>';
                         }
                     } else {
                         if (record[property].includes("Z")) {
-                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
-                            last_data += '<li class="list-group-item">Record time (UTC): ' + record[property] + '</li>';
+                            last_data += '<li class="list-group-item">Date: <span>' + formatDate(new Date(record[property])); + '</span></li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): <span>' + record[property] + '</span></li>';
                         } else if (record[property].includes("+")) {
-                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property])); + '</li>';
-                            last_data += '<li class="list-group-item">Record time (UTC): ' + frecord[property] + '</li>';
+                            last_data += '<li class="list-group-item">Date: <span>' + formatDate(new Date(record[property])); + '</span></li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): <span>' + frecord[property] + '</span></li>';
                         } else {
-                            last_data += '<li class="list-group-item">Date: ' + formatDate(new Date(record[property] + "Z")); + '</li>';
-                            last_data += '<li class="list-group-item">Record time (UTC): ' + record[property] + "Z" + '</li>';
+                            last_data += '<li class="list-group-item">Date: <span>' + formatDate(new Date(record[property] + "Z")); + '</span></li>';
+                            last_data += '<li class="list-group-item">Record time (UTC): <span>' + record[property] + "Z" + '</span></li>';
                         }
                     }
                 } else if (property === "geojson") {
                     position = record[property].coordinates.slice(0, 2);
-                    last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>: ' + record[property].coordinates.toString() + '</li>';
+                    last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>: <span>' + record[property].coordinates.toString() + '</span></li>';
                 } else if (property === "recordid") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-container="body" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-container="body" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                     } else {
                         last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
                     }
                 } else if (property === "dataset_id") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                     } else {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="ID of the dataaset">Dataset id</a>: ' + record[property] + '</li>';
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="ID of the dataaset">Dataset id</a>: <span>' + record[property] + '</span></li>';
                     }
                 } else if (property === "dataset_name") {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                     } else {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Name of the dataaset">Dataset name</a>: ' + record[property] + '</li>';
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Name of the dataset">Dataset name</a>: <span>' + record[property] + '</span></li>';
                     }
                 } else if (property === "organization") {
-                    info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Source of the dataset">Source</a>: ' + record[property] + '</li>';
+                    info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Source of the dataset">Source</a>: <span>' + record[property] + '</span></li>';
                 } else if ((property === "siteid") || (property === "location") || (property === "deviceid")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        info += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                     } else {
                         info += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
                     }
                 } else if ((property === "year") || (property === "readings_count") || (property === "day")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
-                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                        last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                     } else {
-                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        last_data += '<li class="list-group-item">' + property + ': </span>' + record[property] + '</span></li>';
                     }
                 } else if ((property === "_id") || (property.includes("rank"))) {
                     // Dismiss
@@ -394,18 +394,18 @@ function fillDeviceDetails() {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         if (infoField[2] != null) {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + ' ' + infoField[2] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + ' ' + infoField[2] + '</span></li>';
                             if (!isNaN(record[property])) {
                                 select_options += '<option value="' + property + '">' + infoField[0] + ' (' + infoField[2] + ')' + '</option>';
                             }
                         } else {
-                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: ' + record[property] + '</li>';
+                            last_data += '<li class="list-group-item"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">' + infoField[0] + '</a>: <span>' + record[property] + '</span></li>';
                             if (!isNaN(record[property])) {
                                 select_options += '<option value="' + property + '">' + infoField[0] + '</option>';
                             }
                         }
                     } else {
-                        last_data += '<li class="list-group-item">' + property + ': ' + record[property] + '</li>';
+                        last_data += '<li class="list-group-item">' + property + ': <span>' +  record[property] + '</span></li>';
                     }
                 }
             }

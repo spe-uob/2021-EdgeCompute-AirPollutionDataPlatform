@@ -440,29 +440,41 @@ main {
 }
 
 .table-info > th {
-    background-color: rgb(255, 255, 255);
+    background-color: #fff4f400;
+    border-top: 1px solid #dee2e6;
 }
 
 .table-info > td {
-    background-color: rgb(255,255,255);
+    background-color: #fff4f400;
+    border-top: 1px solid #dee2e6;
 }
 
-table.table-info:hover >td {
-    background-color: rgb(255,255,255);
+.table-hover .table-info:hover > td,
+.table-hover .table-info:hover > th {
+    background-color: #fff4f400;
 }
 
-.table:hover .table-info:hover > td {
-    background-color: rgb(255,255,255);
+.table:hover .table-info:hover {
+    background-color: rgb(233, 236, 239);
+}
+
+.table:hover .table-info:hover > tr {
+    background-color: rgb(233, 236, 239);
 }
 
 .table:hover .table-info:hover >th {
-    background-color: rgb(255, 255, 255);
-}
-.table-info {
-    background-color: white;
+    background-color: rgb(233, 236, 239);
 }
 
-.table td {
+.table-info {
+    background-color: #fff4f400;
+}
+
+table.table tr.table-info {
+    border-top: 1px solid #dee2e6;
+}
+
+.table td th{
     padding: 6px;
 }
 
@@ -473,3 +485,10 @@ table.table-info:hover >td {
 .card >.card-body > ul > li > a.text-info, .card-body > ul > li > a > #text {
     width: 50%;
 }
+
+#device_info > .list-group-item > span, #last_data > .list-group-item > span {
+    float: inline-end;
+    left: 14em;
+    width: 54%;
+}
+
