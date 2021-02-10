@@ -486,3 +486,9 @@ table.table tr.table-info {
     width: 50%;
 }
 
+#device_info > .list-group-item > span, #last_data > .list-group-item > span {
+    float: inline-end;
+    left: 14em;
+    width: 54%;
+}
+
