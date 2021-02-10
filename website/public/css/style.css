@@ -474,12 +474,13 @@ table.table tr.table-info {
     border-top: 1px solid #dee2e6;
 }
 
-.table td th{
+.table td, th{
     padding: 6px;
 }
 
-.target > .map-large > .mapboxgl-popup > .mapboxgl-popup-content {
+.target > .map-large > .mapboxgl-popup > .mapboxgl-popup-content {              
     width: 330px;
+    padding-bottom: 3px; 
 }
 
 .card >.card-body > ul > li > a.text-info, .card-body > ul > li > a > #text {
@@ -487,7 +488,7 @@ table.table tr.table-info {
 }
 
 #device_info > .list-group-item > span, #last_data > .list-group-item > span {
-    float: inline-end;
+    float: right;
     left: 14em;
     width: 54%;
 }
