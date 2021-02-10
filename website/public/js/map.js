@@ -161,24 +161,24 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     if (infoField != null) {
                         if (record[property].includes("Z")) {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
-                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';
+                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
                         } else if (record[property].includes("+")) {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
-                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';
+                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
                         } else {
                             info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Date</a>:</td><td> ' + formatDate(new Date(record[property] + "Z")); + '</td></tr>';
-                            info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';
+                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';*/
                         }
                     } else {
                         if (record[property].includes("Z")) {
                             info += '<tr><td>Date:</td><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
-                            info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';
+                            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';*/
                         } else if (record[property].includes("+")) {
                             info += '<tr><td>Date:</th><td> ' + formatDate(new Date(record[property])); + '</td></tr>';
-                            info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';
+                            /*info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';*/
                         } else {
                             info += '<tr><td>Date:</td><td> ' + formatDate(new Date(record[property] + "Z")); + '</td></tr>';
-                            info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';
+                            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';*/
                         }
                     }
                 }  else if (property === "recordid") {
@@ -213,7 +213,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         }
                 
                         else if(record[property] == "air-quality-data-continuous") {
-                            kilolima = "Air Quality";
+                            kilolima = "Bristol Air Quality Continuous";
                         }
 
                         else if(record[property] == "air-quality-no2-diffusion-tube-data") {
@@ -891,7 +891,7 @@ function displayPolygonCollection() {
 if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1) || (window.location.href.indexOf("datalocation") > -1) || (window.location.href.indexOf("aqi") > -1)) {
 
     // Map
-    mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
+    mapboxgl.accessToken = 'ppk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
 
     var bounds = [
         [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
