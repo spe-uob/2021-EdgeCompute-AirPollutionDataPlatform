@@ -202,8 +202,9 @@ footer ul.quick-links li:hover{
     border-top-right-radius: 0;
 }
 
+/*updated */
 .popups .list-group {
-    margin-top: -1px;
+    margin-top: -35px;
 }
 
 .popups .list-group-item {
@@ -481,6 +482,15 @@ table.table tr.table-info {
 .target > .map-large > .mapboxgl-popup > .mapboxgl-popup-content {              
     width: 330px;
     padding-bottom: 3px; 
+    position: relative;
+}
+
+.target > .map-large > .mapboxgl-popup > .mapboxgl-popup-content > .container {
+    position: relative;
+    width:100%;
+    height:100px;
+    flex-wrap: wrap;
+    display: flex;
 }
 
 .card >.card-body > ul > li > a.text-info, .card-body > ul > li > a > #text {
@@ -493,3 +503,57 @@ table.table tr.table-info {
     width: 54%;
 }
 
+/*updated */
+
+.container-1, .container-2, .container-3 {
+    display: block;
+    width:50%;
+    box-sizing: content-box ;
+}
+
+div.container-1 {
+    order: 1;
+    font-weight: 600;
+}
+
+.container-1 > .text-info ,.container-3 > .text-info {
+    margin-left:4px !important;
+    
+}
+
+
+.container-2 > .text-info{
+    font-weight: 400;
+}
+
+.container-2 {
+    order: 2;
+    margin-top: 1.% ;
+    text-align: right;
+}
+
+.container-3 {
+    order: 3;
+    margin-top: -18%;
+}
+.container-4 {
+    order: 4;
+}
+
+#sensorName{
+    font-size: 0.9rem;
+    display: inline;
+    white-space: nowrap;
+
+}
+
+.mapboxgl-popup-content >div.container{
+    padding-left: 0px;
+}
+
+#pointer{
+    margin-right: 91% !important;
+    padding: 4px !important;
+    margin-top: 2.4%;
+    border-radius: 1px;
+}
