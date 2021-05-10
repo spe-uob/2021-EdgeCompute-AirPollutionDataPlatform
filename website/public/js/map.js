@@ -283,7 +283,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         color = colors[assoColors.length];
                         assoColors.push(record[property]);
                     }
-                } else if ((property === "year") || (property === "day") || (property === "readings_count")) {
+                } else if ((property === "year") || (property === "day")) {
                     infoField = findField(fields, property);
                     if (infoField != null) {
                         info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + record[property] + '</a></div>';
