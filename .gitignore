@@ -1,0 +1,9 @@
+# JetBrains IDE config
+.idea
+
+# Vagrant VM Data
+.vagrant
+
+# Node modules installed here
+website/node_modules/
+website/package-lock.json
