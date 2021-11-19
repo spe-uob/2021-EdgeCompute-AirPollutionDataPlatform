@@ -84,6 +84,7 @@ Vagrant.configure("2") do |config|
 #   Install and configure PostgreSQL
     sudo apt-get install -y postgresql
     sudo -u postgres psql -c "CREATE USER ckan_default WITH PASSWORD 'pass';"
+    sudo -u postgres psql -c "CREATE USER datastore_default WITH PASSWORD 'pass';"
     sudo -u postgres createdb -O ckan_default ckan_default -E utf-8
     sudo -u postgres createdb -O ckan_default datastore_default -E utf-8
 
@@ -99,7 +100,7 @@ Vagrant.configure("2") do |config|
     sudo sed -ie 's+ckan.plugins = stats text_view image_view recline_view+ckan.plugins = stats text_view image_view recline_view datastore+g' /etc/ckan/default/ckan.ini
 
     ckan -c /etc/ckan/default/ckan.ini sysadmin add admin email=admin@localhost name=admin
-    sudo sed -ie 's+#ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default+ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default+g' /etc/ckan/default/ckan.ini
+    sudo sed -ie 's+#ckan.datastore.write_url = postgresql://datastore_defaults:pass@localhost/datastore_default+ckan.datastore.write_url = postgresql://ckan_default:pass@localhost/datastore_default+g' /etc/ckan/default/ckan.ini
     sudo sed -ie 's+#ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default+ckan.datastore.read_url = postgresql://datastore_default:pass@localhost/datastore_default+g' /etc/ckan/default/ckan.ini
     sudo ckan /etc/ckan/default/ckan.ini datastore set-permissions | sudo -u postgres psql --set ON_ERROR_STOP=1
 
