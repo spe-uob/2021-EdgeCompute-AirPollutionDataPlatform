@@ -108,7 +108,7 @@ function processAllResult(results) {
         for (var i = 0; i < records.length; i++) {
             index = i + offset;
             assoColors = buildMarkPopRecord(records[i], index.toString(), fields, markerColors, assoColors, property);
-            
+
         }
         offset += records.length;
     }
@@ -154,12 +154,12 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
             else if (assoColors[k] == "automatic-urban-and-rural-network-aurn") {
 
                 kilolima = "DEFRA AURN";
-                
+
             }
 
             else if (assoColors[k] == "air-quality-data-continuous") {
                 kilolima = "Bristol Air Quality Continuous";
-                
+
 
             }
 
@@ -174,9 +174,9 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
 
         }
 
-        
+
     }
-    
+
     var info = "";
     info += "<div class='container' style='display:flex'>";
     var last_data = "";
@@ -270,7 +270,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
 
                         info += '<div class = "container-1" id = "sensorName"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" "title="' + infoField[1] + '">' + kilolima + '</a></div>';
                     } else {
-                        
+
                         info += '<div class = "container-1 style="color:black !important" ">'+ kilolima +'</td></div>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
@@ -476,7 +476,7 @@ function fillDeviceDetails() {
     map.setZoom(13);
 }
 
-// Function to prepare the data for Home > Get Pollution Data > From Location 
+// Function to prepare the data for Home > Get Pollution Data > From Location
 function fromLocationDisplay() {
     const results = JSON.parse($("#data_res").text());
     const long = $("#long").text();
@@ -702,7 +702,7 @@ function formatPopupPolygon(record, index, fields) {
     return returnElem;
 }
 
-// Function to prepare the data for Home > Get Pollution Data > From Location 
+// Function to prepare the data for Home > Get Pollution Data > From Location
 function buildDataTable(record, fields, aqi, results) {
     var valueAQI, result,
         returnElem = "",
@@ -1038,7 +1038,6 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
                     .addTo(map); // Add the marker to the map
                 $("#longitudeInput").val(e.lngLat.lng);
                 $("#latitudeInput").val(e.lngLat.lat);
-                enableAddMarkerByClick = false;
             }
         });
 
