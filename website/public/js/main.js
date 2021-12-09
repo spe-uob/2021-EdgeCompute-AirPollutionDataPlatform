@@ -77,6 +77,7 @@ $(document).ready(function () {
     if (window.location.href.indexOf("fromlocation") > -1) {
         $("#getLocationBtn").click(function () {
             geolocate.trigger();
+            enableAddMarkerByClick = false;
         });
 
         $("#submitCoordinates").click(function () {
