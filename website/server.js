@@ -60,4 +60,4 @@ app.use(function (req, res, next) {
 });
 
 // Port to listen to
-app.listen(8081, "0.0.0.0", () => console.log(`SERVER STARTED`));
+app.listen(process.env.port, process.env.hostname, () => console.log(`SERVER STARTED`));
