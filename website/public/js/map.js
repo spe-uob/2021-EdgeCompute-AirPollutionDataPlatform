@@ -1,5 +1,5 @@
 var enableAddMarkerByClick = false;
-const mapbox_public_key=""
+const mapbox_public_key="pk.eyJ1IjoibWFydGluc3BlIiwiYSI6ImNrenllMmViODA5dDYydXA5dGQ5c29rNWwifQ.T-9kU_3Db4A7VGaeXT0Rag"
 
 function addZeroForDate(t) {
     if (t < 10) {
