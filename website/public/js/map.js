@@ -292,6 +292,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + record[property] + '</div>';
                     }
                 } else if (property === "location") {
+
                     check = true;
                     infoField = findField(fields, property);
                     if (infoField != null) {
@@ -305,7 +306,27 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     if (check != true) {
                         //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
                     } else {
-                        info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+
+                        //reverse geocode from api
+                     var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+
+                     record[property].coordinates.toString()
+                     +".json?access_token="+mapbox_public_key;
+
+                     var addressName
+                     $.ajaxSettings.async = false;
+                     $.getJSON(url, function(geoJSON) {
+                     // JSON result in `data` variable
+                        console.log(geoJSON)
+                        console.log("?????????")
+                        console.log(url)
+                        addressName = geoJSON["features"][0]["text"];
+                        console.log(addressName)
+                    });
+                        console.log(addressName)
+                        if(addressName!=null){
+                        //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+                        info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
+                        console.log(info);}
                     }
                 }
                 else if (property === "siteid") {
