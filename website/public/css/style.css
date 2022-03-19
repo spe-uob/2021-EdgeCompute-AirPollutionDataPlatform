@@ -559,3 +559,13 @@ div.container-1 {
     border-radius: 1px;
 }
 
+/* bubble graph */
+.bubbles {
+    stroke-width: 1px;
+    stroke: black;
+    opacity: .8
+  }
+  .bubbles:hover {
+    stroke: black;
+  }
+  
