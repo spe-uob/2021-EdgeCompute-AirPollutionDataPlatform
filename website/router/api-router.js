@@ -65,7 +65,7 @@ router.get('/aqi', async function (req, res, next) {
 router.get('/anydevice', async function (req, res, next) {
     try {
         if (!('interval' in req.query)) {
-            throw { name: "InputMissingError", message: "Parameters are missing in the query url." };
+            throw { name: "InputMissingError", message: "Parameters are missing in the query url" };
         }
         if (!('area' in req.query)) {
             throw { name: "InputMissingError", message: "Parameters are missing in the query url." };
