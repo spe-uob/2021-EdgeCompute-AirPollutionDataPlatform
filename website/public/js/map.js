@@ -966,8 +966,8 @@ function displayPolygonCollection() {
 if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1) || (window.location.href.indexOf("datalocation") > -1) || (window.location.href.indexOf("aqi") > -1)) {
 
     // Map
-    mapboxgl.accessToken = mapbox_public_key;
-    console.log("MApbox token: " + mapboxgl.accessToken)
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGluc3BlIiwiYSI6ImNrenllMmViODA5dDYydXA5dGQ5c29rNWwifQ.T-9kU_3Db4A7VGaeXT0Rag';
+
     var bounds = [
         [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
         [-2.3307087078190345, 51.5741181250848] // Northeast coordinates
