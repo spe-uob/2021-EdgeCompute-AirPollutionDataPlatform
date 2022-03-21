@@ -1,19 +1,18 @@
 
-const unitsID = "0d4f4029-b074-465c-8304-07682ee2d01d";
+const unitsID = "a51e90d8-6dbf-47f2-8f03-601b5d3f466a";
 const areas = [{
     area: "Bristol",
     center: [-2.6, 51.47],
-    groupID: "8e049fd6-4407-4d7f-ad32-16a5d405790a",
+    groupID: "0b9917a5-1310-476f-9741-ef0dcb8bdf68",
     lastData: {
-        necessaryFields:"b60f62c1-9f19-4ebd-ae48-ce3135f33c17",
+        necessaryFields:"76e67ed1-2cfb-4424-b2ac-5cc17e2b4374",
         pointIDS: {
-            Yearly:"93c6660c-909c-49d5-b275-29a581a09127", 
-            Daily:"23b22e1c-3e51-47d3-a0fa-7df998498c69",
-            Hourly:"63520b2a-f7d0-47bb-8dd8-d4635fd0a1b3"
-
+            Yearly:"10434ec9-f2a7-4848-b204-2fba554c11a6", 
+            Daily:"ba6546ae-f26d-4dde-ac4f-b7ca8941d2d5",
+            Hourly:"ca8f3db3-8159-4975-bc17-f089753ec2ea"
         },
         polygonIDS: {
-            Yearly: "c08e2fc1-7e28-4607-88d0-0cec34e822fa"
+            Yearly: "7a91bb0b-2415-45dc-921f-ef1b53357eb2"
         }
     },
     polygon: [

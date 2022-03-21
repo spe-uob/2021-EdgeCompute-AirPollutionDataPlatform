@@ -1,4 +1,5 @@
 var enableAddMarkerByClick = false;
+const mapbox_public_key="pk.eyJ1IjoibWFydGluc3BlIiwiYSI6ImNrenllMmViODA5dDYydXA5dGQ5c29rNWwifQ.T-9kU_3Db4A7VGaeXT0Rag"
 
 function addZeroForDate(t) {
     if (t < 10) {
@@ -291,6 +292,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + record[property] + '</div>';
                     }
                 } else if (property === "location") {
+
                     check = true;
                     infoField = findField(fields, property);
                     if (infoField != null) {
@@ -304,7 +306,27 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     if (check != true) {
                         //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
                     } else {
-                        info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+
+                        //reverse geocode from api
+                     var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+
+                     record[property].coordinates.toString()
+                     +".json?access_token="+mapbox_public_key;
+
+                     var addressName
+                     $.ajaxSettings.async = false;
+                     $.getJSON(url, function(geoJSON) {
+                     // JSON result in `data` variable
+                        console.log(geoJSON)
+                        console.log("?????????")
+                        console.log(url)
+                        addressName = geoJSON["features"][0]["text"];
+                        console.log(addressName)
+                    });
+                        console.log(addressName)
+                        if(addressName!=null){
+                        //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+                        info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
+                        console.log(info);}
                     }
                 }
                 else if (property === "siteid") {
@@ -944,7 +966,7 @@ function displayPolygonCollection() {
 if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href.indexOf("anydevice") > -1) || (window.location.href.indexOf("dataovertime") > -1) || (window.location.href.indexOf("datalocation") > -1) || (window.location.href.indexOf("aqi") > -1)) {
 
     // Map
-    mapboxgl.accessToken = 'ppk.eyJ1Ijoia2V2am9sbHk3OCIsImEiOiJjanl0bHBrN2owNTAyM21wcmJwMGFja3J4In0.VnKj_T9KkVVjkVdcG65KYA';
+    mapboxgl.accessToken = 'pk.eyJ1IjoibWFydGluc3BlIiwiYSI6ImNrenllMmViODA5dDYydXA5dGQ5c29rNWwifQ.T-9kU_3Db4A7VGaeXT0Rag';
 
     var bounds = [
         [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates

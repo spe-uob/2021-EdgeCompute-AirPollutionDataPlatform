@@ -394,6 +394,7 @@ main {
     overflow: auto;
 }
 
+
 .card-body {
     position: relative;
 }
@@ -557,3 +558,14 @@ div.container-1 {
     margin-top: 2.4%;
     border-radius: 1px;
 }
+
+/* bubble graph */
+.bubbles {
+    stroke-width: 1px;
+    stroke: black;
+    opacity: .8
+  }
+  .bubbles:hover {
+    stroke: black;
+  }
+  

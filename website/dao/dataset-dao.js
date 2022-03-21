@@ -1,5 +1,5 @@
 var CKAN = require('ckan')
-const client = new CKAN.Client('http://ckan.bitvijays.local');
+const client = new CKAN.Client('http://192.168.56.3');
 
 function getDataFromDatasetLimited(datasetID, limitData) {
     return new Promise((resolve, reject) => {

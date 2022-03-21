@@ -350,6 +350,8 @@ function isEmpty(obj) {
 class AirDataService {
 
     // Funtion to manage the "Get Pollution Data > From Location" Functionality
+    // AreaToTake: return the area that location is in the polygon
+
     async getDataLocation(long, lat) {
         const locationStr = [long, lat];
         if (checkIfInputsCorrect(locationStr)) {
@@ -369,6 +371,7 @@ class AirDataService {
                             breakCheck = false;
 
                         if ("pointIDS" in areaToTake.lastData) {
+                            //Yearly Monthly Hourly, in reverse order
                             lastDataProps = Object.keys(areaToTake.lastData.pointIDS).reverse();
                             necessaryFields = (await datasetDao.getDataAPI({
                                 resource_id: areaToTake.lastData.necessaryFields,
@@ -378,9 +381,15 @@ class AirDataService {
                             })).records[0].necessary_fields;
                             if (typeof necessaryFields !== 'undefined') {
                                 for (var i = 0; i < limitDistance.length; i++) {
+                                    //i dont see the chance breakCheck can be false here.
+                                    //but i will leave it here
                                     if (breakCheck) {
                                         break;
                                     } else {
+                                        //no2, pm 2.5 etc, names of pollution in air
+                                        //use them as sort of foreign keys, store data got to
+                                        //dictionary
+                                        //limitAttaiged is for error handling in case of "no such a field"
                                         for (var j = 0; j < lastDataProps.length; j++) {
                                             if (necessaryFields.length > 0) {
                                                 if (areaToTake.lastData.pointIDS[lastDataProps[j]] != null) {
@@ -444,6 +453,7 @@ class AirDataService {
 
                         if ("polygonIDS" in areaToTake.lastData) {
                             lastDataProps = Object.keys(areaToTake.lastData.polygonIDS).reverse();
+                            //getDataAPI is the ckan js api
                             necessaryFields = (await datasetDao.getDataAPI({
                                 resource_id: areaToTake.lastData.necessaryFields,
                                 q: { geometry: 'Polygon' },
@@ -514,6 +524,7 @@ class AirDataService {
                                 area_center: areaToTake.center
                             },
                             result: {
+                                //data you have
                                 fields: fieldsLocRecord,
                                 data: fromLocRecord,
                                 devices: fromLocDevices,
