@@ -134,6 +134,7 @@ function findField(fields, crtProperty) {
 }
 
 function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
+    const eu_aqi = JSON.parse($("#eu_aqi").text());
     /*var returnElem = '<ul class="nav nav-tabs" id="popupTab' + index + '" role="tablist">\
                       <li class="nav-item">\
                       <a class="nav-link active link-popup-tab" id="infoTab'+ index + '" data-toggle="tab" href="#info' + index + '" role="tab" aria-controls="info' + index + '" aria-selected="true">Info</a>\
@@ -171,8 +172,12 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
             else {
                 kilolima = assoColors[k]
             }
-            returnElem += '<span class="legend" id="pointer" style="background-color: ' + colors[k] + '"></span>';
 
+            color = getPopupAqiColor(record, eu_aqi);
+            if (color === null)
+                color = '#ffffff' // If all pollutants are null, use white
+
+            returnElem += '<span class="legend" id="pointer" style="background-color: ' + color + '"></span>';
         }
 
 
@@ -360,6 +365,18 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
             }
         }
     }
+
+// Function to get color in popup marker based on aqi level
+function getPopupAqiColor(record, aqi) {
+    var pollutants = ["pm25", "pm10", "no2", "o3"]; // The pollutants to use in reverse order of importance
+    for (var pollutant of pollutants) {
+        if (record[pollutant] != null) {
+            return getAQIValue(pollutant, record[pollutant], aqi)[2];
+        }
+    }
+    return null;  // If all pollutants to use are null, return null
+}
+
     //make changes here
     /*returnElem += '<div class="tab-content" id="popupTabContent' + index + '">\
                    <div class="tab-pane fade show active" id="info' + index + '" role="tabpanel" aria-labelledby="info' + index + '-tab"><ul class="list-group">' + info + '</tbody></table></ul></div>\
