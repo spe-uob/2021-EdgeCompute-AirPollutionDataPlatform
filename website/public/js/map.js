@@ -968,6 +968,7 @@ if ((window.location.href.indexOf("fromlocation") > -1) || (window.location.href
     // Map
     mapboxgl.accessToken = mapbox_public_key;
     console.log("MApbox token: " + mapboxgl.accessToken)
+
     var bounds = [
         [-3.0092414592144143, 51.30440291202908,], // Southwest coordinates
         [-2.3307087078190345, 51.5741181250848] // Northeast coordinates
