@@ -61,6 +61,18 @@ router.get('/anydevice', async function (req, res, next) {
     }
 });
 
+router.get('/comparing', async function (req, res, next) {
+    try {
+        const response = (!('area' in req.query)) ? await airdataService.getAllData(null) : await airdataService.getAllData(req.query.area);
+        res.render('comparing.html', {
+            code: 0,
+            data: response
+        });
+    } catch (err) {
+        next(err);
+    }
+});
+
 // Manage Air Quality Map Functionality
 router.get('/aqi', async function (req, res, next) {
     try {

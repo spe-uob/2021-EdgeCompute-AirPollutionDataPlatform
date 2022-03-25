@@ -38,7 +38,11 @@ app.use('/mail', require('./router/mail-router'));
 app.use('/airdata', require('./router/airdata-router'));
 
 // API functionality uses /api
-app.use('/api', require('./router/api-router'));
+app.use('/comparing', require('./router/airdata-router'),function (req, res, next) {
+	console.log(req.path, '????');
+	res.sendFile('public/views/comparing.html', { root: __dirname });
+});
+
 
 // general error handler
 app.use(function (err, req, res, next) {
