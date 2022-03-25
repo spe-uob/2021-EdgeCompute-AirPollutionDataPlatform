@@ -280,6 +280,8 @@ $(document).ready(function () {
         });
     } else if (window.location.href.indexOf("dataovertime") > -1) {
         $('#select-parameters').on('change', function (e) {
+            var theDiv = document.getElementById('heatmap');
+            theDiv.style.background = 'white';
             recreateGraph($(this).val());
         });
     } else if (window.location.href.indexOf("api") > -1) {

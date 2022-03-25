@@ -559,13 +559,22 @@ div.container-1 {
     border-radius: 1px;
 }
 
-/* bubble graph */
-.bubbles {
-    stroke-width: 1px;
-    stroke: black;
-    opacity: .8
-  }
-  .bubbles:hover {
-    stroke: black;
-  }
-  
+/* heatmap */
+
+#heatmap{
+    position: relative;
+    /* background: white; */
+    overflow-y: scroll;
+}
+
+.cal-heatmap-container {
+    overflow-y: scroll;
+    width: 100%;
+    padding-left: 2%;
+    padding-top: 10;
+}
+
+svg {
+    /* float: left; */
+    max-width:100%;
+}
