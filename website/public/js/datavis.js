@@ -11,6 +11,15 @@ var margin = {top: 40, right: 80, bottom: 60, left: 30},
     width = 900 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
+// Thresholds for aqi ratings
+const legendThresholds = {
+    "pm25": [10, 20, 25, 50],
+    "pm10": [20, 25, 50, 100],
+    "no2": [40, 100, 200, 400],
+    "o3": [80, 120, 180, 240],
+    "so2": [100, 200, 350, 500]
+};
+
 if (window.location.href.indexOf("dataovertime") > -1) {
       $('#select-parameters').on('change', function (e) {
           var key = ($(this).val())[0];
@@ -59,18 +68,12 @@ function generateHeatMap(key){
           start: start,
           minDate: start,
           //maxDate: new Date(Date.parse(records[0].date_time)),
-          displayLegend: false,
+          displayLegend: true,
+          legendHorizontalPosition: "center",
+          legendVerticalPosition: "top",
           range: range,
           previousSelector: "#previousSelector-a-previous",
-	        nextSelector: "#previousSelector-a-next",
-          legendColors: {
-            min: "#e3d4aa",
-            max: "#52240f",
-            empty: "white"
-            // Will use the CSS for the missing keys
-          },
-
-          //TODO: legend should change according to param
-          legend: [0, 25, 50, 100]
+          nextSelector: "#previousSelector-a-next",
+          legend: legendThresholds[key]
         })
 }
