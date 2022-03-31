@@ -17,7 +17,9 @@ const legendThresholds = {
     "pm10": [20, 25, 50, 100],
     "no2": [40, 100, 200, 400],
     "o3": [80, 120, 180, 240],
-    "so2": [100, 200, 350, 500]
+    "so2": [100, 200, 350, 500],
+    "battery": [0, 40, 80, 100],
+    "relative_humidity": [0, 20, 40, 60],
 };
 
 if (window.location.href.indexOf("dataovertime") > -1) {
@@ -29,28 +31,33 @@ if (window.location.href.indexOf("dataovertime") > -1) {
 
 function generateHeatMap(key){
         d3.selectAll('svg').remove();
-        d3.selectAll('button').remove();
-        d3.selectAll('span').remove();
-        d3.selectAll('p').remove();
+        $('#previousSelector-a-previous').remove();
+        $('#previousSelector-a-next').remove();
+        $('#heatmapTitle').remove();
+
+        // d3.selectAll('button').remove();
+        // d3.selectAll('span').remove();
+        // d3.selectAll('p').remove();
+        // $('#heatmap').empty();
 
         let btn1 = document.createElement("button");
         let btn2 = document.createElement("button");
-        let title = document.createElement("span");
-        let description = document.createElement("p");
-        title.innerHTML = "Calendar Heatmap";
-        title.style.display = "table";
-        title.style.margin = "0 auto";
-        description.innerHTML = "Hover over a coloured box to show parameter value for the given time";
+        let title = document.createElement("h3");
+
+        title.innerHTML = "Calendar Heatmap for " + key;
+        title.setAttribute("class", "text-center inline");
+        title.setAttribute("id", "heatmapTitle");
         btn1.innerHTML = "previous";
         btn1.setAttribute("id", "previousSelector-a-previous");
         btn1.setAttribute("class", "btn btn-primary");
         btn2.innerHTML = "next";
         btn2.setAttribute("id", "previousSelector-a-next");
         btn2.setAttribute("class", "btn btn-primary");
+
+  
+        document.getElementById("heatmap").append(title);
         document.getElementById("heatmap").append(btn1);
         document.getElementById("heatmap").append(btn2);
-        document.getElementById("heatmap").append(title);
-        document.getElementById("heatmap").append(description);
 
         var obj = new Object();
         var dtime;

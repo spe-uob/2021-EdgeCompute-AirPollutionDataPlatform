@@ -564,14 +564,17 @@ div.container-1 {
 #heatmap{
     position: relative;
     /* background: white; */
-    overflow-y: scroll;
+}
+
+#heatmapTitle{
+    padding-top: 15px;
 }
 
 .cal-heatmap-container {
-    overflow-y: scroll;
     width: 100%;
     padding-left: 2%;
-    padding-top: 10;
+    padding-top: 10px;
+    margin-top: 10px;
 }
 
 svg {
