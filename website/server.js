@@ -1,5 +1,5 @@
 // Loading the library modules
-require('dotenv').config()
+require('dotenv').config();
 var express = require('express');
 var path = require("path");
 var bodyParser = require('body-parser');
@@ -37,12 +37,11 @@ app.use('/mail', require('./router/mail-router'));
 // Everything else (Get Pollution Data/Air Quality Map) uses /airdata
 app.use('/airdata', require('./router/airdata-router'));
 
-// API functionality uses /api
-app.use('/comparing', require('./router/airdata-router'),function (req, res, next) {
-	console.log(req.path, '????');
-	res.sendFile('public/views/comparing.html', { root: __dirname });
-});
+// comparing data from website/router/airdata-router:
+app.use('/comparing', require('./router/comparing-data'));
 
+// API functionality uses /api
+app.use('/api', require('./router/api-router'));
 
 // general error handler
 app.use(function (err, req, res, next) {

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AQP - Comparing Data</title>
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<!-- Special tag for Microsoft -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Description -->
+<meta name="description" content="From location page of the air pollution data website">
+<!-- How the layout and content adapts to the mobile viewport -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Favicon -->
+<link rel='shortcut icon' type='image/x-icon' href='/static/img/aqp_logo.ico' />
+
+<!-- style sheet -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/vega-tooltip@0.5.0/build/vega-tooltip.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!-- opensource font -->
+<link href="https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link href="/static/css/style.css" rel="stylesheet">
+<link href="/static/css/svg.css" rel="stylesheet">
+
+<!-- JavaScript -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@4.13.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@3.1.0/build/vega-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-tooltip@0.5.1"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/static/js/circularHeatChartV4.js"></script>
+<script src="/static/js/luftviz.js"></script>
+<script>
+    $(function() {
+        $("#header").load("/static/views/header.html");
+        $("#footer").load("/static/views/footer.html");
+    })
+</script>
+
+</head>
+
+<body class="h-100 d-flex flex-column body-fill">
+<header id = "header">
+</header>
+
+<!-- get data -->
+<div id="data_res"><%= data %></div>
+
+<div class="main-content">
+
+    <div class="col-md-12 col-lg-12">
+        <div class="card card-margins-bis">
+            <div class="card-body">
+                <h4 class="card-title">Data from:</h4>
+                <p class="card-text text-justify">
+                    You can compare readings from differet sensors/times
+                    using the drop down boxes in the pages with visualisations.
+                </p>
+
+                <!-- Value field (PM10 or PM2.5) -->
+                <select id="value-field-day-of-week" class="particulate-choice form-select form-select-lg mb-3">
+                    <option value="P2" selected="selected">Particulate size: PM2.5</option>
+                    <option value="P1">Particulate size: PM10</option>
+                </select>
+
+                <div class="day-of-week page">
+
+            
+                    <!-- Drop downs -->
+                    <div class="row">
+                        <div class="col">
+                            <div>
+                                <select id="sensor-code-day-of-week-1" class="form-select form-select-lg mb-3">
+                                </select>
+                            </div>
+                            <div>
+                                <select id="sensor-date-day-of-week-1" class="form-select form-select-lg mb-3">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <select id="sensor-code-day-of-week-2" class="form-select form-select-lg mb-3">
+                                </select>
+                            </div>
+                            <div>
+                                <select id="sensor-date-day-of-week-2" class="form-select form-select-lg mb-3">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+            
+            
+                    <!-- data -->
+                    <div id="data_res"></div>
+                    <!-- <div id="last_record">{{data.last_record}}</div>
+                    <div id="eu_aqi">{{data.eu_aqi}}</div> -->
+            
+                    <!-- Charts -->
+                    <div class="row">
+                        <div class="col">
+                            <div class="circle-chart" id="day-of-week-chart-1"></div>
+            
+                        </div>
+                        <div class="col">
+                            <div class="circle-chart" id="day-of-week-chart-2"></div>
+                            <div id="info2"></div>
+                        </div>
+                    </div>
+            
+                    <!-- Legend -->
+                    <div class="center">
+                        <div id="info"></div>
+                        <div id="day-of-week-legend"></div>
+                    </div>
+                </div>
+            
+                <div class="over-time page">
+
+                    <!-- Explanation text -->
+                    <div>
+                        <p>
+                            Shows air quality particulate readings as 24 hour means. Each
+                            point shows the average air quality reading for the
+                            24 hours preceding it. This lets us measure the air quality
+                            against air quality indexes.
+                        </p>
+                    </div>
+            
+                    <!-- Charts -->
+                    <div class="row">
+                        <div class="column">
+                            <div class="twentyfour-hour-means" id="twentyfour-hour-means-chart-1"></div>
+                        </div>
+                        <div class="column">
+                            <div class="twentyfour-hour-means" id="twentyfour-hour-means-chart-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+</div>
+
+
+    <footer id = "footer" class="footer mt-auto text-white">
+    </footer>
+
+</div>
+<!--<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>-->
+</body>
+</html>

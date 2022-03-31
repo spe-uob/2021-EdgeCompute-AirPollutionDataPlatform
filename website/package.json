@@ -25,6 +25,7 @@
     "ckan": "^0.2.3",
     "dotenv": "^10.0.0",
     "easy-autocomplete": "^1.3.5",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "jscoord": "^1.2.0",
     "mustache-express": "^1.3.2",
