@@ -777,7 +777,14 @@ class AirDataService {
 
     // Function to manages the "More Data" Functionality
     async getDataOverTime(deviceRaw) {
-        const [device, geojson] = formatDeviceRaw(decodeURIComponent(deviceRaw));
+        var device, geojson;
+        if (typeof deviceRaw === "string") {
+        [device, geojson] = formatDeviceRaw(decodeURIComponent(deviceRaw));
+        } else {
+            device = deviceRaw[0];
+            geojson = deviceRaw[1];
+        }
+
         const units = await datasetDao.getData(unitsID, limitData);
         var data;
         if (device != null) {

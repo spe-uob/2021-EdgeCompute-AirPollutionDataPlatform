@@ -1,0 +1,39 @@
+/* SVG styling */
+svg {
+	/*width: 400px;
+	height: 300px;*/
+
+	/*width: 960px;
+	height: 300px;*/
+}
+#energychart svg, #chart3 svg {
+	height: 360px;
+}
+#circleChart svg {
+	height: 400px;
+}
+.circle-chart svg {
+    width: 400px;
+	height: 400px;
+	/*height: 400px;*/
+}
+#day-of-week-legend svg {
+    width: 350px;
+}
+path {
+	stroke: #777;
+	stroke-width: 0.1px;
+}
+
+.labels {
+	fill: #676767;
+	font-weight: 200;
+	letter-spacing: -1px;
+}
+.labels.segment {
+	font-size: 11px;
+}
+
+#chart3 .labels {
+	fill: #555;
+}

@@ -1,10 +1,10 @@
 //Bubble Graph
+// Source: https://cal-heatmap.com/
 
-//get data
+//get data from the page
 const keys = JSON.parse($("#data_res").text()).fields;
 const records = JSON.parse($("#data_res").text()).records;
-console.log(keys);
-console.log(records);
+
 
 // set the dimensions and margins of the graph
 var margin = {top: 40, right: 80, bottom: 60, left: 30},
@@ -73,7 +73,7 @@ function generateHeatMap(key){
         var range = records.length;
 
 
-
+//config the heatmap
         var cal = new CalHeatMap();
         cal.init({
           itemSelector: document.getElementById("heatmap"),
