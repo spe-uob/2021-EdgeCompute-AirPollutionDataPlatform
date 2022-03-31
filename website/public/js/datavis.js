@@ -30,9 +30,17 @@ if (window.location.href.indexOf("dataovertime") > -1) {
 function generateHeatMap(key){
         d3.selectAll('svg').remove();
         d3.selectAll('button').remove();
+        d3.selectAll('span').remove();
+        d3.selectAll('p').remove();
 
         let btn1 = document.createElement("button");
         let btn2 = document.createElement("button");
+        let title = document.createElement("span");
+        let description = document.createElement("p");
+        title.innerHTML = "Calendar Heatmap";
+        title.style.display = "table";
+        title.style.margin = "0 auto";
+        description.innerHTML = "Hover over a coloured box to show parameter value for the given time";
         btn1.innerHTML = "previous";
         btn1.setAttribute("id", "previousSelector-a-previous");
         btn1.setAttribute("class", "btn btn-primary");
@@ -41,9 +49,17 @@ function generateHeatMap(key){
         btn2.setAttribute("class", "btn btn-primary");
         document.getElementById("heatmap").append(btn1);
         document.getElementById("heatmap").append(btn2);
+        document.getElementById("heatmap").append(title);
+        document.getElementById("heatmap").append(description);
 
         var obj = new Object();
         var dtime;
+
+        for (const field of keys) {
+            if (field.id === key) {
+                var unit = field.unit;
+            }
+        }
 
         //create data to cal
         for (var record of records) 
@@ -61,6 +77,7 @@ function generateHeatMap(key){
         var cal = new CalHeatMap();
         cal.init({
           itemSelector: document.getElementById("heatmap"),
+          itemName: [key, key],
           domain: "day",
           subDomain: "hour",
           cellSize: 20,
@@ -69,11 +86,31 @@ function generateHeatMap(key){
           minDate: start,
           //maxDate: new Date(Date.parse(records[0].date_time)),
           displayLegend: true,
-          legendHorizontalPosition: "center",
+          legendHorizontalPosition: "left",
           legendVerticalPosition: "top",
+          legendMargin: [10, 0, 10, 0],
+          legendTitleFormat: {
+              lower: "{name}: less than {min}" + unit,
+              inner: "{name}: between {down} and {up}" + unit,
+              upper: "{name}: more than {max}" + unit
+          },
+          subDomainTitleFormat: {
+            empty: "{date}",
+            filled: "{name}: {count}" + unit + " {connector} {date}"
+          },
           range: range,
           previousSelector: "#previousSelector-a-previous",
-          nextSelector: "#previousSelector-a-next",
-          legend: legendThresholds[key]
-        })
+          nextSelector: "#previousSelector-a-next"
+        });
+
+        cal.setLegend(getLegendThreshold(cal, key));
+}
+
+function getLegendThreshold(cal, key) {
+    if (legendThresholds.hasOwnProperty(key)) {
+        return legendThresholds[key];
+    } else {
+        cal.removeLegend();  // If threshold not available, remove legend
+        return [];  // Empty array makes all blocks the same color
+    }
 }
