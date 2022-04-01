@@ -370,7 +370,7 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
 function getPopupAqiColor(record, aqi) {
     var pollutants = ["pm25", "pm10", "no2", "o3", "so2"]; // The pollutants to use in order of importance
     for (var pollutant of pollutants) {
-        if (record[pollutant] != null) {
+        if (record[pollutant] != null && record[pollutant] >= 0) {
             return getAQIValue(pollutant, record[pollutant], aqi)[2];
         }
     }
