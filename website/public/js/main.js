@@ -4,6 +4,36 @@ function jumpTo(id) {
     }, 600);
 }
 
+function getTrafficDataFromAPI(lat, long, startDate) {
+    //todays' date to ISOString
+    var today = new Date();
+    startDate = startDate.toISOString
+
+    //get data of detectors that is within 999999m of the selected location
+    var deviceIDurl = "https://opendata.bristol.gov.uk/api/records/1.0/search/?dataset=dim-traffic-counters&q=&rows=100&facet=countdevicedescription&facet=link&exclude.effectiveforcounts=No&geofilter.distance="
+                +lat+"%2C"+long+"%2C"+"999999";
+
+    var devideID;
+    $.ajaxSettings.async = false;
+    $.getJSON(deviceIDurl, function(data) {
+        var records = data["records"];
+        //get the device ID of the first record,
+        //the first record is always the closest one
+        devideID = records[0]["fields"]["countdeviceid"];
+   });
+
+   //get data from the selected device
+    var dataurl = "https://opendata.bristol.gov.uk/api/records/1.0/search/?dataset=fact-traffic-counts&q=rollupdatetime%3A%5B"
+                    +startDate+"+TO+"+today
+                    +"%5D&rows=200&refine.sk_dim_countdeviceid="+devideID;
+   var data;
+   $.ajaxSettings.async = false;
+   $.getJSON(deviceIDurl, function(data) {
+         data = data["records"];
+    });
+    return data;
+}
+
 $(document).ready(function () {
     $("#sendFeedback").click(function () {
         var emailAddress = $("#senderEmail").val();
@@ -279,10 +309,26 @@ $(document).ready(function () {
             }, delayInMilliseconds);
         });
     } else if (window.location.href.indexOf("dataovertime") > -1) {
+        var longitude = $("#longitudeInput").val();
+        var latitude = $("#latitudeInput").val();
+
+        //add "traffic" option to select
+        var trafficOption = document.createElement("option");
+        trafficOption.text = "Traffic";
+        trafficOption.value = "traffic";
+        $("#select-parameters").append(trafficOption);
+
         $('#select-parameters').on('change', function (e) {
-            var theDiv = document.getElementById('heatmap');
-            theDiv.style.background = 'white';
-            recreateGraph($(this).val());
+            //display heatmap for selected parameter
+            var heatmapDiv = document.getElementById('heatmap');
+            //change visibility of heatmapDiv to visible
+            heatmapDiv.style.visibility = 'visible';
+            //get traffic data from api
+
+            //get traffic data
+            var trafficData = getTrafficDataFromAPI();
+
+            recreateGraph($(this).val(), );
         });
     } else if (window.location.href.indexOf("api") > -1) {
         $("pre").css('height', $(".card").css('height'));

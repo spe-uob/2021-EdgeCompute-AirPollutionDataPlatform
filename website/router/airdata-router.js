@@ -117,7 +117,6 @@ router.get('/dataovertime', async function (req, res, next) {
         
         const response = await airdataService.getDataOverTime(req.query.device);
 
-        console.log(response);
         res.render('dataovertime.html',{
             code: 0,
             data: response

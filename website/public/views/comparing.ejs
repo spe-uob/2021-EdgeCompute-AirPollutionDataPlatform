@@ -38,8 +38,8 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 <script src="https://cdn.jsdelivr.net/npm/vega-tooltip@0.5.1"></script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="/static/js/circularHeatChartV4.js"></script>
 <script src="/static/js/luftviz.js"></script>
+<script src="/static/js/circularHeatChartV4.js" defer></script>
 <script>
     $(function() {
         $("#header").load("/static/views/header.html");
@@ -54,7 +54,7 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
 </header>
 
 <!-- get data -->
-<div id="data_res"><%= data %></div>
+<div id="data_res"><%=data%></div>
 
 <div class="main-content">
 
@@ -68,9 +68,12 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
                 </p>
 
                 <!-- Value field (PM10 or PM2.5) -->
-                <select id="value-field-day-of-week" class="particulate-choice form-select form-select-lg mb-3">
-                    <option value="P2" selected="selected">Particulate size: PM2.5</option>
-                    <option value="P1">Particulate size: PM10</option>
+                <select id="parameter" class="particulate-choice form-select form-select-lg mb-3">
+                    <option value="pm10" selected="selected">Particulate size: PM2.5</option>
+                    <option value="pm25">Particulate size: PM10</option>
+                    <option value="no">NO</option>
+                    <option value="no2">NO2</option>
+                    <option value="noX">NOX</option>
                 </select>
 
                 <div class="day-of-week page">
@@ -80,40 +83,27 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
                     <div class="row">
                         <div class="col">
                             <div>
-                                <select id="sensor-code-day-of-week-1" class="form-select form-select-lg mb-3">
-                                </select>
-                            </div>
-                            <div>
-                                <select id="sensor-date-day-of-week-1" class="form-select form-select-lg mb-3">
+                                <select id="sensor-1" class="form-select form-select-lg mb-3">
                                 </select>
                             </div>
                         </div>
                         <div class="col">
                             <div>
-                                <select id="sensor-code-day-of-week-2" class="form-select form-select-lg mb-3">
-                                </select>
-                            </div>
-                            <div>
-                                <select id="sensor-date-day-of-week-2" class="form-select form-select-lg mb-3">
+                                <select id="sensor-2" class="form-select form-select-lg mb-3">
                                 </select>
                             </div>
                         </div>
                     </div>
             
             
-                    <!-- data -->
-                    <div id="data_res"></div>
-                    <!-- <div id="last_record">{{data.last_record}}</div>
-                    <div id="eu_aqi">{{data.eu_aqi}}</div> -->
-            
                     <!-- Charts -->
                     <div class="row">
                         <div class="col">
-                            <div class="circle-chart" id="day-of-week-chart-1"></div>
-            
+                            <div class="circle-chart" id="chart-1"></div>
+                            <div id="info1"></div>
                         </div>
                         <div class="col">
-                            <div class="circle-chart" id="day-of-week-chart-2"></div>
+                            <div class="circle-chart" id="chart-2"></div>
                             <div id="info2"></div>
                         </div>
                     </div>

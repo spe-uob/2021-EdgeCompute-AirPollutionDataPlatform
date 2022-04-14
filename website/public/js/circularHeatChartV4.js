@@ -1,19 +1,98 @@
-// Version of circularHeatChart compatible with D3 v4
-//source: https://sts.bristolairquality.co.uk/#dayofweek/sensor1=66963&date1=2021-11&sensor2=66970&date2=2021-11&valueField=P2
+// 5 days
+var radial_labels = [];
+// 24 hours
+var segment_labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+//today's date
+var today = new Date();
+//parameter enum
+const parameterEnum = Object.freeze({"pm10":0, "pm25":1, "no":2, "no2":3, "noX":4});
+
+
+//get data from data_res
+const data_res = document.getElementById('data_res').innerHTML;
+const data_res_json = JSON.parse(data_res);
+
+
+//if any select changed
+$(document).ready(function() {
+    //pop locations option to select
+    
+
+})  //end of document ready
+
+function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,segment_labels) {
+
+    var margin = {top: 50, right: 50, bottom: 50, left: 50};
+    var width = 600 - margin.left - margin.right;
+
+    var height = width;
+    var innerRadius = width/14;
+    var segmentHeight = (width - margin.top - margin.bottom - 2*innerRadius )/(2*radial_labels.length)
+
+    var chart = circularHeatChart()
+    .innerRadius(innerRadius)
+    .segmentHeight(segmentHeight)
+    .range(["white", "#01579b"])
+    .radialLabels(radial_labels)
+    .segmentLabels(segment_labels);
+
+    chart.accessor(function(d) {return d.value;})
+
+    var svg = d3.select(dom_element_to_append_to)
+    .selectAll('svg')
+    .data([dataset])
+    .enter()
+    .append('svg')
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append('g')
+    .attr("transform",
+        "translate(" + ( (width )/2 - (radial_labels.length*segmentHeight + innerRadius)  ) + "," + margin.top + ")")
+    .call(chart);
+
+    var tooltip = d3.select(dom_element_to_append_to)
+    .append('div')
+    .attr('class', 'tooltip');
+
+    tooltip.append('div')
+    .attr('class', 'month');
+    tooltip.append('div')
+    .attr('class', 'value');
+    tooltip.append('div')
+    .attr('class', 'type');
+
+    svg.selectAll("path")
+    .on('mouseover', function(d) {
+        tooltip.select('.month').html("<b> Month: " + d.month + "</b>");
+        tooltip.select('.type').html("<b> Type: " + d.type + "</b>");
+        tooltip.select('.value').html("<b> Value: " + d.value + "</b>");
+
+        tooltip.style('display', 'block');
+        tooltip.style('opacity',2);
+    })
+    .on('mousemove', function(d) {
+
+        tooltip.style('top', (d3.event.layerY + 10) + 'px')
+        .style('left', (d3.event.layerX - 25) + 'px');
+    })
+    .on('mouseout', function(d) {
+        tooltip.style('display', 'none');
+        tooltip.style('opacity',0);
+    });
+}
 
 function circularHeatChart() {
     var margin = {top: 20, right: 20, bottom: 20, left: 20},
-    innerRadius = 50,
-    numSegments = 24,
+    innerRadius = 20,
+    numSegments = 12,
     segmentHeight = 20,
     domain = null,
     range = ["white", "red"],
     accessor = function(d) {return d;},
-    radialLabels = segmentLabels = [],
-    nanColor = '#dddddd';
+    radialLabels = segmentLabels = [];
 
     function chart(selection) {
-        selection.each(function(data, bandIndex) {
+        selection.each(function(data) {
             var svg = d3.select(this);
 
             var offset = innerRadius + Math.ceil(data.length / numSegments) * segmentHeight;
@@ -26,22 +105,18 @@ function circularHeatChart() {
                 domain = d3.extent(data, accessor);
                 autoDomain = true;
             }
-            var color = d3.scaleLinear().domain(domain).range(range);
+            var color = d3.scale.linear().domain(domain).range(range);
             if(autoDomain)
                 domain = null;
 
             g.selectAll("path").data(data)
                 .enter().append("path")
-                .attr("d", d3.arc().innerRadius(ir).outerRadius(or).startAngle(sa).endAngle(ea))
-                .attr("fill", function(d) {
-                        var val = accessor(d);
-                        return val == null || isNaN(val) ? nanColor : color(accessor(d));
-                    });
-
+                .attr("d", d3.svg.arc().innerRadius(ir).outerRadius(or).startAngle(sa).endAngle(ea))
+                .attr("stroke", function(d) {return "#4f5b69";})
+                .attr("fill", function(d) {return color(accessor(d));});
 
             // Unique id so that the text path defs are unique - is there a better way to do this?
-            // var id = d3.selectAll(".circular-heat")[0].length;
-            var id = bandIndex;
+            var id = d3.selectAll(".circular-heat")[0].length;
 
             //Radial labels
             var lsa = 0.01; //Label start angle
@@ -66,7 +141,7 @@ function circularHeatChart() {
                 .append("text")
                 .append("textPath")
                 .attr("xlink:href", function(d, i) {return "#radial-label-path-"+id+"-"+i;})
-                .style("font-size", 0.6 * segmentHeight + 'px')
+                .style("font-size", "16px")
                 .text(function(d) {return d;});
 
             //Segment labels
@@ -87,6 +162,7 @@ function circularHeatChart() {
                 .append("text")
                 .append("textPath")
                 .attr("xlink:href", "#segment-label-path-"+id)
+                .style("font-size", "16px")
                 .attr("startOffset", function(d, i) {return i * 100 / numSegments + "%";})
                 .text(function(d) {return d;});
         });

@@ -798,6 +798,8 @@ class AirDataService {
                 throw { name: "QueryParameterError", message: "The parameter given does not respect the format required." };
             }
 
+            
+
             data = linkUnits(data, units.records);
             data = formatResp(data, ["fields", "records"]);
             if (data.records.length !== 0) {
