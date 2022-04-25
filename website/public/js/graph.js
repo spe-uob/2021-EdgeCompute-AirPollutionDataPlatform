@@ -1,3 +1,47 @@
+function getTrafficDataFromAPI(lat, long, startDate) {
+    var today = new Date();
+
+    //round startDate and today to the mid night
+    startDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    
+    //todays' date to ISOString
+    today = encodeURIComponent(today.toISOString().replace(/\.\d+Z/,'Z'));
+    startDate = encodeURIComponent(startDate.toISOString().replace(/\.\d+Z/,'Z'));
+
+    //get data of detectors that is within 999999m of the selected location
+    var deviceIDurl = "https://opendata.bristol.gov.uk/api/records/1.0/search/?dataset=dim-traffic-counters&q=&rows=100&facet=countdevicedescription&facet=link&exclude.effectiveforcounts=No&geofilter.distance="
+                +lat+"%2C"+long+"%2C"+"999999";
+
+    var devideID;
+    $.ajaxSettings.async = false;
+    $.getJSON(deviceIDurl, function(data) {
+        var records = data["records"];
+        //get the device ID of the first record,
+        //the first record is always the closest one
+        devideID = records[0].fields.sk_dim_countdeviceid;
+   });
+
+   //get data from the selected device
+    var dataurl = "https://opendata.bristol.gov.uk/api/records/1.0/search/?dataset=fact-traffic-counts&q=rollupdatetime%3A%5B"
+                    +startDate+"+TO+"+today
+                    +"%5D&rows=200&refine.sk_dim_countdeviceid="+devideID;
+   var data;
+   $.ajaxSettings.async = false;
+   $.getJSON(dataurl, function(data) {
+         data = data["records"];
+    });
+    return data;
+}
+
+
+function sameHour(date1, date2) {
+    //check if the date is the same and the hour is the same
+    return (date1.getFullYear() == date2.getFullYear() &&
+        date1.getMonth() == date2.getMonth() &&
+        date1.getDate() == date2.getDate() &&
+        date1.getHours() == date2.getHours());
+}
 
 function getIndexInLyAxis(list_yaxis, info) {
     for (var i = 0; i < list_yaxis.length; i++) {
@@ -26,6 +70,24 @@ function recreateGraph(list_parameters) {
     if (list_parameters.length > 0) {
         const fields = JSON.parse($("#data_res").text()).fields;
         const records = JSON.parse($("#data_res").text()).records;
+
+        //set coordinates
+        //if the number is smaller than 0, then it is longtitude
+        //if the number is larger than 0, then it is latitude
+        var last_record = JSON.parse($("#last_record").text()).record;
+        var coordinates = last_record.geojson.coordinates;
+        if (coordinates[0] < 0) {
+            var longitude = coordinates[0];
+            var latitude = coordinates[1];
+        }else {
+            var longitude = coordinates[1];
+            var latitude = coordinates[0];
+        }
+
+        //get traffic data via API
+        //get the date of the last record
+        var startDate = new Date((records[records.length-1].date_time));
+        var data = getTrafficDataFromAPI(latitude, longitude, startDate);
 
         var series = [];
         var LyAxis = [];
