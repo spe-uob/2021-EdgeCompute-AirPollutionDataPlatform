@@ -25,22 +25,27 @@ function getTrafficDataFromAPI(lat, long, startDate) {
    //get data from the selected device
     var dataurl = "https://opendata.bristol.gov.uk/api/records/1.0/search/?dataset=fact-traffic-counts&q=rollupdatetime%3A%5B"
                     +startDate+"+TO+"+today
-                    +"%5D&rows=200&refine.sk_dim_countdeviceid="+devideID;
-   var data;
+                    +"%5D&rows=600&refine.sk_dim_countdeviceid="+devideID;
+   var trafficData;
    $.ajaxSettings.async = false;
    $.getJSON(dataurl, function(data) {
-         data = data["records"];
+        trafficData = data["records"];
     });
-    return data;
+    return trafficData;
 }
 
 
 function sameHour(date1, date2) {
     //check if the date is the same and the hour is the same
-    return (date1.getFullYear() == date2.getFullYear() &&
-        date1.getMonth() == date2.getMonth() &&
+    return ( date1.getMonth() == date2.getMonth() &&
         date1.getDate() == date2.getDate() &&
         date1.getHours() == date2.getHours());
+}
+
+function sameDate(date1, date2){
+    //check if the date is the same
+    return ( date1.getMonth() == date2.getMonth() &&
+        date1.getDate() == date2.getDate());
 }
 
 function getIndexInLyAxis(list_yaxis, info) {
@@ -71,6 +76,9 @@ function recreateGraph(list_parameters) {
         const fields = JSON.parse($("#data_res").text()).fields;
         const records = JSON.parse($("#data_res").text()).records;
 
+
+        //if records does not contains traffic
+        if (records[0].traffic == null) {
         //set coordinates
         //if the number is smaller than 0, then it is longtitude
         //if the number is larger than 0, then it is latitude
@@ -88,6 +96,34 @@ function recreateGraph(list_parameters) {
         //get the date of the last record
         var startDate = new Date((records[records.length-1].date_time));
         var data = getTrafficDataFromAPI(latitude, longitude, startDate);
+    
+        //insert traffic data to the records by using the the_date
+        var data_date;
+        var records_date;
+        for (var i = 0; i < data.length; i++) {
+            for (var j = 0; j < records.length; j++) {
+                data_date = data[i].fields.rollupdatetime;
+                records_date = records[j].date_time;
+                if (sameHour(new Date(data_date), new Date(records_date))) {
+                    records[j].traffic = data[i].fields.hourlyflow;
+                }
+            }
+        }
+        //for records that has no traffic data
+        //use the data from the same date
+        for (var i = 0; i < records.length; i++) {
+            if (records[i].traffic == null) {
+                for (var j = 0; j < records.length; j++) {
+                    data_date = data[i].fields.rollupdatetime;
+                    records_date = records[j].date_time;
+                    if (sameDate(new Date(data_date), new Date(records_date))) {
+                        records[j].traffic = data[i].fields.hourlyflow;
+                    }
+                }
+            }
+        }
+    }
+
 
         var series = [];
         var LyAxis = [];
@@ -96,8 +132,13 @@ function recreateGraph(list_parameters) {
         var indexYaxis = 0;
         var recLength = records.length;
         for (var i = 0; i < list_parameters.length; i++) {
-            infoField = findField(fields, list_parameters[i]);
-            if (infoField[2] != null) {
+            //if the parameter is traffic
+            if (list_parameters[i] == "traffic") {
+                infoField = ["traffic count", "hourly flow", "verhicles"];
+            }else{
+                infoField = findField(fields, list_parameters[i]);
+            }
+            if (infoField != null && infoField[2] != null) {
                 indexYaxis = getIndexInLyAxis(LyAxis, getLineTitle(infoField[2], infoField[1]));
                 if (indexYaxis != null) {
                     list_param_yAxis.push(indexYaxis);
