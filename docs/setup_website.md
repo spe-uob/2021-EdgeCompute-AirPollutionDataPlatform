@@ -13,7 +13,7 @@ Install from [NodeSource](https://github.com/nodesource/distributions/blob/maste
 ## Install npm Packages
 
 ```shell
-npm install express xss nodemailer ckan point-in-polygon easy-autocomplete jscoord @turf/turf @turf/hex-grid @turf/square-grid @awaitjs/express mustache-express
+npm install
 ```
 
 ## Change Configuration Files
@@ -49,7 +49,7 @@ const areas = [{
 
 ## Set the MapBox Access Token in `website/public/js/map.js`
 
-Search for `mapboxgl.accessToken`
+Search for `mapbox_public_key` in /public/js/map.js, which is the second line
 
 ## Setup the webserver as a service
 
