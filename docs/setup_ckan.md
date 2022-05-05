@@ -21,15 +21,15 @@ install.packages('openair')
 
 ## Step 2: Install CKAN Database
 
-Refer [Installing CKAN](https://docs.ckan.org/en/2.8/maintaining/installing/index.html)
+Refer [Installing CKAN](https://docs.ckan.org/en/2.9/maintaining/installing/index.html)
 
 ## Step 3: Setup CKAN Sysadmin User
 
-Refer [Getting Started](https://docs.ckan.org/en/2.8/maintaining/getting-started.html)
+Refer [Getting Started](https://docs.ckan.org/en/2.9/maintaining/getting-started.html)
 
 ## Step 4: Enable DataStore Extension
 
-Refer [DataStore Extension](https://docs.ckan.org/en/2.8/maintaining/datastore.html)
+Refer [DataStore Extension](https://docs.ckan.org/en/2.9/maintaining/datastore.html)
 
 ## Step 5: Creating Groups/ Organisation/ Dataset/ Resource
 
