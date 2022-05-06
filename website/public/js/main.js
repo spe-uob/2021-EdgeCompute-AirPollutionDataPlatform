@@ -1,3 +1,5 @@
+var retrived = false
+
 function jumpTo(id) {
     $('body, html').animate({
         scrollTop: $("#" + id).offset().top
@@ -291,7 +293,8 @@ $(document).ready(function () {
             //change visibility of heatmapDiv to visible
             heatmapDiv.style.visibility = 'visible';
             //get traffic data from api
-            recreateGraph($(this).val());
+            recreateGraph($(this).val(), retrived);
+            retrived = true;
         });
     } else if (window.location.href.indexOf("api") > -1) {
         $("pre").css('height', $(".card").css('height'));
