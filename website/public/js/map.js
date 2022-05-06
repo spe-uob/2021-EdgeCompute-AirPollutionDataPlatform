@@ -146,42 +146,31 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                       </li></ul>';*/
     var returnElem = ""
     for (var k = 0; k < assoColors.length; k++) {
-
         if (assoColors[k] != null) {
-
             // Currently, we want to display human-friendly names on the front-end. This is a hack
             if (assoColors[k] == "luftdaten") {
                 kilolima = "Luftdaten";
             }
-
             else if (assoColors[k] == "automatic-urban-and-rural-network-aurn") {
-
                 kilolima = "DEFRA AURN";
-
             }
-
             else if (assoColors[k] == "air-quality-data-continuous") {
                 kilolima = "Bristol Air Quality Continuous";
-
-
             }
-
             else if (assoColors[k] == "air-quality-no2-diffusion-tube-data") {
                 kilolima = "Bristol NO2 Diffusion Tubes";
             }
-
             else {
-                kilolima = assoColors[k]
+                kilolima = assoColors[k];
             }
 
             color = getPopupAqiColor(record, eu_aqi);
-            if (color === null)
-                color = '#ffffff' // If all pollutants are null, use white
-
+            // If all pollutants are null, use white
+            if (color === null) {
+                color = '#ffffff';
+            }
             returnElem += '<span class="legend" id="pointer" style="background-color: ' + color + '"></span>';
         }
-
-
     }
 
     var info = "";
