@@ -209,29 +209,30 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                 }
                 if (property === "date_time") {
                     infoField = findField(fields, property);
-                    if (infoField != null) {
-                        if (record[property].includes("Z")) {
-                            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
-                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
-                        } else if (record[property].includes("+")) {
-                            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
-                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
-                        } else {
-                            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</a></td></div>';
-                            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';*/
-                        }
-                    } else {
-                        if (record[property].includes("Z")) {
-                            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
-                            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';*/
-                        } else if (record[property].includes("+")) {
-                            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
-                            /*info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';*/
-                        } else {
-                            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</div>';
-                            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';*/
-                        }
-                    }
+                    info = handleDateTime(infoField, info, record, property);
+//                     if (infoField != null) {
+//                         if (record[property].includes("Z")) {
+//                             info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
+//                             /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
+//                         } else if (record[property].includes("+")) {
+//                             info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
+//                             /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
+//                         } else {
+//                             info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</a></td></div>';
+//                             /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';*/
+//                         }
+//                     } else {
+//                         if (record[property].includes("Z")) {
+//                             info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
+//                             /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';*/
+//                         } else if (record[property].includes("+")) {
+//                             info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
+//                             /*info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';*/
+//                         } else {
+//                             info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</div>';
+//                             /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';*/
+//                         }
+//                     }
                 } else if (property === "recordid") {
                     linkToMore["recordid"] = record[property];
                     infoField = findField(fields, property);
@@ -433,6 +434,33 @@ function handleGeojson(info, record, property, linkToMore, check) {
             //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
             info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
             console.log(info);
+        }
+    }
+    return info;
+}
+
+function handleDateTime (infoField, info, record, property) {
+    if (infoField != null) {
+        if (record[property].includes("Z")) {
+            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
+            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
+        } else if (record[property].includes("+")) {
+            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</a></div>';
+            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + '</td></tr>';*/
+        } else {
+            info += '<div class="container-2"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="' + infoField[1] + '"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</a></td></div>';
+            /*info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="' + infoField[1] + '">Record time (UTC)</a>:</td><td> ' + record[property] + "Z" + '</td></tr>';*/
+        }
+    } else {
+        if (record[property].includes("Z")) {
+            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
+            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + '</li>';*/
+        } else if (record[property].includes("+")) {
+            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property])) + '</div>';
+            /*info += '<tr><td>Record time (UTC):</td><td> ' + frecord[property] + '</td></tr>';*/
+        } else {
+            info += '<div class="container-2" style="color:black !important"><b>Updated:</b><br>' + formatDate(new Date(record[property] + "Z")) + '</div>';
+            /*info += '<tr><td>Record time (UTC):</td><td> ' + record[property] + "Z" + '</td></tr>';*/
         }
     }
     return info;
