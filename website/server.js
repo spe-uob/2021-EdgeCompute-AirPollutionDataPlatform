@@ -37,8 +37,8 @@ app.use('/mail', require('./router/mail-router'));
 // Everything else (Get Pollution Data/Air Quality Map) uses /airdata
 app.use('/airdata', require('./router/airdata-router'));
 
-// comparing data from website/router/airdata-router:
-app.use('/comparing', require('./router/comparing-data'));
+// // comparing data from website/router/airdata-router:
+// app.use('/comparing', require('./router/comparing-data'));
 
 // API functionality uses /api
 app.use('/api', require('./router/api-router'));
