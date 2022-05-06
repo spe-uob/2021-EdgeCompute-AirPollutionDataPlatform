@@ -71,14 +71,14 @@ function getLineTitle(unit, info) {
     }
 }
 
-function recreateGraph(list_parameters) {
+function recreateGraph(list_parameters, retrived) {
     if (list_parameters.length > 0) {
-        const fields = JSON.parse($("#data_res").text()).fields;
-        const records = JSON.parse($("#data_res").text()).records;
+        var fields = JSON.parse($("#data_res").text()).fields;
+        var records = JSON.parse($("#data_res").text()).records;
 
 
         //if records does not contains traffic
-        if (records[0].traffic == null) {
+        if (!retrived) {
         //set coordinates
         //if the number is smaller than 0, then it is longtitude
         //if the number is larger than 0, then it is latitude
@@ -117,11 +117,17 @@ function recreateGraph(list_parameters) {
                     data_date = data[i].fields.rollupdatetime;
                     records_date = records[j].date_time;
                     if (sameDate(new Date(data_date), new Date(records_date))) {
-                        records[j].traffic = data[i].fields.hourlyflow;
+                        records[i].traffic = data[j].fields.hourlyflow;
                     }
                 }
             }
         }
+
+        // add traffic to fields
+        fields.push("traffic");
+        //replace the $data_res
+        var res = {fields: fields, records: records};
+        $("#data_res").text(JSON.stringify(res));
     }
 
 

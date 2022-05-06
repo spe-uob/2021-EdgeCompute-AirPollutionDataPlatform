@@ -1,11 +1,13 @@
-// 5 days
-var radial_labels = [];
+// 7 days
+var radial_labels = Last7Days();
 // 24 hours
 var segment_labels = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
 //today's date
 var today = new Date();
 //parameter enum
 const parameterEnum = Object.freeze({"pm10":0, "pm25":1, "no":2, "no2":3, "noX":4});
+
+//populate radial_labels with previous 7 days
 
 
 //get data from data_res
@@ -16,9 +18,91 @@ const data_res_json = JSON.parse(data_res);
 //if any select changed
 $(document).ready(function() {
     //pop locations option to select
-    
+    //get all keys from data_res_json
+    var keys = Object.keys(data_res_json);
+    //populate select
+    for (var i = 0; i < keys.length; i++) {
+        $('#sensor-1').append($('<option>', {
+            value: keys[i],
+            text: keys[i]
+        }));
+        $('#sensor-2').append($('<option>', {
+            value: keys[i],
+            text: keys[i]
+        }));
+    }
 
+    //when select changed
+    $('#sensor-1').change(function() {
+        $("#chart-1").empty();
+        $("#chart-2").empty();
+        //get selected value
+        whenSelected()})
+    //when select changed
+    $('#sensor-2').change(function() {
+        $("#chart-1").empty();
+        $("#chart-2").empty();
+        //get selected value
+        whenSelected()})
+        //when select changed
+    $('#parameter').change(function() {
+        $("#chart-1").empty();
+        $("#chart-2").empty();
+        //get selected value
+        whenSelected()})
 })  //end of document ready
+
+function whenSelected(){
+    var selected_value1 = $('#sensor-1').val();
+    var selected_value2 = $('#sensor-2').val();
+    var charts = [];
+
+    //for location 1
+    //get recent 7 days data from data_res_json
+    var dataset1 = getRecentData(data_res_json[selected_value1], $('#parameter').val())
+    var dataset2 = getRecentData(data_res_json[selected_value2], $('#parameter').val())
+    loadCircularHeatMap(dataset1, document.getElementById('chart-1'),
+    radial_labels, segment_labels)
+    loadCircularHeatMap(dataset2, document.getElementById('chart-2'),
+    radial_labels, segment_labels)
+}
+
+function Last7Days () {
+    var result = [];
+    for (var i=0; i<7; i++) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        result.push( d.getDate())
+    }
+    return(result.join(','));
+}
+
+function getRecentData(data, param){
+    var unixDate;
+    var theDate;
+    i = parameterEnum[param];
+    dataset = [];
+    var diff;
+    //iterate through data and populate the dataset
+    for (var key in data) {
+        unixDate = Date.parse(key);
+        theDate = new Date(key)
+        // To calculate the time difference of two dates
+        diff = today - unixDate;
+        if(diff< 604800000){
+            dataset.push({
+            Date: theDate.getDate(),
+            Time: segment_labels[theDate.getHours()],
+            value: data[key][i]})
+        }
+    }
+    return dataset;
+}
+
+function location2Name(data, location){
+    return 0
+}
+
 
 function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,segment_labels) {
 
@@ -63,8 +147,8 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
 
     svg.selectAll("path")
     .on('mouseover', function(d) {
-        tooltip.select('.month').html("<b> Month: " + d.month + "</b>");
-        tooltip.select('.type').html("<b> Type: " + d.type + "</b>");
+        tooltip.select('.month').html("<b> Date: " + d.Date + "</b>");
+        tooltip.select('.type').html("<b> Time: " + d.Time + "</b>");
         tooltip.select('.value').html("<b> Value: " + d.value + "</b>");
 
         tooltip.style('display', 'block');

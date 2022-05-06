@@ -1,9 +1,4 @@
-//Bubble Graph
 // Source: https://cal-heatmap.com/
-
-//get data from the page
-const keys = JSON.parse($("#data_res").text()).fields;
-const records = JSON.parse($("#data_res").text()).records;
 
 
 // set the dimensions and margins of the graph
@@ -30,6 +25,10 @@ if (window.location.href.indexOf("dataovertime") > -1) {
 }
 
 function generateHeatMap(key){
+
+        const keys = JSON.parse($("#data_res").text()).fields;
+        const records = JSON.parse($("#data_res").text()).records;
+
         d3.selectAll('svg').remove();
         $('#previousSelector-a-previous').remove();
         $('#previousSelector-a-next').remove();
