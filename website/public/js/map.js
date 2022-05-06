@@ -311,28 +311,30 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                         info += '<div class="container-3 style="color:black !important" ">' + property + record[property] + '</div>';
                     }
                 } else if (property === "geojson") {
-                    linkToMore["geojson"] = JSON.stringify(record[property]);
+                    // the commented code can ebe removed (it's present to help debug if necessary)
+//                     linkToMore["geojson"] = JSON.stringify(record[property]);
                     position = record[property].coordinates.slice(0, 2);
-                    if (check != true) {
-                        //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
-                    } else {
+                    handleGeojson(info, record, property, linkToMore, check);
+//                     if (check != true) {
+//                         //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
+//                     } else {
 
-                        //reverse geocode from api
-                     var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+
-                     record[property].coordinates.toString()
-                     +".json?access_token="+mapbox_public_key;
+//                         //reverse geocode from api
+//                      var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+
+//                      record[property].coordinates.toString()
+//                      +".json?access_token="+mapbox_public_key;
 
-                     var addressName
-                     $.ajaxSettings.async = false;
-                     $.getJSON(url, function(geoJSON) {
-                     // JSON result in `data` variable
-                        addressName = geoJSON["features"][0]["text"];
-                    });
-                        if(addressName!=null){
-                        //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
-                        info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
-                        }
-                    }
+//                      var addressName
+//                      $.ajaxSettings.async = false;
+//                      $.getJSON(url, function(geoJSON) {
+//                      // JSON result in `data` variable
+//                         addressName = geoJSON["features"][0]["text"];
+//                     });
+//                         if(addressName!=null){
+//                         //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+//                         info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
+//                         }
+//                     }
                 }
                 else if (property === "siteid") {
                     infoField = findField(fields, property);
@@ -368,7 +370,8 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
 
 // Function to get color in popup marker based on aqi level
 function getPopupAqiColor(record, aqi) {
-    var pollutants = ["pm25", "pm10", "no2", "o3", "so2"]; // The pollutants to use in order of importance
+    // The pollutants to use in order of importance
+    var pollutants = ["pm25", "pm10", "no2", "o3", "so2"]; 
     for (var pollutant of pollutants) {
         if (record[pollutant] != null && record[pollutant] >= 0) {
             return getAQIValue(pollutant, record[pollutant], aqi)[2];
@@ -402,6 +405,36 @@ function getPopupAqiColor(record, aqi) {
             .setHTML(returnElem))
         .addTo(map);
     return assoColors;
+}
+
+function handleGeojson(info, record, property, linkToMore, check) {
+    //linkToMore refers to More data link in a pop up
+    linkToMore["geojson"] = JSON.stringify(record[property]);
+    if (check == false) {
+        //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
+    } else {
+        //reverse geocode from api
+        var url = "https://api.mapbox.com/geocoding/v5/mapbox.places/"+
+        record[property].coordinates.toString()
+        +".json?access_token="+mapbox_public_key;
+
+        var addressName
+        $.ajaxSettings.async = false;
+        $.getJSON(url, function(geoJSON) {
+        // JSON result in `data` variable
+            console.log(geoJSON)
+            console.log("?????????")
+            console.log(url)
+            addressName = geoJSON["features"][0]["text"];
+            console.log(addressName)
+        });
+        console.log(addressName)
+        if(addressName!=null){
+            //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
+            info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
+            console.log(info);
+        }
+    }
 }
 
 function fillDeviceDetails() {
