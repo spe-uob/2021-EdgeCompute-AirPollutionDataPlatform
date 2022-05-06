@@ -404,17 +404,11 @@ function handleGeojson(info, record, property, linkToMore, check) {
         $.ajaxSettings.async = false;
         $.getJSON(url, function(geoJSON) {
         // JSON result in `data` variable
-            console.log(geoJSON)
-            console.log("?????????")
-            console.log(url)
             addressName = geoJSON["features"][0]["text"];
-            console.log(addressName)
         });
-        console.log(addressName)
         if(addressName!=null){
             //info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + record[property].coordinates.toString() + '</a></div>';
             info += '<div class="container-3"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" title="Longitude, Latitude, (Altitude)">' + addressName.toString() + '</a></div>';
-            console.log(info);
         }
     }
     return info;
