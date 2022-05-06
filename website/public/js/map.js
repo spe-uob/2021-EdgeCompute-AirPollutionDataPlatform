@@ -133,6 +133,7 @@ function findField(fields, crtProperty) {
     }
 }
 
+//takes care of the sensor popup window, all the elements and a link to more data
 function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
     const eu_aqi = JSON.parse($("#eu_aqi").text());
     /*var returnElem = '<ul class="nav nav-tabs" id="popupTab' + index + '" role="tablist">\
@@ -193,6 +194,10 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
     };
     var infoField = [];
     var color;
+    
+    // confusing function, does some checks if the data is correct.
+    // processes the data from the record and uses it to correctly build the pop up
+    // info is the main part that the loop ads all the elements to
     for (var property in record) {
         if (record.hasOwnProperty(property)) {
             if (record[property] != null) {
