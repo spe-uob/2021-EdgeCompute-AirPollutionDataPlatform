@@ -251,38 +251,30 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     }*/
                 } else if (property === "dataset_name") {
                     infoField = findField(fields, property);
+                    // changes the name based on the system
                     if (record[property] != null) {
                         if (record[property] == "luftdaten") {
-                            (kilolima = "Luftdaten")
-
+                            kilolima = "Luftdaten";
                         }
-
                         else if (record[property] == "smart-citizen-kits") {
-                            (kilolima = "Smart Citizen Kit")
+                            kilolima = "Smart Citizen Kit";
                         }
-
                         else if (record[property] == "automatic-urban-and-rural-network-aurn") {
                             kilolima = "DEFRA AURN";
                         }
-
                         else if (record[property] == "air-quality-data-continuous") {
                             kilolima = "Bristol Air Quality Continuous";
                         }
-
                         else if (record[property] == "air-quality-no2-diffusion-tube-data") {
                             kilolima = "Bristol NO2 Diffusion Tubes";
-
                         }
-
                         else {
-                            kilolima = record[property]
+                            kilolima = record[property];
                         }
                     }
                     if (infoField != null) {
-
                         info += '<div class = "container-1" id = "sensorName"><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" style="color:black !important" "title="' + infoField[1] + '">' + kilolima + '</a></div>';
                     } else {
-
                         info += '<div class = "container-1 style="color:black !important" ">'+ kilolima +'</td></div>';
                     }
                     if (assoColors.indexOf(record[property]) !== -1) {
