@@ -314,7 +314,8 @@ function buildMarkPopRecord(record, index, fields, colors, assoColors, choice) {
                     // the commented code can ebe removed (it's present to help debug if necessary)
 //                     linkToMore["geojson"] = JSON.stringify(record[property]);
                     position = record[property].coordinates.slice(0, 2);
-                    handleGeojson(info, record, property, linkToMore, check);
+                    updatedinfo = handleGeojson(info, record, property, linkToMore, check);
+                    info = updatedinfo;
 //                     if (check != true) {
 //                         //info += '<tr><td><a href="#" class="text-info" data-toggle="tooltip" data-placement="top" title="Longitude, Latitude, (Altitude)">Position</a>:</td><td> ' + record[property].coordinates.toString() + '</td></tr>';
 //                     } else {
@@ -435,6 +436,7 @@ function handleGeojson(info, record, property, linkToMore, check) {
             console.log(info);
         }
     }
+    return info;
 }
 
 function fillDeviceDetails() {
